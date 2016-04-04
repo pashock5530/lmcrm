@@ -1,0 +1,13 @@
+<div class="panel panel-primary panel-collapse">
+    <div class="panel-heading">
+        <div class="panel-title" style="float: left;">{{?it.settigs && it.settigs.label}}{{=it.settigs.label}}{{?}}</div>
+        <div class="panel-options">
+            <a data-rel="collapse" href="#">
+                <i class="entypo-down-open"></i>
+            </a>
+        </div>
+    </div>
+    <div class="panel-body" style="display: none;">
+        {{?it.chain}}<chain><!--{ {=it.chain} }--></chain>{{?}}
+    </div>
+</div>
