@@ -12,15 +12,19 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'lo
     Route::get('video/{id}', 'VideoController@show');
     Route::get('photo/{id}', 'PhotoController@show');
     */
+# Authentication
+    Route::get('/auth/login', ['as' => 'login', 'middleware' => 'guest', 'uses' => 'Auth\SessionsController@create']);
+    Route::get('/auth/logout', ['as' => 'logout', 'uses' => 'Auth\SessionsController@destroy']);
+    Route::any('/auth/store', ['as' => 'auth.store', 'uses' => 'Auth\SessionsController@store']);
+    Route::any('/auth/create', ['as' => 'auth.create', 'uses' => 'Auth\SessionsController@create']);
+    Route::any('/auth/destroy', ['as' => 'auth.destroy', 'uses' => 'Auth\SessionsController@destroy']);
+    //Route::resource('/auth', 'Auth\SessionsController', ['only' => ['create', 'store', 'destroy']]);
+
 # Registration
     Route::group(['middleware' => 'guest'], function () {
-        Route::get('auth/register', ['as' => 'registration.form', 'uses' => 'RegistrationController@create']);
-        Route::post('auth/register', ['as' => 'registration.store', 'uses' => 'RegistrationController@store']);
+        Route::get('/auth/register', ['as' => 'registration.form', 'uses' => 'RegistrationController@create']);
+        Route::post('/auth/register', ['as' => 'registration.store', 'uses' => 'RegistrationController@store']);
     });
-# Authentication
-    Route::get('auth/login', ['as' => 'login', 'middleware' => 'guest', 'uses' => 'Auth\SessionsController@create']);
-    Route::get('auth/logout', ['as' => 'logout', 'uses' => 'Auth\SessionsController@destroy']);
-    Route::resource('auth', 'Auth\SessionsController', ['only' => ['create', 'store', 'destroy']]);
 # Forgotten Password
     Route::group(['middleware' => 'guest'], function () {
         Route::get('forgot_password', 'Auth\PasswordController@getEmail');
@@ -43,12 +47,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     # Admin Dashboard
     Route::get('dashboard', 'Admin\DashboardController@index');
 /*
-    # Language
-    Route::get('language/data', 'Admin\LanguageController@data');
-    Route::get('language/{language}/show', 'Admin\LanguageController@show');
-    Route::get('language/{language}/edit', 'Admin\LanguageController@edit');
-    Route::get('language/{language}/delete', 'Admin\LanguageController@delete');
-    Route::resource('language', 'Admin\LanguageController');
 
     # Article category
     Route::get('articlecategory/data', 'Admin\ArticleCategoriesController@data');
@@ -66,19 +64,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     Route::get('article/reorder', 'Admin\ArticleController@getReorder');
     Route::resource('article', 'Admin\ArticleController');
 
-    # Photo Album
-    Route::get('photoalbum/data', 'Admin\PhotoAlbumController@data');
-    Route::get('photoalbum/{photoalbum}/show', 'Admin\PhotoAlbumController@show');
-    Route::get('photoalbum/{photoalbum}/edit', 'Admin\PhotoAlbumController@edit');
-    Route::get('photoalbum/{photoalbum}/delete', 'Admin\PhotoAlbumController@delete');
-    Route::resource('photoalbum', 'Admin\PhotoAlbumController');
-
-    # Photo
-    Route::get('photo/data', 'Admin\PhotoController@data');
-    Route::get('photo/{photo}/show', 'Admin\PhotoController@show');
-    Route::get('photo/{photo}/edit', 'Admin\PhotoController@edit');
-    Route::get('photo/{photo}/delete', 'Admin\PhotoController@delete');
-    Route::resource('photo', 'Admin\PhotoController');
 */
     # Users
     Route::get('/', 'Admin\UserController@index');
@@ -87,4 +72,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     Route::get('user/{user}/edit', 'Admin\UserController@edit');
     Route::get('user/{user}/delete', 'Admin\UserController@delete');
     Route::resource('user', 'Admin\UserController');
+
+    Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
+    Route::resource('characteristics','Admin\CharacteristicsController');
 });

@@ -1452,7 +1452,7 @@
             (function(item){
                 $.ajax({
                     type: "GET",
-                    url: '/assets/js/jSplashTmpl/'+item+'.html', // for appsker2 only!!!
+                    url: '/components/jSplash/jSplashTmpl/'+item+'.html',
                     async: false,
                     success: function(resp) { 
                         jSplash.prototype.tmpl_defered[item]=resp; 

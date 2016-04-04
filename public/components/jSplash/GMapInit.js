@@ -69,7 +69,7 @@
             for (var i = 0; i < this.gmopt.markers.length; i++) {
                 var marker_place = new google.maps.LatLng(this.gmopt.markers[i][0], this.gmopt.markers[i][1]);
                 var marker = new google.maps.Marker({position: marker_place});
-                var сircle = new google.maps.Circle({
+                var circle = new google.maps.Circle({
                     strokeColor: '#0000ff',
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
@@ -78,7 +78,7 @@
                     center: marker_place,
                     radius: 100.000
                 });
-                //сircle.setMap(this.map);
+                //circle.setMap(this.map);
                 fixedMarkers.push(marker);
             }
             this.markerManager.addMarkers(fixedMarkers);
