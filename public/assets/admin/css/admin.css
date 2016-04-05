@@ -1094,3 +1094,8 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+#page-wrapper .page-header {
+    padding: 30px 9px 0px 9px;
+    margin: 0px 0px 20px 0px;
+}

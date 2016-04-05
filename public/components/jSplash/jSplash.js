@@ -29,7 +29,7 @@
 
         this.option = { // default options
             modal: '#modal-page',
-            form: '#edit-page-container'
+            form: '#jSplash-form'
         };
 
         this._construct = function (options) {

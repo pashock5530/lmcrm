@@ -74,5 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     Route::resource('user', 'Admin\UserController');
 
     Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
+    Route::get('characteristics/form/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\CharacteristicsController@get_config']);
+    //Route::post('characteristics/form/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\CharacteristicsController@save_config']);
     Route::resource('characteristics','Admin\CharacteristicsController');
 });

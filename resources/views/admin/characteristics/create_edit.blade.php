@@ -12,8 +12,10 @@
         </h3>
     </div>
     <div class="container" id="content">
-        <div class="form"> Loading... </div>
-        <a class="btn btn-warning">Save</a>
+            <form method="post" id="jSplash-form" class="form-horizontal noEnterKey _validate" action="#" >
+                <div class="form"> Loading... </div>
+            </form>
+        <a class="btn btn-warning btn-save pull-right flip">Save</a>
     </div>
 
     <div class="modal fade" id="modal-page">
@@ -28,8 +30,8 @@
                     <div class="modal-body"></div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success btn-save">Save</button>
+                        <button type="button" class="btn btn-info " data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success btn-raised btn-save">Save</button>
                     </div>
                 </div>
             </form>
@@ -37,33 +39,38 @@
     </div>
 @stop
 
-
+{{-- Styles --}}
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="{{ asset('components/entypo/css/entypo.css') }}">
+@stop
 {{-- Scripts --}}
 @section('scripts')
     <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/doT.min.js') }}" async></script>
-    <script type="text/javascript" src="{{ asset('components/jSplash/bootbox.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{{ asset('components/jSplash/bootbox.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/markerclusterer.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/GMapInit.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('components/jSplash/sly.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('components/jSplash/sly.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/jSplash.js') }}"></script>
     <script type="text/javascript">
         $(function(){
-            var cdata = {"CustomForm":{"renderType":"dynamicForm","targetEntity":"AppLayout\\Entity\\Darkley\\Element\\CustomForm","id":null,"values":[],"settings":{"label":"Dynamic Form","view":{"show":"form.dynamic","edit":"modal.dynamic"},"form.dynamic":[],"button":"Add field"}}}
 
             $('#content .form').jSplash().data('splash')
-                    .load(cdata,false,{}).show();
-
+                    .load('{{ route('admin.chrct.form') }}',true,{}).show();
             $('#content .btn-save').click(function(){
                 var postData = $('#content .form').data('splash').serialize();
                 if(postData) {
                     $.ajax({
-                        url: '/app/user/edit-app-style-save',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: '{{ route('admin.characteristics.store') }}',
                         method: 'POST',
                         data: postData,
                         success: function (data, textStatus) {
-                            window.location = location.href;
-                            location.reload();
+                            //window.location = location.href;
+                            //location.reload();
 
                             //window.location.href = window.location.href;
                         },

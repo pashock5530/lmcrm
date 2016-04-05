@@ -64,7 +64,7 @@
                                 <input type="text" value="" class="form-control extend" disabled/>
                             </div>
                             <div class="col-xs-2">
-                                <button type="button" class="btn btn-orange btn-duplicate-remove pull-right"><i class="entypo-cancel"></i></button>
+                                <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                             </div>
                         </div>
                         {{~(typeof it.values[prop] == 'string') ? [it.values[prop]] : it.values[prop] || ((typeof it.settings[prop]['value'] == 'string')?[it.settings[prop]['value']]:it.settings[prop]['value']) || [''] :itval_str}}
@@ -86,12 +86,12 @@
                                 <input type="text" value="{{=itval[1]||''}}" class="form-control extend" {{?!itval[1]}}disabled{{?}}/>
                             </div>
                             <div class="col-xs-2">
-                                <button type="button" class="btn btn-orange btn-duplicate-remove pull-right"><i class="entypo-cancel"></i></button>
+                                <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                             </div>
                         </div>
                         {{~}}
                         <div class="col-xs-12">
-                            <button type="button" class="btn btn-blue btn-duplicate-add pull-right"><i class="entypo-plus"></i></button>
+                            <button type="button" class="btn btn-primary btn-duplicate-add btn-raised pull-right flip"><i class="entypo-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -103,13 +103,13 @@
                     <div class="row duplicate hidden">
                         <div class="col-xs-7">
                             <input type="hidden" value="" class="data" data-name="{{=prop}}" />
-                            <input type="text" class="form-control pull-left select" value="" data-extend="1"/>
+                            <input type="text" class="form-control pull-left flip select" value="" data-extend="1"/>
                         </div>
                         <div class="col-xs-3">
                             <input type="text" value="" class="form-control extend" disabled/>
                         </div>
                         <div class="col-xs-2">
-                            <button type="button" class="btn btn-orange btn-duplicate-remove pull-right"><i class="entypo-cancel"></i></button>
+                            <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                         </div>
                     </div>
                     {{~(typeof it.values[prop] == 'string') ? [it.values[prop]] : it.values[prop] || ((typeof it.settings[prop]['value'] == 'string')?[it.settings[prop]['value']]:it.settings[prop]['value']) || [''] :itval_str}}
@@ -117,18 +117,18 @@
                     <div class="row duplicate duplicated">
                         <div class="col-xs-7">
                             <input type="hidden" value="{{=itval_str}}" class="data" name="{{=prop}}" />
-                            <input type="text" class="form-control pull-left select" value="{{=itval[0]||''}}" data-extend="1"/>
+                            <input type="text" class="form-control pull-left flip select" value="{{=itval[0]||''}}" data-extend="1"/>
                         </div>
                         <div class="col-xs-3">
                             <input type="text" value="{{=itval[1]||''}}" class="form-control hidden extend" {{?!itval[1]}}disabled{{?}}/>
                         </div>
                         <div class="col-xs-2">
-                            <button type="button" class="btn btn-orange btn-duplicate-remove pull-right"><i class="entypo-cancel"></i></button>
+                            <button type="button" class="btn btn-danger btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                         </div>
                     </div>
                     {{~}}
                     <div class="col-xs-12">
-                        <button type="button" class="btn btn-blue btn-duplicate-add pull-right"><i class="entypo-plus"></i></button>
+                        <button type="button" class="btn btn-primary btn-duplicate-add btn-raised pull-right flip"><i class="entypo-plus"></i></button>
                     </div>
                 </div>
             </div>
