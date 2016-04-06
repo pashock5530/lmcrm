@@ -31,9 +31,9 @@ class CharacteristicsController extends AdminController {
      *
      * @return Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('admin.characteristics.create_edit');
+        return view('admin.characteristics.create_edit')->with('fid',$id);
     }
 
 
@@ -44,34 +44,111 @@ class CharacteristicsController extends AdminController {
      */
     public function create()
     {
-        return view('admin.characteristics.create_edit');
+        return view('admin.characteristics.create_edit')->with('fid',0);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Send config to page builder for creating/editing a resource.
      *
      * @return JSON
      */
-    public function get_config()
+    public function get_config($id)
     {
-        $data = json_decode('{"CustomForm":{"renderType":"dynamicForm","targetEntity":"","id":null,"values":[],"settings":{"label":"Dynamic Form","view":{"show":"form.dynamic","edit":"modal.dynamic"},"form.dynamic":[],"button":"Add field"}}}');
+        $data = [
+            "renderType"=>"dynamicForm",
+            "id"=>null,
+            "targetEntity"=>"Characteristic",
+            "values"=>[],
+            "settings"=>[
+                "view"=>[
+                    "show"=>"form.dynamic",
+                    "edit"=>"modal.dynamic"
+                ],
+                "form.dynamic"=>[],
+                "button"=>"Add field"
+            ]
+        ];
+        $opts = [
+            "renderType"=>"single",
+            'name' => 'text',
+            'values'=>'',
+            "attributes" => [
+                "type"=>'text',
+                "class" => 'form-control',
+            ],
+            "settings"=>[
+                "label" => 'Form name',
+                "type"=>'text'
+            ],
+        ];
+        if($id) {
+            $group = CharacteristicGroup::find($id);
+            $data['id']=$id;
+            $opts['values'] = $group->name;
+
+            foreach($group->characteristics()->get() as $chrct) {
+                $arr=[];
+                $arr['id'] = $chrct->id;
+                $arr['_type'] = $chrct->_type;
+                $arr['label'] = $chrct->label;
+                $arr['requiered'] = ($chrct->requiered)?1:0;
+                $arr['position'] = $chrct->position;
+                if($chrct->has('options')) {
+                    $arr['option']=[];
+                    foreach($chrct->options()->get() as $eav) {
+                        //$arr['options'][$eav->name]=$eav->value;
+                        $arr['option'][]=$eav->name;
+                    }
+                }
+                $data['values'][]=$arr;
+            }
+        }
+
+        $data=['opt'=>$opts,"cform"=>$data];
         return response()->json($data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @return
+     * Response
      */
     public function store(Request $request)
     {
-        $group = new CharacteristicGroup(['name'=>'test2']);
-        $group->save();
+        return false;
+    }
 
-        $data = $request->only('CustomForm');
-        foreach($data['CustomForm']['variables'] as $attr) {
-            $characteristic = new Characteristics($attr);
+    /**
+     * Create a newly created, update existing resource in storage.
+     *
+     * @return Response
+     */
+    public function update(Request $request,$id)
+    {
+        if($id) {
+            $group = CharacteristicGroup::find($id);
+        } else {
+            $group = new CharacteristicGroup(['name' => 'test2']);
+            $group->save();
+        }
+        $data = $request->only('cform');
+        foreach($data['cform']['data']['variables'] as $attr) {
+            if($attr['id']){
+                $characteristic = Characteristics::find($attr['id']);
+                $characteristic->update($attr);
+            } else {
+                $characteristic = new Characteristics($attr);
+            }
             $group -> characteristics() -> save($characteristic);
+
+            $new_options = array_filter($attr['option']);
+            $old_options = $characteristic->options()->lists('name','position');
+///// Потрібно удосконалити !!!!!!!!!!!!!!!!!!!!!
+            if ($deleted = array_diff($new_options, $old_options)) {
+                $this->options()->whereIn('position', $deleted)->delete();
+            }
+
             foreach($attr['option'] as $opt) {
                 $options = new CharacteristicOptions(['name'=>$opt]);
                 $characteristic->options()->save($options);

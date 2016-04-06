@@ -1099,3 +1099,7 @@ table.dataTable thead .sorting:after {
     padding: 30px 9px 0px 9px;
     margin: 0px 0px 20px 0px;
 }
+
+.btn-circle{
+    border-radius: 50% !important;
+}
