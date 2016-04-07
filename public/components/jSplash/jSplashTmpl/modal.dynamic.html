@@ -49,7 +49,7 @@
                         <label class="control-label">{{=prop}}:</label>
                         <div class="row duplicate hidden">
                             <div class="col-xs-7">
-                                <input type="hidden" value="" class="data" data-name="{{=prop}}"/>
+                                <input type="hidden" value="" class="data" data-name="{{=prop}}" data-type="record"/>
                                 <select class="form-control select pull-left">
                                     <option value="" selected></option>
                                     {{~['email','url','number','date','digits','dateISO','creditcard'] :value:index}}
@@ -67,11 +67,11 @@
                                 <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                             </div>
                         </div>
-                        {{~(typeof it.values[prop] == 'string') ? [it.values[prop]] : it.values[prop] || ((typeof it.settings[prop]['value'] == 'string')?[it.settings[prop]['value']]:it.settings[prop]['value']) || [''] :itval_str}}
-                        {{ itval = itval_str.split(/\[|\]/g); }}
+                        {{~(it.values[prop] && it.values[prop].length) ? it.values[prop] : it.settings[prop] || [{}] :itvalObj}}
+                        {{ itval = itvalObj['val'].split(/\[|\]/g); }}
                         <div class="row duplicate duplicated">
                             <div class="col-xs-7">
-                            <input type="hidden" value="{{=itval_str}}" class="data" name="{{=prop}}" />
+                            <input type="hidden" value="{{=itvalObj['id']}}" class="data" name="{{=prop}}" data-type="record"/>
                             <select class="form-control select pull-left">
                                 <option value=""></option>
                                 {{~['email','url','number','date','digits','dateISO','creditcard'] :value:index}}
@@ -102,7 +102,7 @@
                     <label class="control-label">{{=prop}}:</label>
                     <div class="row duplicate hidden">
                         <div class="col-xs-7">
-                            <input type="hidden" value="" class="data" data-name="{{=prop}}" />
+                            <input type="hidden" value="" class="data" data-name="{{=prop}}" data-type="record"/>
                             <input type="text" class="form-control pull-left flip select" value="" data-extend="1"/>
                         </div>
                         <div class="col-xs-3">
@@ -112,11 +112,11 @@
                             <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                         </div>
                     </div>
-                    {{~(typeof it.values[prop] == 'string') ? [it.values[prop]] : it.values[prop] || ((typeof it.settings[prop]['value'] == 'string')?[it.settings[prop]['value']]:it.settings[prop]['value']) || [''] :itval_str}}
-                    {{ itval = itval_str.split(/\[|\]/g); }}
+                    {{~(it.values[prop] && it.values[prop].length) ? it.values[prop] : it.settings[prop] || [{}] :itvalObj}}
+                    {{ itval = itvalObj['val'].toString().split(/\[|\]/g); }}
                     <div class="row duplicate duplicated">
                         <div class="col-xs-7">
-                            <input type="hidden" value="{{=itval_str}}" class="data" name="{{=prop}}" />
+                            <input type="hidden" value="{{=itvalObj['id']+'::'+itvalObj['val']}}" class="data" name="{{=prop}}" data-type="record"/>
                             <input type="text" class="form-control pull-left flip select" value="{{=itval[0]||''}}" data-extend="1"/>
                         </div>
                         <div class="col-xs-3">

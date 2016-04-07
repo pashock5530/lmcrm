@@ -34,7 +34,7 @@
                     </form>
                 </div>
                 <div class="tab-pane text-right" id="tab2">
-                    <a class="btn btn-warning btn-save btn-raised">Save</a>
+                    <button class="btn btn-warning btn-save btn-raised">Save</button>
                 </div>
                 <ul class="pager wizard">
                     <li class="previous first" style="display:none;"><a href="#">First</a></li>
@@ -101,7 +101,6 @@
                     for(var k in resp) {
                        var $el = $('#content').find('#'+k);
                         if($el.length) $el.jSplash().data('splash').load({data:resp[k]},false,{}).show();
-console.info($el.data('splash').serialize());
                     }
                 }
             });
@@ -111,11 +110,13 @@ console.info($el.data('splash').serialize());
             $('#content .btn-save').click(function(){
                 var postData = {};
                 var $jElements = $('#content .jSplash-data');
+                var $this = $(this);
                 for(var i=0; i<$jElements.length;i++) {
                     postData[$jElements.eq(i).attr('id')] = $jElements.eq(i).data('splash').serialize();
                 }
 
                 if(postData) {
+                    $this.prop('disabled',true);
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -124,13 +125,15 @@ console.info($el.data('splash').serialize());
                         method: 'PUT',
                         data: postData,
                         success: function (data, textStatus) {
-                            //window.location = location.href;
+                            $this.prop('disabled',false);
+                            window.location = '{{ route('admin.characteristics.index') }}';
                             //location.reload();
 
                             //window.location.href = window.location.href;
                         },
-                        complete: function (XMLHttpRequest, textStatus) {
-                            //console.info(XMLHttpRequest);
+                        error: function (XMLHttpRequest, textStatus) {
+                            alert(textStatus);
+                            $this.prop('disabled',false);
                         }
                     });
                 };

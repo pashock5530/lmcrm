@@ -101,7 +101,6 @@
                     new_data = data.values;
                     data.entity.values.push(new_data);
                 }
-
             },
             delete : function (data, index) {
                 var index = (index || index === 0) ? index : false;
@@ -949,7 +948,7 @@
             }
 
         };
-        var route = this.route
+        var route = this.route;
 
         this.controller = {
             modal_open : function (sdata, param) {
@@ -1058,13 +1057,27 @@
                                 if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
                                     if(!$(obj).is(':checked')) { return true; }
                                 }
-                                if(data[obj.name]) {
-                                    if(Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
-                                        data[obj.name] = [data[obj.name]];
+                                if($(obj).val()) {
+                                    if (data[obj.name]) {
+                                        if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
+                                            data[obj.name] = [data[obj.name]];
+                                        }
+                                        var objData = $(obj).val().toString().split('::');
+                                        if (objData.length > 1) {
+                                            data[obj.name].push({id: objData[0], val: objData[1]});
+                                        }
+                                        else {
+                                            if($(obj).data('type')=='record') { data[obj.name].push({'id':0,'val':$(obj).val()});  } else { data[obj.name].push($(obj).val()); }
+                                        }
+                                    } else {
+                                        var objData = $(obj).val().toString().split('::');
+                                        if (objData.length > 1) {
+                                            data[obj.name] = {id: objData[0], val: objData[1]};
+                                        }
+                                        else {
+                                            if($(obj).data('type')=='record') { data[obj.name] = {'id':0,'val':$(obj).val()};  } else { data[obj.name] = $(obj).val(); }
+                                        }
                                     }
-                                    data[obj.name].push($(obj).val());
-                                } else {
-                                    data[obj.name] = $(obj).val();
                                 }
                             }
                         });
@@ -1344,7 +1357,7 @@
                     "settings": {
                         "id":false,
                         "label": "CheckBox",
-                        "option": {"value": ["checkbox1", "checkbox2", "checkbox3"]},
+                        "option": {"value": [{'id':0,'val':"checkbox1"},{'id':0,'val':"checkbox2"},{'id':0,'val':"checkbox3"}]},
                         "required": {"value": 0}
                     }
                 },
@@ -1353,7 +1366,7 @@
                     "settings": {
                         "id":false,
                         "label": "Radio",
-                        "option": {"value": ["radio1", "radio2", "radio3"]},
+                        "option": {"value": [{'id':0,'val':"radio1"},{'id':0,'val':"radio2"},{'id':0,'val':"radio3"}]},
                         "required": {"value": 0}
                     }
                 },
@@ -1362,7 +1375,7 @@
                     "settings": {
                         "id":false,
                         "label": "Dropdown",
-                        "option": {"value": ["option1", "option2", "option3"]},
+                        "option": {"value": [{'id':0,'val':"option1"},{'id':0,'val':"option2"},{'id':0,'val':"option3"}]},
                         "required": {"value": 0}
                     }
                 },
