@@ -17,11 +17,11 @@
             {{ break;
             case 'checkbox': }}
                 <label class="control-label">{{?it.required}}*{{?}}{{=it.label}}</label>
-                {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}<div class="checkbox"> <label> <input type="checkbox">{{=value.val}}</label> </div>{{~}}
+                {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}{{ console.log(value); }}<div class="checkbox"> <label> <input type="checkbox" {{?value.vale}}checked="checked"{{?}}> {{=value.val}}</label> </div>{{~}}
             {{ break;
             case 'radio': }}
                 <label class="control-label">{{?it.required}}*{{?}}{{=it.label}}</label>
-                {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}<div class="radio"> <label> <input type="radio" name="optionsRadios">{{=value.val}}</label> </div>{{~}}
+                {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}<div class="radio"> <label> <input type="radio" name="optionsRadios{{=value.id}}" {{?value.vale}}checked="checked"{{?}}> {{=value.val}}</label> </div>{{~}}
             {{ break;
             case 'select': }}
                 <label class="control-label">{{?it.required}}*{{?}}{{=it.label}}</label>

@@ -35,7 +35,7 @@ class CharacteristicBit extends Model
         } else {
             $index = implode('_', ['fb', $group_index, $opt_index]);
             if (!in_array($index, $this->attributes())) {
-                DB::statement('ALTER TABLE `' . $this->table . '` ADD COLUMN `' . $index . '` BIT(32) NOT NULL', []);
+                DB::statement('ALTER TABLE `' . $this->table . '` ADD COLUMN `' . $index . '` TINYINT(1) NULL', []);
             }
         }
         return true;
@@ -62,8 +62,20 @@ class CharacteristicBit extends Model
         return true;
     }
 
+    public function setDefault($index=0, $hash=false, $force=false){
+        if($index==0 || !is_array($hash)) { return false; }
+        foreach($hash as $id=>$val) {
+            $fname = implode('_', ['fb', $index, $id]);
+           //var_dump('UPDATE `'.$this->table.'` SET `'.$fname.'`='.$val.' WHERE '.(($force===true)?'1':'`'.$fname.'` IS NULL'));
+            $this->tableDB->where($fname,NULL)->update([$fname=>1]);
+            //DB::select('UPDATE `'.$this->table.'` SET `'.$fname.'`='.$val.' WHERE '.(($force===true)?'1':'`'.$fname.'` IS NULL'));
+        }
+        return true;
+    }
+
     public function _delete() {
-        return DB::delete('DROP TABLE `?`',[$this->table]);
+        //return $this->tableDB->drop();
+        return DB::delete('DROP TABLE `'.$this->table.'`');
     }
 
     public function getAppends() {

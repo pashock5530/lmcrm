@@ -95,9 +95,13 @@ class CharacteristicsController extends AdminController {
                 $arr['requiered'] = ($chrct->requiered)?1:0;
                 $arr['position'] = $chrct->position;
                 if($chrct->has('options')) {
+                    $def_val = bindec($chrct->default_value);
+                    $flag=1<<(strlen($chrct->default_value)-1);
+                    $offset = 0;
                     $arr['option']=[];
                     foreach($chrct->options()->get() as $eav) {
-                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name];
+                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>($def_val & ($flag>>$offset))?1:0];
+                        $offset++;
                     }
                 }
                 $data['values'][]=$arr;
@@ -170,6 +174,7 @@ class CharacteristicsController extends AdminController {
                 $bitMask->removeAttr($characteristic->id, $deleted);
             }
 
+            $default_value = [];
             foreach ($attr['option'] as $optVal) {
                 if ($optVal['id']) {
                     $chr_options = CharacteristicOptions::find($optVal['id']);
@@ -181,9 +186,21 @@ class CharacteristicsController extends AdminController {
                     $characteristic->options()->save($chr_options);
                     $bitMask->addAttr($characteristic->id, $chr_options->id);
                 }
+                $default_value[$chr_options->id]=(isset($optVal['vale']) && $optVal['vale'])?1:0;
             }
+            $bitMask->setDefault($characteristic->id,$default_value);
+            $characteristic->default_value=implode('',array_values($default_value));
+            $characteristic->save();
         }
         return response()->json(TRUE);
+    }
+
+    public function destroy($id){
+        $group = CharacteristicGroup::find($id);
+        $bitMask = new CharacteristicBit($group->id);
+        $bitMask->_delete();
+        $group->delete();
+        return redirect()->route('admin.characteristics.index');
     }
 
     /**
@@ -197,7 +214,7 @@ class CharacteristicsController extends AdminController {
 
         return Datatables::of($chr)
             ->add_column('actions', '<a href="{{ route(\'admin.characteristics.edit\',[$id]) }}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{{ URL::to(\'admin/user/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>')
+                    <a href="{{ route(\'admin.characteristics.delete\',[$id]) }}" method="DELETE" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>')
             ->remove_column('id')
             ->make();
     }

@@ -29,7 +29,12 @@
 
         this.option = { // default options
             modal: '#modal-page',
-            form: '#jSplash-form'
+            form: '#jSplash-form',
+            event: {
+                onShow : null,
+                onEdit : null,
+                onModal : null,
+            }
         };
 
         this._construct = function (options) {
@@ -84,7 +89,7 @@
                     }
                     data.entity.values = new_data;
                 }
-
+                this.onSave();
             },
             store_array: function(data,index) {
                 var index = (index || index === 0) ? index : false;
@@ -101,6 +106,7 @@
                     new_data = data.values;
                     data.entity.values.push(new_data);
                 }
+                this.onSave();
             },
             delete : function (data, index) {
                 var index = (index || index === 0) ? index : false;
@@ -241,7 +247,10 @@
                 }
 
                 return json;
-            }
+            },
+            onSave : function(){
+                _this.afterEdit() ;
+            },
         };
         var model = this.model;
 
@@ -543,7 +552,9 @@
                 }
                 return '';
             },
+
             defered : {},
+
             viewes : { // this - reference to current object
                 modal: {
                     open: '<div><chain><!--{ {=it.chain} }--></chain></div>',
@@ -576,6 +587,7 @@
                 //clean:'{{=it}}{{?it.chain}}<chain><!--{ {=it.chain} }--></chain>{{?}}'
                 clean: ''
             },
+
             // Rules - events in render
             addRule : function (rule, context, entity, data, params) {
                 if (!rule) {
@@ -737,12 +749,14 @@
                                 $item.find('.btn-duplicate-remove').click(function() {
                                      $(this).closest('.duplicated').remove();
                                 });
+                                /*
                                 $item.find('input.extend').change(function(){
                                     var $hidden = $(this).closest('.duplicated').find('.data'),
                                         $select = $(this).closest('.duplicated').find('.select').first();
 
                                     $hidden.val($select.val()+'['+$(this).val()+']');
                                 });
+                                */
                             })($(this));
                         });
                         break;
@@ -984,6 +998,8 @@
                         $modal.find('.modal-body').html('').empty();
                     })
                     .modal('show', {backdrop: 'static'});
+
+                this.onModal(_this.option.modal);
                 return c;
             },
 
@@ -1054,6 +1070,9 @@
                         var data={};
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
                             if(obj.name) {
+                                var $extend = $(obj).closest('.duplicate').find('input.extend');
+                                var ext = ($extend.attr('type')=='checkbox' || $(obj).attr('type')=='radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+
                                 if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
                                     if(!$(obj).is(':checked')) { return true; }
                                 }
@@ -1062,20 +1081,16 @@
                                         if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
                                             data[obj.name] = [data[obj.name]];
                                         }
-                                        var objData = $(obj).val().toString().split('::');
-                                        if (objData.length > 1) {
-                                            data[obj.name].push({id: objData[0], val: objData[1]});
-                                        }
-                                        else {
-                                            if($(obj).data('type')=='record') { data[obj.name].push({'id':0,'val':$(obj).val()});  } else { data[obj.name].push($(obj).val()); }
+                                        if($(obj).data('type')=='record') {
+                                            data[obj.name].push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
+                                        } else {
+                                            data[obj.name].push($(obj).val()+((ext)? '['+ext+']' : ''));
                                         }
                                     } else {
-                                        var objData = $(obj).val().toString().split('::');
-                                        if (objData.length > 1) {
-                                            data[obj.name] = {id: objData[0], val: objData[1]};
-                                        }
-                                        else {
-                                            if($(obj).data('type')=='record') { data[obj.name] = {'id':0,'val':$(obj).val()};  } else { data[obj.name] = $(obj).val(); }
+                                        if($(obj).data('type')=='record') {
+                                            data[obj.name]={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                        } else {
+                                            data[obj.name]=$(obj).val()+((ext)? '['+ext+']' : '');
                                         }
                                     }
                                 }
@@ -1099,6 +1114,8 @@
                         $modal.find('.modal-body').html('').empty();
                     })
                     .modal('show', {backdrop: 'static'});
+
+                this.onModal(_this.option.modal);
                 return c;
             },
 
@@ -1253,7 +1270,9 @@
                 var data = {};
                 data = _this.model.serialize();
                 return data;
-            }
+            },
+
+            onModal: function ($container) { if(_this.option.event.onModal) { _this.option.event.onModal($container) } },
 
         };
         var c = this.controller;
@@ -1276,7 +1295,12 @@
 
         this.show = function () {
             this.tmpl.show();
+            if(this.option.event.onShow) { this.option.event.onShow(this.$container); }
             return this;
+        };
+
+        this.afterEdit = function() {
+            if(this.option.event.onEdit) { this.option.event.onEdit(this.$container); }
         };
 
         this.serialize = function (db) {

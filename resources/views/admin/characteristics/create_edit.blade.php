@@ -18,9 +18,9 @@
     </div>
     <div class="container" id="content">
         <div class="wizard">
-            <ul>
-                <li><a href="#tab1" data-toggle="tab" class="btn btn-circle">1</a></li>
-                <li><a href="#tab2" data-toggle="tab" class="btn btn-circle">2</a></li>
+            <ul class="flexbox flex-justify">
+                <li class="flex-item step"><a href="#tab1" data-toggle="tab" class="btn btn-circle">1</a></li>
+                <li class="flex-item step"><a href="#tab2" data-toggle="tab" class="btn btn-circle">2</a></li>
             </ul>
             <div class="progress progress-striped">
                 <div class="progress-bar progress-bar-info bar"></div>
@@ -52,7 +52,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"></h4>
                     </div>
 
                     <div class="modal-body"></div>
@@ -88,6 +87,11 @@
                 'tabClass': 'nav nav-pills',
                 'onTabShow': function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
+                var $steps = navigation.find('li');
+                    $steps.removeClass('passed');
+                    for(var i = 0; i<index; i++) {
+                        $steps.eq(i).addClass('passed');
+                    }
                 var $current = index+1;
                 var $percent = ($current/$total) * 100;
                 navigation.closest('.wizard').find('.bar').css({width:$percent+'%'});
@@ -100,7 +104,12 @@
                 success: function(resp){
                     for(var k in resp) {
                        var $el = $('#content').find('#'+k);
-                        if($el.length) $el.jSplash().data('splash').load({data:resp[k]},false,{}).show();
+                        if($el.length) $el.jSplash({
+                            event:{
+                                onShow:function(){$.material.init() },
+                                onEdit:function(){$.material.init() },
+                                onModal:function($el){$.material.init($el) }
+                            }}).data('splash').load({data:resp[k]},false,{}).show();
                     }
                 }
             });
