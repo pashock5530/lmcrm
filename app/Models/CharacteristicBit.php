@@ -49,13 +49,14 @@ class CharacteristicBit extends Model
                     DB::statement('ALTER TABLE `' . $this->table . '` DROP COLUMN `' . $item . '', []);
                 }
             }
-        }
-        if(is_array($opt_index)) {
-            foreach($opt_index as $aVal) $this->removeAttr($group_index,$aVal);
         } else {
-            $index = implode('_', ['fb', $group_index, $opt_index]);
-            if (!in_array($index, $this->attributes())) {
-                DB::statement('ALTER TABLE `' . $this->table . '` DROP COLUMN `' . $index . '', []);
+            if (is_array($opt_index)) {
+                foreach ($opt_index as $aVal) $this->removeAttr($group_index, $aVal);
+            } else {
+                $index = implode('_', ['fb', $group_index, $opt_index]);
+                if (!in_array($index, $this->attributes())) {
+                    DB::statement('ALTER TABLE `' . $this->table . '` DROP COLUMN `' . $index . '', []);
+                }
             }
         }
         return true;

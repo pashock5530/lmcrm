@@ -140,17 +140,18 @@ class CharacteristicsController extends AdminController {
 
         $data = $request->only('cform');
 
-        $new_chr = [];
-        foreach($data['cform']['data']['variables'] as $attr) {
-            if (isset($attr['id']) && $attr['id']) { $new_chr[]=$attr['id']; }
-        }
-        $old_chr = $group->characteristics()->lists('id')->all();
-        if ($deleted = (array_diff($old_chr, $new_chr))) {
-            $group->characteristics()->whereIn('id', $deleted)->delete(); /// Need small fix!!!!!!!!!!!!!!!!!!!!!!
-            $bitMask->removeAttr($deleted,null);
+        $new_chr = $data['cform']['data']['variables'];
+        foreach($new_chr as $index=>$characteristic) {
+            if(isset($characteristic['_status'])){
+                if($characteristic['_status'] == 'DELETE') {
+                    $group->characteristics()->where('id', '=', $characteristic['id'])->delete();
+                    $bitMask->removeAttr([(int)$characteristic['id']], null);
+                    unset($new_chr[$index]);
+                }
+            }
         }
 
-        foreach($data['cform']['data']['variables'] as $attr) {
+        foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $characteristic = Characteristics::find($attr['id']);
                 $characteristic->update($attr);
