@@ -18057,4 +18057,15 @@ $(function() {
     if (element.is('li')) {
         element.addClass('active');
     }
+
+	$(document).delegate('.confirm','click',function(event,force){
+		var $this = $(this);
+		bootbox.confirm("Delete record?", function (result) {
+			console.log('force', result, $this);
+			if (result) {
+				document.location.href= $this.attr('href');
+			}
+		});
+		return false;
+	});
 });

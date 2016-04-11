@@ -214,7 +214,7 @@ class CharacteristicsController extends AdminController {
 
         return Datatables::of($chr)
             ->add_column('actions', '<a href="{{ route(\'admin.characteristics.edit\',[$id]) }}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{ route(\'admin.characteristics.delete\',[$id]) }}" method="DELETE" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>')
+                    <a href="{{ route(\'admin.characteristics.delete\',[$id]) }}" class="btn btn-sm btn-danger confirm"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>')
             ->remove_column('id')
             ->make();
     }

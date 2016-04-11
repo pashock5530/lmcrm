@@ -75,6 +75,7 @@
                     }
                     ;
                     if (index === false) {
+                        if(!data.entity.values) { data.entity.values=[]; }
                         data.entity.values.push(new_data);
                     } else {
                         data.entity.values[index] = new_data;
@@ -104,6 +105,7 @@
                     data.entity.values[index] = new_data;
                 } else {
                     new_data = data.values;
+                    if(!data.entity.values) { data.entity.values=[]; }
                     data.entity.values.push(new_data);
                 }
                 this.onSave();
@@ -1058,7 +1060,7 @@
                 }
                 if(!centity.settings) { return c; }
                     centity.settings.type='dynamic';
-
+console.log(sdata,centity);
                 var fdata = {cf: centity,index: index};
                _this.tmpl.show(fdata, $(_this.option.modal).find('.modal-body'), 'edit');
                 $(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
@@ -1352,7 +1354,7 @@
                         "id":false,
                         "label": "E-mail",
                         "placeholder": {"required": true, "value": "email@mail.com"},
-                        "required": {"value": 1, "edit": false}
+                        //"required": {"value": 1, "edit": false}
                     }
                 },
                 "textarea": {
@@ -1363,7 +1365,7 @@
                         "placeholder": {"required": true},
                         "validate": {"required": false, "value": "email"},
                         "minHeight": {"required": false, "value": "120"},
-                        "required": {"value": 0}
+                        //"required": {"value": 0}
                     }
                 },
                 "input": {
@@ -1373,7 +1375,7 @@
                         "label": "Text Input",
                         "placeholder": {"required": false},
                         "validate": {"required": false},
-                        "required": {"value": 0}
+                        //"required": {"value": 0}
                     }
                 },
                 "checkbox": {
@@ -1382,16 +1384,16 @@
                         "id":false,
                         "label": "CheckBox",
                         "option": {"value": [{'id':0,'val':"checkbox1"},{'id':0,'val':"checkbox2"},{'id':0,'val':"checkbox3"}]},
-                        "required": {"value": 0}
+                        //"required": {"value": 0}
                     }
                 },
                 "radio": {
-                    "name": "checkbox",
+                    "name": "radio",
                     "settings": {
                         "id":false,
                         "label": "Radio",
                         "option": {"value": [{'id':0,'val':"radio1"},{'id':0,'val':"radio2"},{'id':0,'val':"radio3"}]},
-                        "required": {"value": 0}
+                        //"required": {"value": 0}
                     }
                 },
                 "select": {
@@ -1400,7 +1402,7 @@
                         "id":false,
                         "label": "Dropdown",
                         "option": {"value": [{'id':0,'val':"option1"},{'id':0,'val':"option2"},{'id':0,'val':"option3"}]},
-                        "required": {"value": 0}
+                        //"required": {"value": 0}
                     }
                 },
                 "calendar": {
@@ -1408,7 +1410,7 @@
                     "settings": {
                         "id":false,
                         "label": "Calendar",
-                        "required": {"value": 0}
+                        //"required": {"value": 0}
                     },
                 },
                 "submit": {

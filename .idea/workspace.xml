@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38c1a81b-bfb1-4310-8ebf-98bd2b57d3dd" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/components/jSplash/bootbox.min.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/CharacteristicBit.php" afterPath="$PROJECT_DIR$/app/Models/CharacteristicBit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/admin/css/admin.css" afterPath="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" afterPath="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/Characteristics.php" afterPath="$PROJECT_DIR$/app/Models/Characteristics.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/admin/js/admin.js" afterPath="$PROJECT_DIR$/public/assets/admin/js/admin.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplash.js" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.dynamic.html" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.dynamic.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" />
     </list>
     <ignored path="lmcrm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,7 +37,7 @@
       <file leaf-file-name="CharacteristicBit.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicBit.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.625">
+            <state vertical-scroll-proportion="0.0">
               <caret line="77" column="59" selection-start-line="77" selection-start-column="59" selection-end-line="77" selection-end-column="59" />
               <folding>
                 <element signature="e#29#68#0#PHP" expanded="true" />
@@ -54,13 +55,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CharacteristicsController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CharacteristicsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7413793">
-              <caret line="199" column="53" selection-start-line="199" selection-start-column="53" selection-end-line="199" selection-end-column="53" />
+            <state vertical-scroll-proportion="-10.583333">
+              <caret line="89" column="45" selection-start-line="89" selection-start-column="45" selection-end-line="89" selection-end-column="45" />
               <folding>
                 <element signature="e#46#87#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/assets/admin/js/admin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.752994">
+              <caret line="18065" column="59" selection-start-line="18065" selection-start-column="59" selection-end-line="18065" selection-end-column="59" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1460375374167" expanded="true" signature="142637:142662" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -69,8 +83,8 @@
       <file leaf-file-name="CharacteristicGroup.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicGroup.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-8.125">
+              <caret line="13" column="96" selection-start-line="13" selection-start-column="75" selection-end-line="13" selection-end-column="96" />
               <folding />
             </state>
           </provider>
@@ -79,8 +93,8 @@
       <file leaf-file-name="modal.dynamic.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.5">
-              <caret line="143" column="156" selection-start-line="143" selection-start-column="156" selection-end-line="143" selection-end-column="156" />
+            <state vertical-scroll-proportion="-30.0">
+              <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -89,8 +103,8 @@
       <file leaf-file-name="form.field.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.75">
-              <caret line="22" column="88" selection-start-line="22" selection-start-column="88" selection-end-line="22" selection-end-column="88" />
+            <state vertical-scroll-proportion="-11.25">
+              <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -100,13 +114,13 @@
         <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1090" column="119" selection-start-line="1090" selection-start-column="119" selection-end-line="1090" selection-end-column="119" />
+              <caret line="110" column="30" selection-start-line="110" selection-start-column="30" selection-end-line="110" selection-end-column="30" />
               <folding>
-                <element signature="e#4179#4909#0" expanded="false" />
-                <element signature="e#15106#15429#0" expanded="false" />
-                <element signature="e#15488#26366#0" expanded="false" />
-                <element signature="e#26404#27439#0" expanded="false" />
-                <element signature="e#27490#28814#0" expanded="false" />
+                <element signature="e#4325#5055#0" expanded="false" />
+                <element signature="e#15252#15575#0" expanded="false" />
+                <element signature="e#15634#26512#0" expanded="false" />
+                <element signature="e#26550#27585#0" expanded="false" />
+                <element signature="e#27636#28960#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -115,18 +129,8 @@
       <file leaf-file-name="Characteristics.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/Characteristics.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.625">
-              <caret line="9" column="66" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="66" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.625">
-              <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+            <state vertical-scroll-proportion="-10.0">
+              <caret line="16" column="82" selection-start-line="16" selection-start-column="82" selection-end-line="16" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -135,18 +139,18 @@
       <file leaf-file-name="create_edit.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.875">
-              <caret line="91" column="50" selection-start-line="91" selection-start-column="50" selection-end-line="91" selection-end-column="50" />
+            <state vertical-scroll-proportion="-18.708334">
+              <caret line="76" column="135" selection-start-line="76" selection-start-column="135" selection-end-line="76" selection-end-column="135" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/assets/admin/css/admin.css">
+      <file leaf-file-name="default.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-27.916666">
-              <caret line="1141" column="1" selection-start-line="1141" selection-start-column="1" selection-end-line="1141" selection-end-column="1" />
+            <state vertical-scroll-proportion="-21.25">
+              <caret line="34" column="7" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -191,26 +195,26 @@
         <option value="$PROJECT_DIR$/resources/lang/en/admin/characteristics.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edtit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/characteristics/index.blade.php" />
-        <option value="$PROJECT_DIR$/public/assets/admin/js/admin.js" />
         <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.container.html" />
         <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/container.gmap.html" />
         <option value="$PROJECT_DIR$/app/Models/CharacteristicsOptions.php" />
-        <option value="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
-        <option value="$PROJECT_DIR$/app/Models/Characteristics.php" />
         <option value="$PROJECT_DIR$/app/Models/CharacteristicOptions.php" />
         <option value="$PROJECT_DIR$/config/auth.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
         <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.dynamic.html" />
-        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html" />
         <option value="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
-        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html" />
-        <option value="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Models/CharacteristicBit.php" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html" />
+        <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
+        <option value="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" />
+        <option value="$PROJECT_DIR$/app/Models/Characteristics.php" />
+        <option value="$PROJECT_DIR$/public/assets/admin/js/admin.js" />
       </list>
     </option>
   </component>
@@ -232,9 +236,9 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="41" />
-    <option name="y" value="-4" />
+    <option name="y" value="24" />
     <option name="width" value="1879" />
-    <option name="height" value="1084" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -261,7 +265,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -580,6 +583,32 @@
               <option name="myItemId" value="admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lmcrm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lmcrm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -805,6 +834,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -856,26 +886,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="-4" width="1879" height="1084" extended-state="6" />
-    <editor active="true" />
+    <frame x="41" y="24" width="1879" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18930715" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19148937" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.181439" sideWeight="0.50190943" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18248175" sideWeight="0.49809057" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2721585" sideWeight="0.49809057" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39937434" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295099" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39937434" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -896,20 +926,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/SentinelAdminUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.625">
-          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Auth/GenericUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.3280506">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Auth/AuthServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.2107766">
@@ -1181,83 +1197,28 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2260274">
           <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/assets/admin/css/admin.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-27.916666">
+        <state vertical-scroll-proportion="0.0">
           <caret line="1141" column="1" selection-start-line="1141" selection-start-column="1" selection-end-line="1141" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.875">
-          <caret line="91" column="50" selection-start-line="91" selection-start-column="50" selection-end-line="91" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.75">
-          <caret line="22" column="88" selection-start-line="22" selection-start-column="88" selection-end-line="22" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.5">
-          <caret line="143" column="156" selection-start-line="143" selection-start-column="156" selection-end-line="143" selection-end-column="156" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1090" column="119" selection-start-line="1090" selection-start-column="119" selection-end-line="1090" selection-end-column="119" />
-          <folding>
-            <element signature="e#4179#4909#0" expanded="false" />
-            <element signature="e#15106#15429#0" expanded="false" />
-            <element signature="e#15488#26366#0" expanded="false" />
-            <element signature="e#26404#27439#0" expanded="false" />
-            <element signature="e#27490#28814#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicGroup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.625">
+        <state vertical-scroll-proportion="0.0">
           <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Characteristics.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.625">
-          <caret line="9" column="66" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="66" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicBit.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.625">
+        <state vertical-scroll-proportion="0.0">
           <caret line="77" column="59" selection-start-line="77" selection-start-column="59" selection-end-line="77" selection-end-column="59" />
           <folding>
             <element signature="e#29#68#0#PHP" expanded="true" />
@@ -1274,12 +1235,85 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/form.field.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.25">
+          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-30.0">
+          <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.708334">
+          <caret line="76" column="135" selection-start-line="76" selection-start-column="135" selection-end-line="76" selection-end-column="135" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.25">
+          <caret line="34" column="7" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="110" column="30" selection-start-line="110" selection-start-column="30" selection-end-line="110" selection-end-column="30" />
+          <folding>
+            <element signature="e#4325#5055#0" expanded="false" />
+            <element signature="e#15252#15575#0" expanded="false" />
+            <element signature="e#15634#26512#0" expanded="false" />
+            <element signature="e#26550#27585#0" expanded="false" />
+            <element signature="e#27636#28960#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7413793">
-          <caret line="199" column="53" selection-start-line="199" selection-start-column="53" selection-end-line="199" selection-end-column="53" />
+        <state vertical-scroll-proportion="-10.583333">
+          <caret line="89" column="45" selection-start-line="89" selection-start-column="45" selection-end-line="89" selection-end-column="45" />
           <folding>
             <element signature="e#46#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicGroup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.125">
+          <caret line="13" column="96" selection-start-line="13" selection-start-column="75" selection-end-line="13" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/Characteristics.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.0">
+          <caret line="16" column="82" selection-start-line="16" selection-start-column="82" selection-end-line="16" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/admin/js/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.752994">
+          <caret line="18065" column="59" selection-start-line="18065" selection-start-column="59" selection-end-line="18065" selection-end-column="59" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1460375374167" expanded="true" signature="142637:142662" placeholder="..." />
           </folding>
         </state>
       </provider>

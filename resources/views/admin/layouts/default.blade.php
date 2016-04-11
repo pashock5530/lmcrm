@@ -27,6 +27,7 @@
 
     <script type="text/javascript" src="{{ asset('components/jquery/jquery-2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('components/bootbox/bootbox.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/bootstrap/js/material.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/bootstrap/js/ripples.min.js') }}"></script>
      @yield('scripts')

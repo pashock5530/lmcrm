@@ -75,7 +75,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/doT.min.js') }}" async></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="{{ asset('components/jSplash/bootbox.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/markerclusterer.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/GMapInit.js') }}"></script>
