@@ -1,13 +1,8 @@
-<div class="panel panel-primary panel-collapse">
+<div class="panel panel-default">{{console.info(it);}}
     <div class="panel-heading">
-        <div class="panel-title">{{?it.settigs && it.settigs.label}}{{=it.settigs.label}}{{?}}</div>
-        <div class="panel-options">
-            <a data-rel="collapse" href="#">
-                <i class="entypo-down-open"></i>
-            </a>
-        </div>
+        <div class="panel-title">{{?it.settings && it.settings.label}}{{=it.settings.label}}{{?}}</div>
     </div>
-    <div class="panel-body" style="display: none;">
+    <div class="panel-body" >
         {{?it.chain}}<chain><!--{ {=it.chain} }--></chain>{{?}}
     </div>
 </div>

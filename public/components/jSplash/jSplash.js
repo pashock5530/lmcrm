@@ -259,6 +259,7 @@
         this.tmpl = {
 
             render : function (data, context, params) {
+console.log(data, context, params);
                 var data = data || _this.model.db;
                 var context = context || 'show';
                 var params = params || []; // for chain || maybe remove in future
@@ -612,8 +613,6 @@
                         }({entity: entity, values: null}, params));
                         break;
                     case 'selectpage.setup':
-                        console.log(entity);
-                        console.log($context);
                         $context.html(_this.all_pages);
                         $context.val(entity.values); 
                         break;
@@ -1060,10 +1059,9 @@
                 }
                 if(!centity.settings) { return c; }
                     centity.settings.type='dynamic';
-console.log(sdata,centity);
                 var fdata = {cf: centity,index: index};
                _this.tmpl.show(fdata, $(_this.option.modal).find('.modal-body'), 'edit');
-                $(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
+                //$(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
                 var validator = _this.tmpl.addRule('validate', $(_this.option.modal).find('form.validate'));
                 (function(fdata,validator) {
                     $(_this.option.modal).find('.btn-save').off().on('click', function () {

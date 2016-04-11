@@ -69,7 +69,42 @@ class CharacteristicsController extends AdminController {
                 "button"=>"Add field"
             ]
         ];
-        $opts = [
+        $settings = [
+            "targerEntity"=>"CharacteristicSettings",
+            "_settings"=>[
+                "label"=>'Options',
+            ],
+            "variables"=>[
+                'name'=>[
+                    "renderType"=>"single",
+                    'name' => 'text',
+                    'values'=>'',
+                    "attributes" => [
+                        "type"=>'text',
+                        "class" => 'form-control',
+                    ],
+                    "settings"=>[
+                        "label" => 'Form name',
+                        "type"=>'text'
+                    ]
+                ],
+                "status"=>[
+                    "renderType"=>"single",
+                    'name' => 'status',
+                    'values'=>'',
+                    "attributes" => [
+                        "type"=>'text',
+                        "class" => 'form-control',
+                    ],
+                    "settings"=>[
+                        "label" => 'Status',
+                        "type"=>'select',
+                        'option'=>[['key'=>1,'value'=>'on'],['key'=>0,'value'=>'off']],
+                    ]
+                ]
+            ],
+        ];
+        $settings = [
             "renderType"=>"single",
             'name' => 'text',
             'values'=>'',
@@ -80,12 +115,13 @@ class CharacteristicsController extends AdminController {
             "settings"=>[
                 "label" => 'Form name',
                 "type"=>'text'
-            ],
+            ]
         ];
         if($id) {
             $group = CharacteristicGroup::find($id);
             $data['id']=$id;
-            $opts['values'] = $group->name;
+            //$settings['values']['name'] = $group->name;
+            $settings['values'] = $group->name;
 
             foreach($group->characteristics()->get() as $chrct) {
                 $arr=[];
@@ -108,7 +144,7 @@ class CharacteristicsController extends AdminController {
             }
         }
 
-        $data=['opt'=>$opts,"cform"=>$data];
+        $data=['opt'=>$settings,"cform"=>$data];
         return response()->json($data);
     }
 
@@ -131,6 +167,7 @@ class CharacteristicsController extends AdminController {
     public function update(Request $request,$id)
     {
         $opt = $request->only('opt');
+
         if($id) {
             $group = CharacteristicGroup::find($id);
             $group->name = $opt['opt']['data'];
@@ -213,8 +250,7 @@ class CharacteristicsController extends AdminController {
         $chr = CharacteristicGroup::select(['id', 'name', 'table_name', 'created_at']);
 
         return Datatables::of($chr)
-            ->add_column('actions', '<a href="{{ route(\'admin.characteristics.edit\',[$id]) }}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{ route(\'admin.characteristics.delete\',[$id]) }}" class="btn btn-sm btn-danger confirm"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>')
+            ->add_column('actions', function($model) { return view('admin.characteristics.datatables.control',['id'=>$model->id]); } )
             ->remove_column('id')
             ->make();
     }

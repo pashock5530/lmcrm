@@ -21,19 +21,26 @@
             <ul class="flexbox flex-justify">
                 <li class="flex-item step"><a href="#tab1" data-toggle="tab" class="btn btn-circle">1</a></li>
                 <li class="flex-item step"><a href="#tab2" data-toggle="tab" class="btn btn-circle">2</a></li>
+                <li class="flex-item step"><a href="#tab3" data-toggle="tab" class="btn btn-circle">3</a></li>
             </ul>
             <div class="progress progress-striped">
                 <div class="progress-bar progress-bar-info bar"></div>
             </div>
             <div class="tab-content">
                 <div class="tab-pane" id="tab1">
+                    <h3 class="page-header">Settings</h3>
                     <form method="post" id="jSplash-form" class="form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="opt"> Loading... </div>
-
+                    </form>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <h3 class="page-header">Form</h3>
+                    <form method="post" id="jSplash-form" class="form-horizontal noEnterKey _validate" action="#" >
                         <div class="form jSplash-data" id="cform"> Loading... </div>
                     </form>
                 </div>
-                <div class="tab-pane text-right" id="tab2">
+                <div class="tab-pane" id="tab3">
+                    <h3 class="page-header">Finish</h3>
                     <button class="btn btn-warning btn-save btn-raised">Save</button>
                 </div>
                 <ul class="pager wizard">
@@ -134,7 +141,7 @@
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
-                            window.location = '{{ route('admin.characteristics.index') }}';
+                            //window.location = '{{ route('admin.characteristics.index') }}';
                             //location.reload();
 
                             //window.location.href = window.location.href;
