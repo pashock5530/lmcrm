@@ -1095,6 +1095,10 @@ table.dataTable thead .sorting:after {
     color: #df8a13;
 }
 
+.navbar-static-top {
+    z-index: 1 !important;
+}
+
 #page-wrapper .page-header {
     padding: 30px 9px 0px 9px;
     margin: 0px 0px 20px 0px;
@@ -1120,7 +1124,7 @@ table.dataTable thead .sorting:after {
     position: relative;
     background-color: white;
     text-align: center;
-    z-index: 150;
+    z-index: 1;
 }
 
 .wizard .step.passed .btn{
@@ -1139,4 +1143,17 @@ table.dataTable thead .sorting:after {
 
 #cform .panel-body .glyphicon {
     cursor: pointer;
+}
+
+.fancybox-lock .fancybox-overlay {
+    z-index: 150;
+}
+
+.icon.icon-128 {
+    max-width: 128px;
+    max-height: 128px;
+}
+
+.slider {
+    position: relative;
 }

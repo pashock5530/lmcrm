@@ -259,7 +259,6 @@
         this.tmpl = {
 
             render : function (data, context, params) {
-console.log(data, context, params);
                 var data = data || _this.model.db;
                 var context = context || 'show';
                 var params = params || []; // for chain || maybe remove in future
@@ -506,6 +505,7 @@ console.log(data, context, params);
                     case 'default.text':
                     case 'default.textarea':
                     case 'default.select':
+                    case 'default.upload':
                         $html.append($(doT.template(tmpl.view(type))(data)));
                         _this.tmpl.addRule('value.edit', $html.find('input,textarea,select'), data);
                         break;
@@ -1262,6 +1262,8 @@ console.log(data, context, params);
 
             serialize : function (db, $form, validate) {
                 var validate = validate || false;
+                var $wrapper = $form || _this.$container;
+                $wrapper.find('.force-change').change();
                 if (validate) {
                     if (!c.validate($form)) {
                         return false;
@@ -1473,6 +1475,7 @@ console.log(data, context, params);
             'default.select',
             'default.image',
             'default.icon',
+            'default.upload',
             'default.select',
             'default.selectpage',
             'default.group'

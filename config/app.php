@@ -160,7 +160,10 @@ return [
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+
+        Spescina\Mediabrowser\Providers\MediabrowserServiceProvider::class,
 
     ],
 
@@ -218,6 +221,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'LaravelLocalization'   => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

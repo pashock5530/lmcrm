@@ -41,6 +41,21 @@
                 </div>
                 <div class="tab-pane" id="tab3">
                     <h3 class="page-header">Finish</h3>
+                    <form method="post" id="jSplash-form" class="form-horizontal noEnterKey _validate" action="#" >
+                        <div class="jSplash-data" id="threshold"> Loading... </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="slider shor slider-danger" id="slider"></div>
+                                <div class="slider shor slider-success"></div>
+                                <div class="slider shor slider-material-pink"></div>
+                            </div>
+                            <div class="col-sm-6" style="height: 150px">
+                                <div class="slider svert"></div>
+                                <div class="slider svert slider-success"></div>
+                                <div class="slider svert slider-material-pink"></div>
+                            </div>
+                        </div>
+                    </form>
                     <button class="btn btn-warning btn-save btn-raised">Save</button>
                 </div>
                 <ul class="pager wizard">
@@ -75,14 +90,18 @@
 
 {{-- Styles --}}
 @section('styles')
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('packages/spescina/mediabrowser/dist/mediabrowser-include.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('components/nouislider/css/nouislider.pips.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('components/entypo/css/entypo.css') }}">
 @stop
 {{-- Scripts --}}
 @section('scripts')
-    <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js" async></script>
+    <script type="text/javascript" src="{{ asset('components/nouislider/js/nouislider.min.js') }}" async></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js" async></script>
+    <script type="text/javascript" src="{{ asset('packages/spescina/mediabrowser/dist/mediabrowser-include.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/doT.min.js') }}" async></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="{{ asset('components/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" async></script>
+    <script type="text/javascript" src="{{ asset('components/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/markerclusterer.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/GMapInit.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/sly.min.js') }}" async></script>
@@ -120,8 +139,6 @@
                 }
             });
 
-//            $('#content .form').jSplash().data('splash').load('{{ route('admin.chrct.form',[$fid]) }}',true,{}).show();
-
             $('#content .btn-save').click(function(){
                 var postData = {};
                 var $jElements = $('#content .jSplash-data');
@@ -141,10 +158,7 @@
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
-                            //window.location = '{{ route('admin.characteristics.index') }}';
-                            //location.reload();
-
-                            //window.location.href = window.location.href;
+                            window.location = '{{ route('admin.characteristics.index') }}';
                         },
                         error: function (XMLHttpRequest, textStatus) {
                             alert(textStatus);
@@ -154,6 +168,23 @@
                 };
                 return false;
             });
+
+            var slider = document.getElementById('slider');
+
+            noUiSlider.create($("#slider")[0], {
+                start: [20, 80],
+                connect: true,
+                range: {
+                    'min': 0,
+                    'max': 100
+                },
+                pips: {
+                    mode: 'positions',
+                    values: [0,25,50,75,100],
+                    density: 4
+                }
+            });
+
         });
     </script>
 @stop
