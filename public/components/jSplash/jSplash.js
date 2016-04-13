@@ -29,7 +29,7 @@
 
         this.option = { // default options
             modal: '#modal-page',
-            form: '#jSplash-form',
+            form: '.jSplash-form',
             event: {
                 onShow : null,
                 onEdit : null,

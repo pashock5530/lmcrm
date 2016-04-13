@@ -6,4 +6,6 @@ return [
     'name' => 'Characteristic name',
     'group' => 'Group',
     'status' => 'Status',
+    'values' => 'Lead deals range',
+    'action' => 'Action',
 ];

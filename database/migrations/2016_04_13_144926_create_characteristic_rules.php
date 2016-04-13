@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCharacteristicGroup extends Migration
+class CreateCharacteristicRules extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,13 @@ class CreateCharacteristicGroup extends Migration
      */
     public function up()
     {
-        Schema::create('characteristic_group', function (Blueprint $table) {
+        Schema::create('characteristic_rules', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('icon');
-            $table->string('table_name');
+            $table->integer('group_id');
+
+            $table->integer('srange');
+            $table->integer('erange');
+            $table->string('rule'); //->integer('rule');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateCharacteristicGroup extends Migration
      */
     public function down()
     {
-        Schema::drop('characteristic_group');
+        Schema::drop('characteristics_rules');
     }
 }

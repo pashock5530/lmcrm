@@ -7,6 +7,7 @@ use App\Models\CharacteristicOptions;
 use Illuminate\Support\Facades\Input;
 use App\Models\CharacteristicGroup;
 use App\Models\Characteristics;
+use App\Models\CharacteristicRules;
 use App\Models\CharacteristicBit;
 use Illuminate\Http\Request;
 use Datatables;
@@ -34,7 +35,8 @@ class CharacteristicsController extends AdminController {
      */
     public function edit($id)
     {
-        return view('admin.characteristics.create_edit')->with('fid',$id);
+        $rules=CharacteristicGroup::find($id)->rules()->get();
+        return view('admin.characteristics.create_edit')->with('fid',$id)->with('rules',$rules);
     }
 
 
@@ -45,7 +47,8 @@ class CharacteristicsController extends AdminController {
      */
     public function create()
     {
-        return view('admin.characteristics.create_edit')->with('fid',0);
+        $rules=[];
+        return view('admin.characteristics.create_edit')->with('fid',0)->with('rules',$rules);
     }
 
     /**
@@ -129,7 +132,7 @@ class CharacteristicsController extends AdminController {
                 $arr['id'] = $chrct->id;
                 $arr['_type'] = $chrct->_type;
                 $arr['label'] = $chrct->label;
-                $arr['requiered'] = ($chrct->requiered)?1:0;
+                //$arr['required'] = ($chrct->required)?1:0;
                 $arr['position'] = $chrct->position;
                 if($chrct->has('options')) {
                     $def_val = bindec($chrct->default_value);
@@ -181,6 +184,26 @@ class CharacteristicsController extends AdminController {
         $bitMask = new CharacteristicBit($group->id);
         $group->table_name = $bitMask->getTableName();
         $group->save();
+
+        $group->rules()->delete();
+        $req_rules = $request->only('rules');
+        foreach($req_rules['rules'] as $arr){
+            $group_rule =new CharacteristicRules();
+            foreach($arr as $dataArr) {
+                switch ($dataArr['name']) {
+                    case 'srange':
+                        $group_rule->srange=$dataArr['value'];
+                        break;
+                    case 'erange':
+                        $group_rule->erange=$dataArr['value'];
+                        break;
+                    case 'rule':
+                        $group_rule->rule=$dataArr['value'];
+                        break;
+                }
+            }
+            $group->rules()->save($group_rule);
+        }
 
         $data = $request->only('cform');
 

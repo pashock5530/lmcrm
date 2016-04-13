@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Characteristics extends Model
 {
     protected $table = 'characteristics';
-    protected $fillable = ['_type', 'label','requiered', 'position' ];
+    protected $fillable = ['_type', 'label','required', 'position' ];
 
     public function options() {
         return $this->hasMany('App\Models\CharacteristicOptions','characteristic_id','id')->orderBy('position');
