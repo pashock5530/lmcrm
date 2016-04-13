@@ -178,14 +178,18 @@ class CharacteristicsController extends AdminController {
             $group->icon = $opt['opt']['data']['variables']['icon'];
             $group->status = $opt['opt']['data']['variables']['status'];
         } else {
-            $group = new CharacteristicGroup(['name' => $opt['opt']['data']]);
+            $group = new CharacteristicGroup([
+                'name' => $opt['opt']['data']['variables']['name'],
+                'icon' => $opt['opt']['data']['variables']['icon'],
+                'status' => $opt['opt']['data']['variables']['status']
+            ]);
             $group->save();
         }
         $bitMask = new CharacteristicBit($group->id);
         $group->table_name = $bitMask->getTableName();
         $group->save();
 
-        $group->rules()->delete();
+        if($group->has('rules')) { $group->rules()->delete(); }
         $req_rules = $request->only('rules');
         foreach($req_rules['rules'] as $arr){
             $group_rule =new CharacteristicRules();
@@ -221,7 +225,7 @@ class CharacteristicsController extends AdminController {
         foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $characteristic = Characteristics::find($attr['id']);
-                $characteristic->update($attr);
+                //$characteristic->update($attr);
             } else {
                 $characteristic = new Characteristics($attr);
                 $group->characteristics()->save($characteristic);
