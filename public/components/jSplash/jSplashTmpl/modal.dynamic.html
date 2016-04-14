@@ -5,14 +5,14 @@
             <label class="control-label">Select field type</label>
                 <select name="ftype" id="ftype" class="pull-left form-control">
                     <option value="" selected></option>
-                    <!--<option value="email">E-mail</option>-->
-                    <!--<option value="textarea">Text area</option>-->
-                    <!--<option value="input">Text input</option>-->
-                    <option value="checkbox">Checkbox</option>
-                    <option value="radio">Radio</option>
-                    <option value="select">Dropdown</option>
-                    <!--<option value="calendar">Calendar</option>-->
-                    <!--<option value="submit">Submit button</option>-->
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['email']}}<option value="email">E-mail</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['textarea']}}<option value="textarea">Text area</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['text'] || it.tmpl.fields['input']}}<option value="input">Text input</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['checkbox']}}<option value="checkbox">Checkbox</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['radio']}}<option value="radio">Radio</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['select']}}<option value="select">Dropdown</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['calendar']}}<option value="calendar">Calendar</option>{{?}}
+                    {{?it.tmpl.fields['all'] || it.tmpl.fields['submit']}}<!--<option value="submit">Submit button</option>-->{{?}}
                 </select>
         </div>
     </div>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 {{ break;
-            case 'option': }}
+            case 'option': }}{{console.log(it);}}
             <div class="row">
                 <div class="form-group col-xs-12">
                     <div class="row">
@@ -118,12 +118,12 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-xs-5">
                             <input type="hidden" value="" class="data" data-name="{{=prop}}" data-type="record"/>
                             <input type="text" class="form-control pull-left flip select" value="" data-extend="1"/>
                         </div>
-                        <div class="col-xs-3 hidden">
-                            <input type="text" value="" class="form-control " disabled/>
+                        <div class="col-xs-2">
+                            <input type="text" value="" class="form-control extend" />
                         </div>
                         <div class="col-xs-2">
                             <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
@@ -135,17 +135,17 @@
                             <div class="togglebutton">
                                 <label>
                                     no
-                                    <input type="checkbox" class="default extend" value="1" {{?itvalObj['vale']}}checked{{?}}>
+                                    <input type="checkbox" class="default extend" value="1" {{?itvalObj['vale'][0]}}checked{{?}}>
                                     yes
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-xs-5">
                             <input type="hidden" value="{{=itvalObj['val']}}" class="data" name="{{=prop}}" data-type="record" data-id="{{=itvalObj['id']||0}}" />
                             <input type="text" class="form-control pull-left flip select" value="{{=itvalObj['val']||''}}" data-extend="1"/>
                         </div>
-                        <div class="col-xs-3 hidden">
-                            <input type="text" value="{{=itvalObj['vale']||''}}" class="form-control hidden" {{?!itvalObj['vale']}}disabled{{?}}/>
+                        <div class="col-xs-2">
+                            <input type="text" value="{{=itvalObj['vale'][1]||''}}" class="form-control extend" />
                         </div>
                         <div class="col-xs-2">
                             <button type="button" class="btn btn-danger btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>

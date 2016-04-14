@@ -456,11 +456,9 @@
 
                         break;
                     case 'form.dynamic':
-console.log(data);
                         var ls_settings = data.settings['form.dynamic'] || {};
                         var cdata = {};
                         cdata.data = data.values || [];
-console.log('->',cdata,data.values);
                         var tmpl_data = [];
                         for (var j in data.values) {
                             if(data.values[j]._status=='DELETE') { continue; }
@@ -476,6 +474,18 @@ console.log('->',cdata,data.values);
                                 tmpl_data.push(ls_settings.controls[i]);
                             }
                             cdata.controls = tmpl_data;
+                        }
+                        cdata.fields = {};
+                        var fl_settings = data.settings['fields'] || false;
+                        if (fl_settings) {
+                            var tmpl_data = {};
+                            for (var i in fl_settings) {
+                                var key = fl_settings[i];
+                                tmpl_data[key] = true;
+                            }
+                            cdata.fields = tmpl_data;
+                        } else {
+                            cdata.fields['all']=true;
                         }
                         data.tmpl = cdata;
                         $html.append($(doT.template(tmpl.view('form.dynamic'))(data)));
@@ -1072,8 +1082,17 @@ console.log('->',cdata,data.values);
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
                             if(obj.name) {
                                 var $extend = $(obj).closest('.duplicate').find('input.extend');
-                                var ext = ($extend.attr('type')=='checkbox' || $(obj).attr('type')=='radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
-
+                                var ext = null;
+console.log($extend,$extend.length);
+                                if($extend.length>1) {
+                                    ext = [];
+                                    for(var i=0;i<$extend.length;i++){
+                                        ext[i]= ($extend.eq(i).attr('type') == 'checkbox' || $extend.eq(i).attr('type') == 'radio') ? (($extend.eq(i).is(':checked')) ? 1 : 0) : $extend.eq(i).val();
+                                    }
+                                } else {
+                                    ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+                                }
+console.log(ext);
                                 if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
                                     if(!$(obj).is(':checked')) { return true; }
                                 }

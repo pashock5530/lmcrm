@@ -22,6 +22,7 @@
                 <li class="flex-item step"><a href="#tab1" data-toggle="tab" class="btn btn-circle">1</a></li>
                 <li class="flex-item step"><a href="#tab2" data-toggle="tab" class="btn btn-circle">2</a></li>
                 <li class="flex-item step"><a href="#tab3" data-toggle="tab" class="btn btn-circle">3</a></li>
+                <li class="flex-item step"><a href="#tab4" data-toggle="tab" class="btn btn-circle">4</a></li>
             </ul>
             <div class="progress progress-striped">
                 <div class="progress-bar progress-bar-info bar"></div>
@@ -34,15 +35,23 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <h3 class="page-header">Form</h3>
+                    <h3 class="page-header">Agent form</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="form jSplash-data" id="cform"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab3">
+                    <h3 class="page-header">Lead form</h3>
+                    <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
+                        <div class="jSplash-data" id="lead">
+                            Loading...
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="tab4">
                     <h3 class="page-header">Finish</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="jSplash-data" id="threshold">
+                        <div class="_jSplash-data" id="threshold">
                             Loading...
                         </div>
                     </form>
