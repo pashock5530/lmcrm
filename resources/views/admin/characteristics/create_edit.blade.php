@@ -77,6 +77,7 @@
                                         <div class="slider-row duplicate-row">
                                             <div class="form-group">
                                                 <div class="col-xs-5">
+                                                    @if($rule->id) <input type="hidden" class="form-control" name="id" value="{{$rule->id}}" /> @endif
                                                     <div class="slider slider-warning"></div>
                                                 </div>
                                                 <div class="col-xs-2">

@@ -189,30 +189,27 @@ class CharacteristicsController extends AdminController {
         $group->table_name = $bitMask->getTableName();
         $group->save();
 
-        if($group->has('rules')) { $group->rules()->delete(); }
+        //if($group->has('rules')) { $group->rules()->delete(); }
         $req_rules = $request->only('rules');
-        foreach($req_rules['rules'] as $arr){
-            $group_rule =new CharacteristicRules();
+        if($req_rules['rules']) foreach($req_rules['rules'] as $arr){
+            $group_rule_val=[];
             foreach($arr as $dataArr) {
-                switch ($dataArr['name']) {
-                    case 'srange':
-                        $group_rule->srange=$dataArr['value'];
-                        break;
-                    case 'erange':
-                        $group_rule->erange=$dataArr['value'];
-                        break;
-                    case 'rule':
-                        $group_rule->rule=$dataArr['value'];
-                        break;
-                }
+                $group_rule_val[$dataArr['name']]=$dataArr['value'];
             }
-            $group->rules()->save($group_rule);
+            if(isset($group_rule_val['id'])) {
+                $group_rule=CharacteristicRules::find($group_rule_val['id']);
+                unset($group_rule_val['id']);
+                $group_rule->update($group_rule_val);
+            } else {
+                $group_rule = new CharacteristicRules($group_rule_val);
+                $group->rules()->save($group_rule);
+            }
         }
 
         $data = $request->only('cform');
 
         $new_chr = $data['cform']['data']['variables'];
-        foreach($new_chr as $index=>$characteristic) {
+        if($new_chr) foreach($new_chr as $index=>$characteristic) {
             if(isset($characteristic['_status'])){
                 if($characteristic['_status'] == 'DELETE') {
                     $group->characteristics()->where('id', '=', $characteristic['id'])->delete();
@@ -222,15 +219,16 @@ class CharacteristicsController extends AdminController {
             }
         }
 
-        foreach($new_chr as $attr) {
+        if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $characteristic = Characteristics::find($attr['id']);
-                //$characteristic->update($attr);
+                $characteristic->update($attr);
             } else {
                 $characteristic = new Characteristics($attr);
                 $group->characteristics()->save($characteristic);
             }
             $new_options = [];
+            if(isset($attr['option']['id'])) { $attr['option'] = [$attr['option']]; }
             for ($i = 0; $i < count($attr['option']); $i++) {
                 if($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
             }

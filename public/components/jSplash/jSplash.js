@@ -456,10 +456,11 @@
 
                         break;
                     case 'form.dynamic':
+console.log(data);
                         var ls_settings = data.settings['form.dynamic'] || {};
                         var cdata = {};
                         cdata.data = data.values || [];
-
+console.log('->',cdata,data.values);
                         var tmpl_data = [];
                         for (var j in data.values) {
                             if(data.values[j]._status=='DELETE') { continue; }
@@ -1061,7 +1062,7 @@
                     centity.settings.type='dynamic';
                 var fdata = {cf: centity,index: index};
                _this.tmpl.show(fdata, $(_this.option.modal).find('.modal-body'), 'edit');
-                //$(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
+                $(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
                 var validator = _this.tmpl.addRule('validate', $(_this.option.modal).find('form.validate'));
                 (function(fdata,validator) {
                     $(_this.option.modal).find('.btn-save').off().on('click', function () {
@@ -1153,10 +1154,6 @@
                     }
                 }());
                 $('#modal-icon').modal('show', {backdrop: 'static'});
-            },
-
-            selectpage_setup: function (data, param) {
-                alert('selectpage');
             },
 
             delete : function (data, param) {
