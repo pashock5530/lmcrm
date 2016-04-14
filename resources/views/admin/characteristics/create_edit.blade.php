@@ -42,65 +42,8 @@
                 <div class="tab-pane" id="tab3">
                     <h3 class="page-header">Finish</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="_jSplash-data" id="_threshold">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="">
-                                        <div class="form-group">
-                                            <div class="col-xs-9">
-                                                @lang('admin/characteristics.values')
-                                            </div>
-                                            <div class="col-xs-3">
-                                                @lang('admin/characteristics.action')
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="slider-row duplicate-row hidden">
-                                        <div class="form-group">
-                                            <div class="col-xs-5">
-                                                <div class="slider slider-warning"></div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <input type="text" value="" data-range="0" class="form-control" name="srange">
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <input type="text" value="" data-range="1" class="form-control" name="erange">
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <select name="rule" class="form-control">
-                                                    <option>select...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @foreach($rules as $rule)
-                                        <div class="slider-row duplicate-row">
-                                            <div class="form-group">
-                                                <div class="col-xs-5">
-                                                    @if($rule->id) <input type="hidden" class="form-control" name="id" value="{{$rule->id}}" /> @endif
-                                                    <div class="slider slider-warning"></div>
-                                                </div>
-                                                <div class="col-xs-2">
-                                                    <input type="text" value="{{$rule->srange}}" data-range="0" class="form-control" name="srange">
-                                                </div>
-                                                <div class="col-xs-2">
-                                                    <input type="text" value="{{$rule->erange}}" data-range="1" class="form-control" name="erange">
-                                                </div>
-                                                <div class="col-xs-3">
-                                                    <select name="rule" class="form-control">
-                                                        <option>select...</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                    <br class="clearfix" /><br class="clearfix" />
-                                    <div class="row">
-                                        <a class="btn btn-success btn-slider-add">+ Add</a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="jSplash-data" id="threshold">
+                            Loading...
                         </div>
                     </form>
                     <br class="clearfix">
@@ -198,11 +141,7 @@
                 for(var i=0; i<$jElements.length;i++) {
                     postData[$jElements.eq(i).attr('id')] = $jElements.eq(i).data('splash').serialize();
                 }
-                var $sRows = $("#content #_threshold .slider-row").not(".hidden");
-                postData['rules']=[];
-                for(var i=0; i<$sRows.length;i++){
-                    postData['rules'].push($sRows.eq(i).find('.form-control').serializeArray());
-                }
+
                 if(postData) {
                     $this.prop('disabled',true);
                     $.ajax({
@@ -260,7 +199,7 @@
                 });
                 return true;
             }
-
+            /*
             $('.btn-slider-add').click(function(){
                 var $ns = $("#_threshold .duplicate-row").first().clone().removeClass('hidden');
                 var $lastSliderRow = $("#_threshold .duplicate-row").last();
@@ -269,13 +208,8 @@
                 if($lastSliderRow.find('.slider').get(0).noUiSlider) { data = $lastSliderRow.find('.slider').get(0).noUiSlider.get(); }
                 initSlider($ns,data);
             });
-
-            var $sRows = $("#content #_threshold .slider-row").not(".hidden");
-            for(var i=0; i<$sRows.length;i++){
-                initSlider($sRows.eq(i),null,true);
-            }
             //.getElementsByClassName('noUi-origin')
-
+            */
         });
     </script>
 @stop

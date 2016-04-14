@@ -35,8 +35,7 @@ class CharacteristicsController extends AdminController {
      */
     public function edit($id)
     {
-        $rules=CharacteristicGroup::find($id)->rules()->get();
-        return view('admin.characteristics.create_edit')->with('fid',$id)->with('rules',$rules);
+        return view('admin.characteristics.create_edit')->with('fid',$id);
     }
 
 
@@ -47,8 +46,7 @@ class CharacteristicsController extends AdminController {
      */
     public function create()
     {
-        $rules=[];
-        return view('admin.characteristics.create_edit')->with('fid',0)->with('rules',$rules);
+        return view('admin.characteristics.create_edit')->with('fid',0);
     }
 
     /**
@@ -105,15 +103,6 @@ class CharacteristicsController extends AdminController {
                         'option'=>[['key'=>1,'value'=>'on'],['key'=>0,'value'=>'off']],
                     ]
                 ],
-                "icon"=>[
-                    "renderType"=>"single",
-                    'name' => 'icon',
-                    'values'=>'',
-                    "settings"=>[
-                        "label" => 'Status',
-                        "type"=>'upload',
-                    ]
-                ]
             ],
         ];
         $threshold = [
@@ -125,7 +114,6 @@ class CharacteristicsController extends AdminController {
             $data['id']=$id;
             $settings['variables']['name']['values'] = $group->name;
             $settings['variables']['status']['values'] = $group->status;
-            $settings['variables']['icon']['values'] = $group->icon;
 
             foreach($group->characteristics()->get() as $chrct) {
                 $arr=[];
@@ -175,12 +163,10 @@ class CharacteristicsController extends AdminController {
         if($id) {
             $group = CharacteristicGroup::find($id);
             $group->name = $opt['opt']['data']['variables']['name'];
-            $group->icon = $opt['opt']['data']['variables']['icon'];
             $group->status = $opt['opt']['data']['variables']['status'];
         } else {
             $group = new CharacteristicGroup([
                 'name' => $opt['opt']['data']['variables']['name'],
-                'icon' => $opt['opt']['data']['variables']['icon'],
                 'status' => $opt['opt']['data']['variables']['status']
             ]);
             $group->save();
@@ -188,23 +174,6 @@ class CharacteristicsController extends AdminController {
         $bitMask = new CharacteristicBit($group->id);
         $group->table_name = $bitMask->getTableName();
         $group->save();
-
-        //if($group->has('rules')) { $group->rules()->delete(); }
-        $req_rules = $request->only('rules');
-        if($req_rules['rules']) foreach($req_rules['rules'] as $arr){
-            $group_rule_val=[];
-            foreach($arr as $dataArr) {
-                $group_rule_val[$dataArr['name']]=$dataArr['value'];
-            }
-            if(isset($group_rule_val['id'])) {
-                $group_rule=CharacteristicRules::find($group_rule_val['id']);
-                unset($group_rule_val['id']);
-                $group_rule->update($group_rule_val);
-            } else {
-                $group_rule = new CharacteristicRules($group_rule_val);
-                $group->rules()->save($group_rule);
-            }
-        }
 
         $data = $request->only('cform');
 
