@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCharacteristicOptions extends Migration
+class CreateCharacteristicLead extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,13 @@ class CreateCharacteristicOptions extends Migration
      */
     public function up()
     {
-        Schema::create('characteristic_options', function (Blueprint $table) {
+        Schema::create('characteristic_lead', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('characteristic_id');
-            $table->enum('ctype', array('agent', 'lead'));
-            $table->string('name');
-            $table->string('value');
-            $table->string('position');
+            $table->integer('group_id');
+            $table->string('_type');
+            $table->string('label');
+            $table->string('required');
+            $table->integer('position');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateCharacteristicOptions extends Migration
      */
     public function down()
     {
-        Schema::drop('characteristic_options');
+        Schema::drop('characteristic_lead');
     }
 }

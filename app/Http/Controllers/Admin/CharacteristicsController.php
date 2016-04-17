@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use App\Models\CharacteristicGroup;
 use App\Models\Characteristics;
 use App\Models\CharacteristicRules;
+use App\Models\CharacteristicLead;
 use App\Models\CharacteristicBit;
 use Illuminate\Http\Request;
 use Datatables;
@@ -57,17 +58,17 @@ class CharacteristicsController extends AdminController {
     public function get_config($id)
     {
         $data = [
-            "renderType"=>"dynamicForm",
+            "renderType"=>"dynamicAttributes",
             "id"=>null,
             "targetEntity"=>"CharacteristicForm",
             "values"=>[],
             "settings"=>[
                 "view"=>[
-                    "show"=>"form.dynamic",
-                    "edit"=>"modal.dynamic"
+                    "show"=>"form.attributes",
+                    "edit"=>"modal.attributes"
                 ],
                 "fields" => ["checkbox","radio","select"],
-                "form.dynamic"=>[],
+                "form.attributes"=>[],
                 "button"=>"Add field"
             ]
         ];
@@ -149,6 +150,22 @@ class CharacteristicsController extends AdminController {
                 }
                 $data['values'][]=$arr;
             }
+
+            foreach($group->leadAttr()->get() as $chrct) {
+                $arr=[];
+                $arr['id'] = $chrct->id;
+                $arr['_type'] = $chrct->_type;
+                $arr['label'] = $chrct->label;
+                //$arr['required'] = ($chrct->required)?1:0;
+                $arr['position'] = $chrct->position;
+                if($chrct->has('options')) {
+                    $arr['option']=[];
+                    foreach($chrct->options()->get() as $eav) {
+                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->icon];
+                    }
+                }
+                $lead['values'][]=$arr;
+            }
         }
 
         $data=['opt'=>$settings,"cform"=>$data,'lead'=>$lead];
@@ -163,7 +180,7 @@ class CharacteristicsController extends AdminController {
      */
     public function store(Request $request)
     {
-        return false;
+        return $this->update($request, false);
     }
 
     /**
@@ -190,6 +207,58 @@ class CharacteristicsController extends AdminController {
         $group->table_name = $bitMask->getTableName();
         $group->save();
 
+        $data = $request->only('lead');
+
+        $new_chr = $data['lead']['data']['variables'];
+        if($new_chr) foreach($new_chr as $index=>$leadAttr) {
+            if(isset($leadAttr['_status'])){
+                if($leadAttr['_status'] == 'DELETE') {
+                    $group->leadAttr()->where('id', '=', $leadAttr['id'])->delete();
+                    unset($new_chr[$index]);
+                }
+            }
+        }
+
+        if($new_chr) foreach($new_chr as $attr) {
+            if (isset($attr['id']) && $attr['id']) {
+                $leadAttr = CharacteristicLead::find($attr['id']);
+                $leadAttr->update($attr);
+            } else {
+                $leadAttr = new CharacteristicLead($attr);
+                $group->leadAttr()->save($leadAttr);
+            }
+            if(isset($attr['option'])) {
+                $new_options = [];
+                if (isset($attr['option']['id'])) {
+                    $attr['option'] = [$attr['option']];
+                }
+                for ($i = 0; $i < count($attr['option']); $i++) {
+                    if ($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
+                }
+
+                $old_options = $leadAttr->options()->lists('id')->all();
+                if ($deleted = (array_diff($old_options, $new_options))) {
+                    $leadAttr->options()->whereIn('id', $deleted)->delete();
+                }
+
+                foreach ($attr['option'] as $optVal) {
+                    if ($optVal['id']) {
+                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options->ctype = 'lead';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        $chr_options->save();
+                    } else {
+                        $chr_options = new CharacteristicOptions();
+                        $chr_options->ctype = 'lead';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        $leadAttr->options()->save($chr_options);
+                    }
+                }
+            }
+        }
+
         $data = $request->only('cform');
 
         $new_chr = $data['cform']['data']['variables'];
@@ -211,37 +280,43 @@ class CharacteristicsController extends AdminController {
                 $characteristic = new Characteristics($attr);
                 $group->characteristics()->save($characteristic);
             }
-            $new_options = [];
-            if(isset($attr['option']['id'])) { $attr['option'] = [$attr['option']]; }
-            for ($i = 0; $i < count($attr['option']); $i++) {
-                if($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
-            }
-
-            $old_options = $characteristic->options()->lists('id')->all();
-            if ($deleted = (array_diff($old_options, $new_options))) {
-                $characteristic->options()->whereIn('id', $deleted)->delete();
-                $bitMask->removeAttr($characteristic->id, $deleted);
-            }
-
-            $default_value = [];
-            foreach ($attr['option'] as $optVal) {
-                if ($optVal['id']) {
-                    $chr_options = CharacteristicOptions::find($optVal['id']);
-                    $chr_options->name = $optVal['val'];
-                    $chr_options->icon=(isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
-                    $chr_options->save();
-                } else {
-                    $chr_options = new CharacteristicOptions();
-                    $chr_options->name = $optVal['val'];
-                    $chr_options->icon=(isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
-                    $characteristic->options()->save($chr_options);
-                    $bitMask->addAttr($characteristic->id, $chr_options->id);
+            if (isset($attr['option'])) {
+                $new_options = [];
+                if (isset($attr['option']['id'])) {
+                    $attr['option'] = [$attr['option']];
                 }
-                $default_value[$chr_options->id]=(isset($optVal['vale'][0]) && $optVal['vale'][0])?1:0;
+                for ($i = 0; $i < count($attr['option']); $i++) {
+                    if ($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
+                }
+
+                $old_options = $characteristic->options()->lists('id')->all();
+                if ($deleted = (array_diff($old_options, $new_options))) {
+                    $characteristic->options()->whereIn('id', $deleted)->delete();
+                    $bitMask->removeAttr($characteristic->id, $deleted);
+                }
+
+                $default_value = [];
+                foreach ($attr['option'] as $optVal) {
+                    if ($optVal['id']) {
+                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options->ctype = 'agent';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
+                        $chr_options->save();
+                    } else {
+                        $chr_options = new CharacteristicOptions();
+                        $chr_options->ctype = 'agent';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
+                        $characteristic->options()->save($chr_options);
+                        $bitMask->addAttr($characteristic->id, $chr_options->id);
+                    }
+                    $default_value[$chr_options->id] = (isset($optVal['vale'][0]) && $optVal['vale'][0]) ? 1 : 0;
+                }
+                $bitMask->setDefault($characteristic->id, $default_value);
+                $characteristic->default_value = implode('', array_values($default_value));
+                $characteristic->save();
             }
-            $bitMask->setDefault($characteristic->id,$default_value);
-            $characteristic->default_value=implode('',array_values($default_value));
-            $characteristic->save();
         }
         return response()->json(TRUE);
     }

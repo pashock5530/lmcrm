@@ -1141,7 +1141,7 @@ table.dataTable thead .sorting:after {
     top: -25px;
 }
 
-#cform .panel-body .glyphicon {
+.jSplash-form .panel-body .glyphicon {
     cursor: pointer;
 }
 

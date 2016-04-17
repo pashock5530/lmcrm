@@ -503,6 +503,54 @@
                             }(i, $(this));
                         });
                         break;
+                    case 'form.attributes':
+                        var ls_settings = data.settings['form.attributes'] || {};
+                        var cdata = {};
+                        cdata.data = data.values || [];
+                        var tmpl_data = [];
+                        for (var j in data.values) {
+                            if(data.values[j]._status=='DELETE') { continue; }
+                            var list_title = doT.template(tmpl.view('attributes.field'))(data.values[j]);
+                            tmpl_data.push(list_title);
+                        }
+                        cdata.data = tmpl_data;
+
+                        cdata.controls = ['move', 'edit', 'delete'];
+                        if (ls_settings.controls) {
+                            var tmpl_data = [];
+                            for (var i in ls_settings.controls) {
+                                tmpl_data.push(ls_settings.controls[i]);
+                            }
+                            cdata.controls = tmpl_data;
+                        }
+                        cdata.fields = {};
+                        var fl_settings = data.settings['fields'] || false;
+                        if (fl_settings) {
+                            var tmpl_data = {};
+                            for (var i in fl_settings) {
+                                var key = fl_settings[i];
+                                tmpl_data[key] = true;
+                            }
+                            cdata.fields = tmpl_data;
+                        } else {
+                            cdata.fields['all']=true;
+                        }
+                        data.tmpl = cdata;
+                        $html.append($(doT.template(tmpl.view('form.attributes'))(data)));
+
+                        _this.tmpl.addRule('sortable', $html.find('.sortable'), data, null, {key: 'position'});
+                        _this.tmpl.addRule('form.attributes.before_create', $html.find('.splash-create'), data, []);
+                        $html.find('.splash-edit').each(function (i, value) {
+                            return function (idx, $context) {
+                                _this.tmpl.addRule(/*type */'form.attributes.edit', /*context*/ $context, /*entity*/ data, /*data*/ data.values[idx], /*params*/{index: idx});
+                            }(i, $(this));
+                        });
+                        $html.find('.splash-delete').each(function (i, value) {
+                            return function (idx, $context) {
+                                _this.tmpl.addRule(/*type */'value.delete', /*context*/ $context, /*entity*/ data, /*data*/ data.values[idx], /*params*/{index: idx});
+                            }(i, $(this));
+                        });
+                        break;
                     case 'default.selectpage':
                     case 'modal.selectpage':
                         $html.append($(doT.template(tmpl.view(type))(data)));
@@ -588,9 +636,6 @@
                     icon: function () {
                         return tmpl.view('default.icon');
                     },
-                    selectpage: function () {
-                        return tmpl.view('default.selectpage');
-                    },
                     select: function () {
                         return tmpl.view('default.select');
                     },
@@ -654,7 +699,7 @@
                             }
                         }(rule, entity, {index: params['index'], values: data}));
                         break;
-                    case 'form.dynamic.edit':
+                    case 'form.dynamic.edit': case 'form.attributes.edit':
                         if (!entity) { return false; }
                         $context.on('click', function (rule, sdata, params) {
                             return function () {
@@ -662,7 +707,7 @@
                             }
                         }(rule, entity, {index: params['index'], values: data}));
                         break;
-                    case 'form.dynamic.before_create':
+                    case 'form.dynamic.before_create': case 'form.attributes.before_create':
                         if (!entity) { return false; }
                         $context.on('click', function (rule, sdata, params) {
                             return function () {
@@ -670,7 +715,7 @@
                             }
                         }(rule, entity, {}));
                         break;
-                    case 'form.dynamic.create':
+                    case 'form.dynamic.create': case 'form.attributes.create':
                         if (!entity) { return false; }
                         (function(rule, sdata, params) {
                             $context.on('change', function () {
@@ -920,6 +965,22 @@
                             values: params.values
                         });
                         break;
+                    case 'form.attributes.before_create':
+                        result = _this.controller.dynamic_form_attr_preopen(data, params);
+                        break;
+                    case 'form.attributes.create':
+                        result = _this.controller.dynamic_form_attr_open(data, {
+                            do: 'store_array',
+                            ftype: params
+                        });
+                        break;
+                    case 'form.attributes.edit':
+                        result = _this.controller.dynamic_form_attr_open(data, {
+                            do: 'edit_array',
+                            ftype: params.index,
+                            values: params.values
+                        });
+                        break;
                     case 'form.dynamic.before_create':
                         result = _this.controller.dynamic_form_preopen(data, params);
                         break;
@@ -1047,9 +1108,9 @@
                 return c;
             },
 
-            dynamic_form_preopen: function(sdata, param){
+            dynamic_form_attr_preopen: function(sdata, param){
                 _this.tmpl.show(sdata, $(_this.option.modal).find('.modal-body'), 'edit');
-                _this.tmpl.addRule('form.dynamic.create',$(_this.option.modal).find('.modal-body select#ftype'),sdata,null,null);
+                _this.tmpl.addRule('form.attributes.create',$(_this.option.modal).find('.modal-body select#ftype'),sdata,null,null);
                 $(_this.option.modal).find('.btn-save').off();
                 $(_this.option.modal)
                     .one('hide.bs.modal', function (e) {
@@ -1060,7 +1121,7 @@
                 return c;
             },
 
-            dynamic_form_open: function (sdata, param) {
+            dynamic_form_attr_open: function (sdata, param) {
                 var centity = sdata.variables[param.ftype];
                 var index = (isFinite(param.ftype)) ? param.ftype : false;
                 if(!centity) {
@@ -1069,7 +1130,7 @@
                     centity.values = param.values;
                 }
                 if(!centity.settings) { return c; }
-                    centity.settings.type='dynamic';
+                    centity.settings.type='attributes';
                 var fdata = {cf: centity,index: index};
                _this.tmpl.show(fdata, $(_this.option.modal).find('.modal-body'), 'edit');
                 $(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
@@ -1083,7 +1144,6 @@
                             if(obj.name) {
                                 var $extend = $(obj).closest('.duplicate').find('input.extend');
                                 var ext = null;
-console.log($extend,$extend.length);
                                 if($extend.length>1) {
                                     ext = [];
                                     for(var i=0;i<$extend.length;i++){
@@ -1092,7 +1152,6 @@ console.log($extend,$extend.length);
                                 } else {
                                     ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
                                 }
-console.log(ext);
                                 if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
                                     if(!$(obj).is(':checked')) { return true; }
                                 }
@@ -1118,6 +1177,96 @@ console.log(ext);
                         });
                         var store_data = data;
                             store_data['_type'] = fdata.cf.name.replace(/^jsp\d+-/g,'');
+
+                        if (_this.route.get(param.do, {entity: sdata, values: store_data}, index)) {
+                            $modal.modal('hide');
+                            _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+                        }
+                        //        }
+
+                    });
+                })(fdata,validator);
+                _this.tmpl.addRule('duplicate_option',$(_this.option.modal).find('.modal-body'),null,null,null);
+                $(_this.option.modal)
+                    .one('hide.bs.modal', function (e) {
+                        var $modal = $(this).closest('.modal');
+                        $modal.find('.modal-body').html('').empty();
+                    })
+                    .modal('show', {backdrop: 'static'});
+
+                this.onModal(_this.option.modal);
+                return c;
+            },
+
+            dynamic_form_preopen: function(sdata, param){
+                _this.tmpl.show(sdata, $(_this.option.modal).find('.modal-body'), 'edit');
+                _this.tmpl.addRule('form.dynamic.create',$(_this.option.modal).find('.modal-body select#ftype'),sdata,null,null);
+                $(_this.option.modal).find('.btn-save').off();
+                $(_this.option.modal)
+                    .one('hide.bs.modal', function (e) {
+                        var $modal = $(this).closest('.modal');
+                        $modal.find('.modal-body').html('').empty();
+                    })
+                    .modal('show', {backdrop: 'static'});
+                return c;
+            },
+
+            dynamic_form_open: function (sdata, param) {
+                var centity = sdata.variables[param.ftype];
+                var index = (isFinite(param.ftype)) ? param.ftype : false;
+                if(!centity) {
+                    centity =  {name:param.values['_type']};
+                    centity.settings = sdata.variables[param.values['_type']].settings;
+                    centity.values = param.values;
+                }
+                if(!centity.settings) { return c; }
+                centity.settings.type='dynamic';
+                var fdata = {cf: centity,index: index};
+                _this.tmpl.show(fdata, $(_this.option.modal).find('.modal-body'), 'edit');
+                $(_this.option.modal).find('.modal-body .panel').last().remove(); // container render issue
+                var validator = _this.tmpl.addRule('validate', $(_this.option.modal).find('form.validate'));
+                (function(fdata,validator) {
+                    $(_this.option.modal).find('.btn-save').off().on('click', function () {
+                        //        if (validator.form()) {
+                        var $modal = $(this).closest('.modal');
+                        var data={};
+                        $.each($modal.find('input,textarea,select'), function(i, obj) {
+                            if(obj.name) {
+                                var $extend = $(obj).closest('.duplicate').find('input.extend');
+                                var ext = null;
+                                if($extend.length>1) {
+                                    ext = [];
+                                    for(var i=0;i<$extend.length;i++){
+                                        ext[i]= ($extend.eq(i).attr('type') == 'checkbox' || $extend.eq(i).attr('type') == 'radio') ? (($extend.eq(i).is(':checked')) ? 1 : 0) : $extend.eq(i).val();
+                                    }
+                                } else {
+                                    ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+                                }
+                                if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
+                                    if(!$(obj).is(':checked')) { return true; }
+                                }
+                                if($(obj).val()) {
+                                    if (data[obj.name]) {
+                                        if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
+                                            data[obj.name] = [data[obj.name]];
+                                        }
+                                        if($(obj).data('type')=='record') {
+                                            data[obj.name].push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
+                                        } else {
+                                            data[obj.name].push($(obj).val()+((ext)? '['+ext+']' : ''));
+                                        }
+                                    } else {
+                                        if($(obj).data('type')=='record') {
+                                            data[obj.name]={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                        } else {
+                                            data[obj.name]=$(obj).val()+((ext)? '['+ext+']' : '');
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        var store_data = data;
+                        store_data['_type'] = fdata.cf.name.replace(/^jsp\d+-/g,'');
 
                         if (_this.route.get(param.do, {entity: sdata, values: store_data}, index)) {
                             $modal.modal('hide');
@@ -1436,8 +1585,10 @@ console.log(ext);
                         "label": "Submit",
                     },
                 },
-            }
+            },
+            "dynamicAttributes": { },
         };
+        this._autodata['dynamicAttributes'] = this._autodata['dynamicForm'];
 
         this.destroy = function (force) {
             var force = (force) ? true : false;
@@ -1460,75 +1611,245 @@ console.log(ext);
         }
     };
 
-    jSplash.prototype.tmpl_defered = {};
-    
+    jSplash.prototype.tmpl_defered = {
+            'list.sortable':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                    '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                '</div>'+
+                '</div>'+
+                '<div class="list-group sortable">'+
+                    '{{~it.tmpl.data :value:index }}'+
+                '<div class="list-group-item {{?it.values[index]._status=="DELETE" }}hidden{{?}}">'+
+                    '<span>{{=value}}</span>'+
+                '<span class="pull-right">'+
+                    '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
+                '</span>'+
+                '</div>'+
+                '{{~}}'+
+                '</div>',
+            'list.gallery':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                '</div>'+
+                '</div>'+
+                '<div class="list-group sortable">'+
+                    '{{~it.tmpl.data :value:index }}'+
+                '<div class="list-group-item gallery-item {{?it.values[index]._status=="DELETE" }}hidden{{?}}">'+
+                    '<span class="gallery-image-reserve">{{=value}}</span>'+
+                '<span class="pull-right">'+
+                    '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
+                '</span>'+
+                '</div>'+
+                '{{~}}'+
+                '</div>',
+            'form.dynamic':'<div class="panel panel-default">'+
+                    '<!--<div class="panel-heading">'+
+                '<div class="panel-title" >{{=it.settings.label||""}}</div>'+
+                '<div class="panel-options">'+
+                    '<a data-rel="collapse" href="#">'+
+                    '<i class="entypo-down-open"></i>'+
+                    '</a>'+
+                    '</div>'+
+                    '</div>-->'+
+                    '<div class="panel-body">'+
+                    '<div class="list-group sortable">'+
+                    '{{~it.tmpl.data :value:index }}'+
+                '<div class="list-group-item">'+
+                    '<div class="row">'+
+                    '<span class="col-xs-10">{{=value}}</span>'+
+                '<span class="col-xs-2">'+
+                    '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
+                '</span>'+
+                '</div>'+
+                '</div>'+
+                '{{~}}'+
+                '</div>'+
+                '<div class="col-xs-12">'+
+                    '<div class="form-group">'+
+                    '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '</div>',
+            'form.attributes':'<div class="panel panel-default">'+
+                '<!--<div class="panel-heading">'+
+                '<div class="panel-title" >{{=it.settings.label||""}}</div>'+
+                '<div class="panel-options">'+
+                '<a data-rel="collapse" href="#">'+
+                '<i class="entypo-down-open"></i>'+
+                '</a>'+
+                '</div>'+
+                '</div>-->'+
+                '<div class="panel-body">'+
+                '<div class="list-group sortable">'+
+                '{{~it.tmpl.data :value:index }}'+
+                '<div class="list-group-item">'+
+                '<div class="row">'+
+                '<span class="col-xs-10">{{=value}}</span>'+
+                '<span class="col-xs-2">'+
+                '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
+                '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
+                '</span>'+
+                '</div>'+
+                '</div>'+
+                '{{~}}'+
+                '</div>'+
+                '<div class="col-xs-12">'+
+                '<div class="form-group">'+
+                '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '</div>',
+            'default.container':'<div class="panel panel-default">'+
+                '<div class="panel-heading">'+
+                    '<div class="panel-title">{{?it.settings && it.settings.label}}{{=it.settings.label}}{{?}}</div>'+
+                '</div>'+
+                '<div class="panel-body" >'+
+                    '{{?it.chain}}<chain><!--{ {=it.chain} }--></chain>{{?}}'+
+                '</div>'+
+                '</div>',
+            'default.text':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
+                '<input type="text" name="{{=it.name}}"'+
+                '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
+                '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
+                '{{?it.values}}value="{{=it.values}}"{{?}}'+
+                '>'+
+                '<div class="text-danger"></div>'+
+                '</div>'+
+                '</div>',
+            'default.textarea':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
+                '<textarea name="{{=it.name}}"'+
+                '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
+                '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
+                '>{{?it.values}}{{=it.values}}{{?}}</textarea>'+
+                '<div class="text-danger"></div>'+
+                '</div>'+
+                '</div>',
+            'default.checkbox':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<label class="control-label">'+
+                '<input type="checkbox" name="{{=it.name}}"'+
+                '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
+                '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
+                '{{?it.values}}value="{{=it.values}}" CHECKED{{?}}'+
+                '>'+
+                '{{=it.settings.label }}</label>'+
+                '<div class="text-danger"></div>'+
+                '</div>'+
+                '</div>',
+            'default.select':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<label class="control-label _col-sm-2">{{=it.settings.label }}</label>'+
+                '<select name="{{=it.name}}"'+
+                '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
+                '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
+                '>'+
+                '{{?it.settings && it.settings.option}}'+
+                '{{~it.settings.option :value:index}}'+
+                '<option value="{{=value.key}}" {{=(value.key==it.values)?"SELECTED":""}}>'+
+                '{{=value.value}}'+
+                '</option>'+
+                '{{~}}'+
+                '{{?}}'+
+                '</select>'+
+                '<div class="text-danger"></div>'+
+                '</div>'+
+                '</div>',
+            'default.image':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<label class="control-label _col-sm-2">{{=it.settings.label }}</label>'+
+                '<span class="image-editable">'+
+                    '<img {{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }} src="{{?it.values && it.values!="" }}{{=it.values}}{{?? true}}http://placehold.it/250x250{{??}}{{?}}" >'+
+                '<div class="image-options">'+
+                '<a href="#" class="edit"><i class="entypo-pencil"></i></a>'+
+                '<a href="#" class="delete"><i class="entypo-cancel"></i></a>'+
+                '</div>'+
+                '</span>'+
+                '<div class="text-danger"></div>'+
+                '</div>'+
+                '</div>',
+            'default.icon':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                    '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
+
+                '<div class="gallery-env col-sm-4 col-xs-6 edit-page-opt">'+
+                    '<article class="image-thumb portfolio-item">'+
+                    '<a class="image select-icon" href="#">'+
+                    '<span class="img-container">'+
+                    '{{=it.values}}'+
+                '</span>'+
+                '</a>'+
+                '<div class="image-options">'+
+                    '<a class="edit" href="#"><i class="entypo-pencil"></i></a>'+
+                    '<!--<a href="#" class="delete"><i class="entypo-cancel"></i></a>-->'+
+                    '</div>'+
+                    '</article>'+
+                    '</div>'+
+                    '<input type="text" name="{{=it.name}}"'+
+                '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
+                '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
+                '{{?it.values}}value="{{!it.values}}"{{?}}'+
+                '>'+
+                '<div class="text-danger"></div>'+
+                '</div>'+
+                '</div>',
+            'default.upload':'<div class="form-group">'+
+                '<div class="col-xs-12">'+
+                '<div class="input-group">'+
+                '<span class="input-group-btn">'+
+                '<a data-fancybox-type="iframe" href="/mediabrowser/{{=it.name}}" class="btn btn-default mediabrowser-js" type="button"><span class="glyphicon glyphicon-paperclip"></span></a>'+
+                '</span>'+
+                '<input type="text" name="{{=it.name}}" value="{{=it.values||""}}" class="form-control force-change" />'+
+                '</div>'+
+                '</div>'+
+                '</div>',
+    };
+
     (function(){
         var list =[
-            'list.sortable',
-            'list.gallery',
-            'form.dynamic',
-            'form.field',
-
-            'container.gmap',
-
-            'modal.open',
-            'modal.container',
-            'modal.container',
-            'modal.text',
-            'modal.textarea',
-            'modal.checkbox',
-            'modal.select',
-            'modal.image',
-            'modal.icon',
-            'modal.select',
-            'modal.group',
-            'modal.dynamic',
-
-            'default.container',
-            'default.text',
-            'default.textarea',
-            'default.checkbox',
-            'default.select',
-            'default.image',
-            'default.icon',
-            'default.upload',
-            'default.select',
-            'default.selectpage',
-            'default.group'
+                'container.gmap',
+                'modal.dynamic',
+                'modal.attributes',
+                'form.field',
+                'attributes.field',
             ],
             item = null;
-            
+
         for (var i=0; i<list.length; i++) {
-            item = list[i]; 
-            
-            if (!item) { 
-                continue; 
+            item = list[i];
+
+            if (!item) {
+                continue;
             }
-            
+
             (function(item){
                 $.ajax({
                     type: "GET",
                     url: '/components/jSplash/jSplashTmpl/'+item+'.html',
                     async: false,
-                    success: function(resp) { 
-                        jSplash.prototype.tmpl_defered[item]=resp; 
+                    success: function(resp) {
+                        jSplash.prototype.tmpl_defered[item]=resp;
                     },
-                    error: function() { 
-                        return false; 
+                    error: function() {
+                        return false;
                     }
                 });
             })(item);
         }
-        
+
     })(jSplash);
-    
-    (function(){
-        $(document).ready(function(){
-
-            jSplash.prototype.all_pages = $("#pages_list").html();            
-        });
-
-    }) (jSplash);
 
     $.fn.jSplash = function( options ) {
         return this.each(function () {

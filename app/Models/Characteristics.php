@@ -10,7 +10,7 @@ class Characteristics extends Model
     protected $fillable = ['_type', 'label','required', 'position' ];
 
     public function options() {
-        return $this->hasMany('App\Models\CharacteristicOptions','characteristic_id','id')->orderBy('position');
+        return $this->hasMany('App\Models\CharacteristicOptions','characteristic_id','id')->where('ctype','=','agent')->orderBy('position');
     }
 
     public function group() {

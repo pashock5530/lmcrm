@@ -52,7 +52,7 @@
                     <h3 class="page-header">Finish</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="_jSplash-data" id="threshold">
-                            Loading...
+                            Prepearing...
                         </div>
                     </form>
                     <br class="clearfix">

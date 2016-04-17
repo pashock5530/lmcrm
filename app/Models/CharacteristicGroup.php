@@ -13,6 +13,11 @@ class CharacteristicGroup extends Model
     public function characteristics() {
         return $this->hasMany('App\Models\Characteristics','group_id','id')->orderBy('position');
     }
+
+    public function leadAttr() {
+        return $this->hasMany('App\Models\CharacteristicLead','group_id','id')->orderBy('position');
+    }
+
     public function rules() {
         return $this->hasMany('App\Models\CharacteristicRules','group_id','id');
     }
@@ -22,6 +27,7 @@ class CharacteristicGroup extends Model
 
         static::deleting(function($group) { // before delete() method call
             $group->characteristics()->delete();
+            $group->leadAttr()->delete();
             $group->rules()->delete();
         });
     }
