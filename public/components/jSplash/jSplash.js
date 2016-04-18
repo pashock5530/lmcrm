@@ -668,10 +668,6 @@
                                                     
                         }({entity: entity, values: null}, params));
                         break;
-                    case 'selectpage.setup':
-                        $context.html(_this.all_pages);
-                        $context.val(entity.values); 
-                        break;
                     case 'sortable':
                         $context.each(function (index) {
                             var list = Sortable.create($context.get(index), {
@@ -1289,6 +1285,17 @@
             },
 
             image_ck : function (sdata, param) {
+                $(_this.option.modal)
+                    .one('hide.bs.modal', function (e) {
+                        var $modal = $(this).closest('.modal');
+                        $modal.find('.modal-body').html('').empty();
+
+                    })
+                    .modal('show', {backdrop: 'static'});
+
+                this.onModal(_this.option.modal);
+
+
                 CKFinder.modal({
                     height: 600,
                     displayFoldersPanel: false,
