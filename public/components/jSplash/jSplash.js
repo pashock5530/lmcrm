@@ -551,11 +551,6 @@
                             }(i, $(this));
                         });
                         break;
-                    case 'default.selectpage':
-                    case 'modal.selectpage':
-                        $html.append($(doT.template(tmpl.view(type))(data)));
-                        _this.tmpl.addRule('selectpage.setup', $html.find('.select-page'), data);
-                        break;
                     case 'default.icon':
                     case 'modal.icon':
                         $html.append($(doT.template(tmpl.view(type))(data)));
@@ -855,7 +850,7 @@
                         $fields.each(function (j, el2) {
                             var $field = $(el2),
                                 name = $field.attr('name'),
-                                validate = attrDefault($field, 'validate', '').toString(),
+                                validate = $field.attr('validate') ? $field.attr('validate').toString() : '',
                                 _validate = validate.split(',');
 
                             for (var k in _validate) {
@@ -1022,8 +1017,6 @@
                     case 'icon.change':
                         result = _this.controller.icon_select(data, params);
                         break;
-                    case 'selectpage.setup':
-                        result = _this.controller.selectpage_setup(data, params);
                     default:
                         ;
                 }

@@ -18,6 +18,10 @@ class CharacteristicsController extends AdminController {
     {
         view()->share('type', 'characteristics');
     }
+
+    public function show() {
+        return $this->index();
+    }
     /*
    * Display a listing of the resource.
    *
@@ -61,7 +65,7 @@ class CharacteristicsController extends AdminController {
             "renderType"=>"dynamicAttributes",
             "id"=>null,
             "targetEntity"=>"CharacteristicForm",
-            "values"=>[],
+            "values"=>[ ],
             "settings"=>[
                 "view"=>[
                     "show"=>"form.attributes",
@@ -76,7 +80,11 @@ class CharacteristicsController extends AdminController {
             "renderType"=>"dynamicForm",
             "id"=>null,
             "targetEntity"=>"CharacteristicLead",
-            "values"=>[],
+            "values"=>[
+                ["id"=>0,"_type"=>'input',"label"=>'Name',"position"=>1],
+                ["id"=>0,"_type"=>'email',"label"=>'E-mail',"position"=>2],
+                ["id"=>0,"_type"=>'input',"label"=>'Pnone',"position"=>3],
+            ],
             "settings"=>[
                 "view"=>[
                     "show"=>"form.dynamic",
@@ -122,7 +130,8 @@ class CharacteristicsController extends AdminController {
             ],
         ];
         $threshold = [
-
+            "renderType"=>"dynamicStatuses",
+            "targetEntity"=>"CharacteristicLead",
         ];
 
         if($id) {
@@ -151,6 +160,7 @@ class CharacteristicsController extends AdminController {
                 $data['values'][]=$arr;
             }
 
+            if($group->has('leadAttr')) { $lead['values']=array(); }
             foreach($group->leadAttr()->get() as $chrct) {
                 $arr=[];
                 $arr['id'] = $chrct->id;
@@ -168,7 +178,7 @@ class CharacteristicsController extends AdminController {
             }
         }
 
-        $data=['opt'=>$settings,"cform"=>$data,'lead'=>$lead];
+        $data=['opt'=>$settings,"cform"=>$data,'lead'=>$lead,'threshold'=>$threshold];
         return response()->json($data);
     }
 

@@ -1,6 +1,9 @@
 <?php
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
+});
 
-Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]], function() {
+Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'web', 'localize','localizationRedirect', 'localeSessionRedirect' ]], function() {
     /***************    Site routes  **********************************/
     Route::get('/', ['as' => 'home', 'uses' => 'Frontend\HomeController@index']);
     Route::get('home', 'Frontend\HomeController@index');
@@ -40,12 +43,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'lo
         Route::resource('profiles', 'StandardUser\UsersController', ['only' => ['show', 'edit', 'update']]);
     });
     */
-});
+
 /***************    Admin routes  **********************************/
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function() {
 
     # Admin Dashboard
-    Route::get('dashboard', 'Admin\DashboardController@index');
+    Route::get('dashboard', ['as'=>'admin.index', 'uses'=>'Admin\DashboardController@index']);
 /*
 
     # Article category
@@ -67,15 +70,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
 */
     # Users
     Route::get('/', 'Admin\UserController@index');
+    //Route::resource('/','Admin\UserController');
     Route::get('user/data', 'Admin\UserController@data');
     Route::get('user/{user}/show', 'Admin\UserController@show');
     Route::get('user/{user}/edit', 'Admin\UserController@edit');
     Route::get('user/{user}/delete', 'Admin\UserController@delete');
     Route::resource('user', 'Admin\UserController');
 
-    Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
+    //Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
+    Route::get('characteristics/index', ['as'=>'admin.characteristics.index', 'uses'=> 'Admin\CharacteristicsController@index']);
+    Route::any('characteristics/{id}/update', ['as'=>'admin.characteristics.update', 'uses'=> 'Admin\CharacteristicsController@update']);
     Route::get('characteristics/form/{id}/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\CharacteristicsController@get_config']);
     //Route::post('characteristics/form/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\CharacteristicsController@save_config']);
     Route::get('characteristics/{id}/delete', ['as'=>'admin.characteristics.delete', 'uses'=> 'Admin\CharacteristicsController@destroy']);
     Route::resource('characteristics','Admin\CharacteristicsController');
+});
 });

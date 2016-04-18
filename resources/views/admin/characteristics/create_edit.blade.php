@@ -35,15 +35,15 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <h3 class="page-header">Agent form</h3>
+                    <h3 class="page-header">Lead form</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="form jSplash-data" id="cform"> Loading... </div>
+                        <div class="form jSplash-data" id="lead"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab3">
-                    <h3 class="page-header">Lead form</h3>
+                    <h3 class="page-header">Agent form</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="jSplash-data" id="lead">
+                        <div class="jSplash-data" id="cform">
                             Loading...
                         </div>
                     </form>

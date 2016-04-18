@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('/') ? 'active' : '') }}">
-                    <a href="{{ URL::to('') }}"><i class="fa fa-home"></i> Home</a>
+                    <a href="{{ route('home') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
             </ul>
 
@@ -49,12 +49,12 @@
                         <ul class="dropdown-menu" role="menu">
                                 @if(Sentinel::inRole('administrator'))
                                     <li>
-                                        <a href="{{ URL::to('admin/dashboard') }}"><i class="fa fa-tachometer"></i> Admin Dashboard</a>
+                                        <a href="{{ route('admin.index') }}"><i class="fa fa-tachometer"></i> Admin Dashboard</a>
                                     </li>
                                     <li role="presentation" class="divider"></li>
                                 @endif
                             <li>
-                                <a href="{{ URL::to('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
+                                <a href="{{ URL::to('auth/logout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                             </li>
                         </ul>
                     </li>
