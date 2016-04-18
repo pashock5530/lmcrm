@@ -1,0 +1,60 @@
+<div class="statuses">
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <div class="row">
+                <div class="col-xs-12"><label class="control-label">Statuses:</label></div>
+            </div>
+            <div class="row duplicate hidden">
+                <div class="col-xs-5">
+                    <input type="hidden" value="" class="data" data-name="{{='option'}}" data-type="record"/>
+                    <input type="text" class="form-control pull-left flip select" value="" data-extend="1"/>
+                </div>
+                <div class="col-xs-2">
+                    <div class="togglebutton">
+                        <label>
+                            min <input checked="checked" type="checkbox" class="extend"> max
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="input-group">
+                        <input type="text" value="" class="form-control extend" />
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
+                </div>
+            </div>
+            {{~(it.values['option']) ? ((typeof it.values['option']=='string' || (typeof it.values['option']=='object' && it.values['option'].constructor.toString().indexOf('Array') == -1) ) ? [it.values['option']] : it.values['option']) : it.settings['option'] || [{}] :itvalObj}}
+            <div class="row duplicate duplicated">
+                <div class="col-xs-5">
+                    <input type="hidden" value="{{=itvalObj["val"]}}" class="data" name="{{='option'}}" data-type="record" data-id="{{=itvalObj["id"]||0}}" />
+                    <input type="text" class="form-control pull-left flip select" value="{{=itvalObj["val"]||""}}" data-extend="1"/>
+                </div>
+                <div class="col-xs-2">
+                    <div class="radio radio-primary">
+                        <label>
+                            <input name="range{{=itvalObj.id||0}}" id="optionsRadios1" value="option1" checked="checked" type="radio"> min
+                        </label>
+                    </div>
+                    <div class="radio radio-primary">
+                        <label>
+                            <input name="range{{=itvalObj.id||0}}" id="optionsRadios2" value="option2" type="radio"> max
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" value="{{=itvalObj["vale"]||""}}" class="form-control extend" />%
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-danger btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
+                </div>
+            </div>
+            {{~}}
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-primary btn-duplicate-add btn-raised pull-right flip"><i class="entypo-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
