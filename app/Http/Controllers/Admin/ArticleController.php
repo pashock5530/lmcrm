@@ -7,7 +7,7 @@ use App\Article;
 use App\ArticleCategory;
 use App\Language;
 use Illuminate\Support\Facades\Input;
-use App\Http\Requests\Admin\ArticleRequest;
+//use App\Http\Requests\Admin\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Datatables;
 

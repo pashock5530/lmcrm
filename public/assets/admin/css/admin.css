@@ -874,7 +874,7 @@ body {
         z-index: 1;
         position: absolute;
         width: 250px;
-        margin-top: 51px;
+        margin-top: 60px;
     }
 
     .navbar-top-links .dropdown-messages,
@@ -1093,4 +1093,67 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+.navbar-static-top {
+    z-index: 1 !important;
+}
+
+#page-wrapper .page-header {
+    padding: 30px 9px 0px 9px;
+    margin: 0px 0px 20px 0px;
+}
+
+.btn-circle{
+    border-radius: 50% !important;
+}
+
+.flexbox {
+    display: flex;
+}
+
+.flex-justify {
+    justify-content: space-around;
+}
+
+.wizard {
+    position: relative;
+}
+
+.wizard .step{
+    position: relative;
+    background-color: white;
+    text-align: center;
+    z-index: 1;
+}
+
+.wizard .step.passed .btn{
+    background-color: #63a3db;
+}
+
+.wizard .step .btn-circle{
+    padding-left: 11px !important;
+    line-height: 1 !important;
+}
+
+.wizard .progress {
+    position: relative;
+    top: -25px;
+}
+
+.jSplash-form .panel-body .glyphicon {
+    cursor: pointer;
+}
+
+.fancybox-lock .fancybox-overlay {
+    z-index: 150;
+}
+
+.icon.icon-128 {
+    max-width: 128px;
+    max-height: 128px;
+}
+
+.slider {
+    position: relative;
 }

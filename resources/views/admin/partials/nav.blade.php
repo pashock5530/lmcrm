@@ -20,8 +20,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('admin/language')}}">
-                        <i class="fa fa-language"></i> Language
+                    <a href="{{url('admin/characteristics')}}">
+                        <i class="fa fa-list"></i> Сharacteristics
                     </a>
                 </li>
                 <!--

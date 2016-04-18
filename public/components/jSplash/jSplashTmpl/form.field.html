@@ -17,16 +17,16 @@
             {{ break;
             case 'checkbox': }}
                 <label class="control-label">{{?it.required}}*{{?}}{{=it.label}}</label>
-                {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}<div class="checkbox"> <label> <input type="checkbox">{{=value}}</label> </div>{{~}}
+                {{~(typeof it.option=='string' || (typeof it.option=='object' && it.option.constructor.toString().indexOf('Array') == -1) ) ? [it.option] : it.option || [] :value}}<div class="checkbox"> <label> <input type="checkbox" {{?value.vale}}checked="checked"{{?}}> {{=value.val}}</label> </div>{{~}}
             {{ break;
             case 'radio': }}
                 <label class="control-label">{{?it.required}}*{{?}}{{=it.label}}</label>
-                {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}<div class="radio"> <label> <input type="radio" name="optionsRadios">{{=value}}</label> </div>{{~}}
+                {{~(typeof it.option=='string' || (typeof it.option=='object' && it.option.constructor.toString().indexOf('Array') == -1) ) ? [it.option] : it.option || [] :value}}<div class="radio"> <label> <input type="radio" name="optionsRadios{{=it.id}}" {{?value.vale}}checked="checked"{{?}}> {{=value.val}}</label> </div>{{~}}
             {{ break;
             case 'select': }}
                 <label class="control-label">{{?it.required}}*{{?}}{{=it.label}}</label>
                 <select class="form-control">
-                    {{~(typeof it.option=='string') ? [it.option] : it.option || [] :value}}<option>{{=value}}</option>{{~}}
+                    {{~(typeof it.option=='string' || (typeof it.option=='object' && it.option.constructor.toString().indexOf('Array') == -1) ) ? [it.option] : it.option || [] :value}}<option>{{=value.val}}</option>{{~}}
                 </select>
             {{ break;
             case 'calendar': }}
@@ -59,7 +59,7 @@
                 </script>
             {{ break;
             case 'submit': }}
-                <input type="button" class="btn btn-primary" value="{{=it.label}}"/>
+                <input type="button" class="btn btn-primary btn-raised" value="{{=it.label}}"/>
                 {{ break;
             default: }}
                 <input type="text" class="form-control" disabled />

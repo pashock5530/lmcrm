@@ -55,6 +55,10 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\SentinelAdminUser::class,
         'notCurrentUser' => \App\Http\Middleware\SentinelNotCurrentUser::class,
         'redirectAdmin' => \App\Http\Middleware\SentinelRedirectAdmin::class,
+
+        'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
     ];
 
 }
