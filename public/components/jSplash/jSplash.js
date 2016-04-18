@@ -338,7 +338,6 @@
             },
 
             renderItem : function (type, data, context) {
-                
                 var data = data || {};
                 if(data.hasOwnProperty('name')) {
                     data['name'] = 'jsp'+_this.counter+'-'+data['name'].replace(/^jsp\d+-/g,'');
@@ -550,6 +549,10 @@
                                 _this.tmpl.addRule(/*type */'value.delete', /*context*/ $context, /*entity*/ data, /*data*/ data.values[idx], /*params*/{index: idx});
                             }(i, $(this));
                         });
+                        break;
+                    case 'default.statuses':
+                        $html.append($(doT.template(tmpl.view(type))(data)));
+                        _this.tmpl.addRule('duplicate_option', $html.find('.statuses'),null,null,null);
                         break;
                     case 'default.icon':
                     case 'modal.icon':
@@ -1824,6 +1827,8 @@
                 'modal.attributes',
                 'form.field',
                 'attributes.field',
+
+                'default.statuses',
             ],
             item = null;
 

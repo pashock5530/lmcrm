@@ -51,7 +51,7 @@
                 <div class="tab-pane" id="tab4">
                     <h3 class="page-header">Finish</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="_jSplash-data" id="threshold">
+                        <div class="jSplash-data" id="threshold">
                             Prepearing...
                         </div>
                     </form>
@@ -162,7 +162,7 @@
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
-                            window.location = '{{ route('admin.characteristics.index') }}';
+                            //window.location = '{{ route('admin.characteristics.index') }}';
                         },
                         error: function (XMLHttpRequest, textStatus) {
                             alert(textStatus);

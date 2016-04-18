@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38c1a81b-bfb1-4310-8ebf-98bd2b57d3dd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/admin/partials/sidebar.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.php" afterPath="$PROJECT_DIR$/config/app.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/admin/css/admin.css" afterPath="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplash.js" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/partials/nav.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/partials/nav.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/partials/nav.blade.php" afterPath="$PROJECT_DIR$/resources/views/partials/nav.blade.php" />
     </list>
     <ignored path="lmcrm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +29,8 @@
       <file leaf-file-name="CharacteristicsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.541667">
-              <caret line="161" column="0" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+            <state vertical-scroll-proportion="-3.7916667">
+              <caret line="281" column="18" selection-start-line="281" selection-start-column="18" selection-end-line="281" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -57,17 +49,19 @@
       <file leaf-file-name="jSplash.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.85571426">
-              <caret line="862" column="43" selection-start-line="862" selection-start-column="43" selection-end-line="862" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.85142857">
+              <caret line="1167" column="29" selection-start-line="1134" selection-start-column="24" selection-end-line="1167" selection-end-column="29" />
               <folding>
                 <element signature="e#1430#11755#0" expanded="false" />
                 <element signature="e#4325#5055#0" expanded="false" />
-                <element signature="e#73368#73441#0" expanded="false" />
-                <element signature="e#78097#78399#0" expanded="false" />
-                <element signature="e#78433#78493#0" expanded="false" />
-                <element signature="e#78528#78577#0" expanded="false" />
-                <marker date="1460986124314" expanded="true" signature="88530:89778" placeholder="..." />
-                <marker date="1460986124314" expanded="true" signature="88573:89752" placeholder="..." />
+                <element signature="e#73183#73256#0" expanded="false" />
+                <element signature="e#74764#77792#0" expanded="false" />
+                <element signature="e#77912#78214#0" expanded="false" />
+                <element signature="e#78248#78308#0" expanded="false" />
+                <element signature="e#78343#78392#0" expanded="false" />
+                <element signature="e#78438#90218#0" expanded="false" />
+                <marker date="1460989829022" expanded="true" signature="88345:89593" placeholder="..." />
+                <marker date="1460989829022" expanded="true" signature="88388:89567" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -76,8 +70,8 @@
       <file leaf-file-name="create_edit.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.375">
-              <caret line="49" column="22" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+            <state vertical-scroll-proportion="-15.0">
+              <caret line="165" column="26" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -93,6 +87,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="default.statuses.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.625">
+              <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -101,8 +105,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
         <option value="$PROJECT_DIR$/resources/lang/en/site/site.php" />
         <option value="$PROJECT_DIR$/resources/lang/he/site/site.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/SentinelAuthenticate.php" />
@@ -149,9 +151,11 @@
         <option value="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
         <option value="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.statuses.html" />
         <option value="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
       </list>
     </option>
   </component>
@@ -1191,7 +1195,7 @@
         <state vertical-scroll-proportion="0.6476684">
           <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
           <folding>
-            <element signature="n#style#0;n#nav#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#nav#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1208,14 +1212,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="984" column="4" selection-start-line="984" selection-start-column="4" selection-end-line="984" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.625">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1252,35 +1248,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.625">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.625">
+          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.375">
-          <caret line="49" column="22" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+        <state vertical-scroll-proportion="-15.0">
+          <caret line="165" column="26" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.541667">
-          <caret line="161" column="0" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+        <state vertical-scroll-proportion="-3.7916667">
+          <caret line="281" column="18" selection-start-line="281" selection-start-column="18" selection-end-line="281" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.85571426">
-          <caret line="862" column="43" selection-start-line="862" selection-start-column="43" selection-end-line="862" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.85142857">
+          <caret line="1167" column="29" selection-start-line="1134" selection-start-column="24" selection-end-line="1167" selection-end-column="29" />
           <folding>
             <element signature="e#1430#11755#0" expanded="false" />
             <element signature="e#4325#5055#0" expanded="false" />
-            <element signature="e#73368#73441#0" expanded="false" />
-            <element signature="e#78097#78399#0" expanded="false" />
-            <element signature="e#78433#78493#0" expanded="false" />
-            <element signature="e#78528#78577#0" expanded="false" />
-            <marker date="1460986124314" expanded="true" signature="88530:89778" placeholder="..." />
-            <marker date="1460986124314" expanded="true" signature="88573:89752" placeholder="..." />
+            <element signature="e#73183#73256#0" expanded="false" />
+            <element signature="e#74764#77792#0" expanded="false" />
+            <element signature="e#77912#78214#0" expanded="false" />
+            <element signature="e#78248#78308#0" expanded="false" />
+            <element signature="e#78343#78392#0" expanded="false" />
+            <element signature="e#78438#90218#0" expanded="false" />
+            <marker date="1460989829022" expanded="true" signature="88345:89593" placeholder="..." />
+            <marker date="1460989829022" expanded="true" signature="88388:89567" placeholder="..." />
           </folding>
         </state>
       </provider>

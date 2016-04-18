@@ -130,8 +130,18 @@ class CharacteristicsController extends AdminController {
             ],
         ];
         $threshold = [
-            "renderType"=>"dynamicStatuses",
-            "targetEntity"=>"CharacteristicLead",
+            "renderType"=>"single",
+            'name' => 'text',
+            'values'=>'',
+            "attributes" => [
+                "type"=>'text',
+                "class" => 'form-control',
+            ],
+            "settings"=>[
+                "label" => 'Form name',
+                "type"=>'statuses',
+                'option'=>[],
+            ]
         ];
 
         if($id) {
@@ -218,7 +228,6 @@ class CharacteristicsController extends AdminController {
         $group->save();
 
         $data = $request->only('lead');
-
         $new_chr = $data['lead']['data']['variables'];
         if($new_chr) foreach($new_chr as $index=>$leadAttr) {
             if(isset($leadAttr['_status'])){
@@ -228,7 +237,6 @@ class CharacteristicsController extends AdminController {
                 }
             }
         }
-
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $leadAttr = CharacteristicLead::find($attr['id']);
@@ -269,8 +277,58 @@ class CharacteristicsController extends AdminController {
             }
         }
 
-        $data = $request->only('cform');
+        $data = $request->only('threshold');
+        $new_chr = $data['threshold']['data']['variables'];
+        /*
+        if($new_chr) foreach($new_chr as $index=>$leadAttr) {
+            if(isset($leadAttr['_status'])){
+                if($leadAttr['_status'] == 'DELETE') {
+                    $group->leadAttr()->where('id', '=', $leadAttr['id'])->delete();
+                    unset($new_chr[$index]);
+                }
+            }
+        }
+        if($new_chr) foreach($new_chr as $attr) {
+            if (isset($attr['id']) && $attr['id']) {
+                $leadAttr = CharacteristicLead::find($attr['id']);
+                $leadAttr->update($attr);
+            } else {
+                $leadAttr = new CharacteristicLead($attr);
+                $group->leadAttr()->save($leadAttr);
+            }
+            if(isset($attr['option'])) {
+                $new_options = [];
+                if (isset($attr['option']['id'])) {
+                    $attr['option'] = [$attr['option']];
+                }
+                for ($i = 0; $i < count($attr['option']); $i++) {
+                    if ($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
+                }
 
+                $old_options = $leadAttr->options()->lists('id')->all();
+                if ($deleted = (array_diff($old_options, $new_options))) {
+                    $leadAttr->options()->whereIn('id', $deleted)->delete();
+                }
+
+                foreach ($attr['option'] as $optVal) {
+                    if ($optVal['id']) {
+                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options->ctype = 'lead';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        $chr_options->save();
+                    } else {
+                        $chr_options = new CharacteristicOptions();
+                        $chr_options->ctype = 'lead';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        $leadAttr->options()->save($chr_options);
+                    }
+                }
+            }
+        }
+        */
+        $data = $request->only('cform');
         $new_chr = $data['cform']['data']['variables'];
         if($new_chr) foreach($new_chr as $index=>$characteristic) {
             if(isset($characteristic['_status'])){
@@ -281,7 +339,6 @@ class CharacteristicsController extends AdminController {
                 }
             }
         }
-
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $characteristic = Characteristics::find($attr['id']);
