@@ -9,6 +9,7 @@ use App\Models\CharacteristicGroup;
 use App\Models\Characteristics;
 use App\Models\CharacteristicRules;
 use App\Models\CharacteristicLead;
+use App\Models\CharacteristicStatuses;
 use App\Models\CharacteristicBit;
 use Illuminate\Http\Request;
 use Datatables;
@@ -131,7 +132,7 @@ class CharacteristicsController extends AdminController {
         ];
         $threshold = [
             "renderType"=>"single",
-            'name' => 'text',
+            'name' => 'status',
             'values'=>'',
             "attributes" => [
                 "type"=>'text',
@@ -185,6 +186,16 @@ class CharacteristicsController extends AdminController {
                     }
                 }
                 $lead['values'][]=$arr;
+            }
+
+            if($group->has('statuses')) { $threshold['values']=array(); }
+            foreach($group->statuses()->get() as $chrct) {
+                $arr=[];
+                $arr['id'] = $chrct->id;
+                $arr['val'] = $chrct->stepname;
+                $arr['vale'] = [$chrct->minmax,$chrct->percent];
+                $arr['position'] = $chrct->position;
+                $threshold['values'][]=['status'=>$arr];
             }
         }
 
@@ -278,56 +289,24 @@ class CharacteristicsController extends AdminController {
         }
 
         $data = $request->only('threshold');
-        $new_chr = $data['threshold']['data']['variables'];
-        /*
-        if($new_chr) foreach($new_chr as $index=>$leadAttr) {
-            if(isset($leadAttr['_status'])){
-                if($leadAttr['_status'] == 'DELETE') {
-                    $group->leadAttr()->where('id', '=', $leadAttr['id'])->delete();
-                    unset($new_chr[$index]);
-                }
-            }
-        }
+        $new_chr = $data['threshold']['data'];
         if($new_chr) foreach($new_chr as $attr) {
+            $attr = $attr["status"];
             if (isset($attr['id']) && $attr['id']) {
-                $leadAttr = CharacteristicLead::find($attr['id']);
-                $leadAttr->update($attr);
+                $status = CharacteristicStatuses::find($attr['id']);
+                $status->stepname =$attr['val'];
+                $status->minmax =$attr['vale'][0];
+                $status->percent =$attr['vale'][1];
+                $status->save();
             } else {
-                $leadAttr = new CharacteristicLead($attr);
-                $group->leadAttr()->save($leadAttr);
-            }
-            if(isset($attr['option'])) {
-                $new_options = [];
-                if (isset($attr['option']['id'])) {
-                    $attr['option'] = [$attr['option']];
-                }
-                for ($i = 0; $i < count($attr['option']); $i++) {
-                    if ($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
-                }
-
-                $old_options = $leadAttr->options()->lists('id')->all();
-                if ($deleted = (array_diff($old_options, $new_options))) {
-                    $leadAttr->options()->whereIn('id', $deleted)->delete();
-                }
-
-                foreach ($attr['option'] as $optVal) {
-                    if ($optVal['id']) {
-                        $chr_options = CharacteristicOptions::find($optVal['id']);
-                        $chr_options->ctype = 'lead';
-                        $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
-                        $chr_options->save();
-                    } else {
-                        $chr_options = new CharacteristicOptions();
-                        $chr_options->ctype = 'lead';
-                        $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
-                        $leadAttr->options()->save($chr_options);
-                    }
-                }
+                $status = new CharacteristicStatuses();
+                $status->stepname =$attr['val'];
+                $status->minmax =$attr['vale'][0];
+                $status->percent =$attr['vale'][1];
+                $group->statuses()->save($status);
             }
         }
-        */
+
         $data = $request->only('cform');
         $new_chr = $data['cform']['data']['variables'];
         if($new_chr) foreach($new_chr as $index=>$characteristic) {

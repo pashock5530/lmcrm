@@ -22,6 +22,10 @@ class CharacteristicGroup extends Model
         return $this->hasMany('App\Models\CharacteristicRules','group_id','id');
     }
 
+    public function statuses() {
+        return $this->hasMany('App\Models\CharacteristicStatuses','group_id','id')->orderBy('position');
+    }
+
     protected static function boot() {
         parent::boot();
 

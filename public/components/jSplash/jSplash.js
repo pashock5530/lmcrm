@@ -96,6 +96,13 @@
                 var index = (index || index === 0) ? index : false;
                 var new_data = {};
                 if(index !== false) {
+                    if(typeof data.entity.values!='object') {
+                        if(typeof data.entity.values=='string') {
+                            data.entity.values = [];
+                        } else {
+                            data.entity.values = [data.entity.values];
+                        }
+                    }
                     // extend new values by existing open
                     new_data = data.entity.values[index] || {};
                     new_data = {};
@@ -551,8 +558,14 @@
                         });
                         break;
                     case 'default.statuses':
-                        $html.append($(doT.template(tmpl.view(type))(data)));
-                        _this.tmpl.addRule('duplicate_option', $html.find('.statuses'),null,null,null);
+                        var $container = $(doT.template(tmpl.view(type))(data));
+                        $html.append($container);
+                        $container.find("input,textarea,select").change(function(){
+                            var $elements = $(this).closest('.row').find("input,textarea,select");
+                            var indx = $(this).closest(".row-container").find(".duplicated").index($(this).closest('.row'));
+                            return _this.route.get('default.statuses', data, {index:indx, elements:$elements});
+                        });
+                        _this.tmpl.addRule('duplicate_option', $container,null,null,null);
                         break;
                     case 'default.icon':
                     case 'modal.icon':
@@ -959,6 +972,9 @@
                             values: params.values
                         });
                         break;
+                    case 'default.statuses':
+                        result = _this.controller.dynamic_statuses_save(data, params)
+                        break;
                     case 'form.attributes.before_create':
                         result = _this.controller.dynamic_form_attr_preopen(data, params);
                         break;
@@ -1187,6 +1203,44 @@
                     .modal('show', {backdrop: 'static'});
 
                 this.onModal(_this.option.modal);
+                return c;
+            },
+
+            dynamic_statuses_save: function(sdata, param) {
+                var $elements = param.elements;
+                var index = param.index;
+                var data={};
+                $.each($elements, function(i, obj) {
+                    if(obj.name) {
+                        var $extend = $(obj).closest('.duplicate').find('input.extend');
+                        var ext = null;
+                        if($extend.length>1) {
+                            ext = [];
+                            for(var i=0;i<$extend.length;i++){
+                                ext[i]= ($extend.eq(i).attr('type') == 'checkbox' || $extend.eq(i).attr('type') == 'radio') ? (($extend.eq(i).is(':checked')) ? 1 : 0) : $extend.eq(i).val();
+                            }
+                        } else {
+                            ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+                        }
+                        if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
+                            if(!$(obj).is(':checked')) { return true; }
+                        }
+                        if($(obj).val()) {
+                            if (data[obj.name]) {
+                                if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
+                                    data[obj.name] = [data[obj.name]];
+                                }
+                                data[obj.name].push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
+                            } else {
+                                data[obj.name]={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                            }
+                        }
+                    }
+                });
+                var store_data = data;
+                if (_this.route.get('store_array', {entity: sdata, values: store_data}, index)) {
+                    //_this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+                }
                 return c;
             },
 

@@ -1,13 +1,12 @@
-<div class="statuses">
-    <div class="row">
+<div class="statuses">{{console.log(it.values);}}
+    <div class="row row-container">
         <div class="form-group col-xs-12">
             <div class="row">
                 <div class="col-xs-12"><label class="control-label">Statuses:</label></div>
             </div>
             <div class="row duplicate hidden">
                 <div class="col-xs-5">
-                    <input type="hidden" value="" class="data" data-name="{{='option'}}" data-type="record"/>
-                    <input type="text" class="form-control pull-left flip select" value="" data-extend="1"/>
+                    <input type="text" name="status" class="form-control pull-left flip select" value="" data-id="0" data-extend="1"/>
                 </div>
                 <div class="col-xs-2">
                     <div class="togglebutton">
@@ -26,26 +25,23 @@
                     <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                 </div>
             </div>
-            {{~(it.values['option']) ? ((typeof it.values['option']=='string' || (typeof it.values['option']=='object' && it.values['option'].constructor.toString().indexOf('Array') == -1) ) ? [it.values['option']] : it.values['option']) : it.settings['option'] || [{}] :itvalObj}}
+            {{~(it.values) ? ((typeof it.values=='string' || (typeof it.values=='object' && it.values.constructor.toString().indexOf('Array') == -1) ) ? [it.values] : it.values) : [] :itvalObj}}
             <div class="row duplicate duplicated">
                 <div class="col-xs-5">
-                    <input type="hidden" value="{{=itvalObj["val"]}}" class="data" name="{{='option'}}" data-type="record" data-id="{{=itvalObj["id"]||0}}" />
-                    <input type="text" class="form-control pull-left flip select" value="{{=itvalObj["val"]||""}}" data-extend="1"/>
+                    <input type="text" name="status" class="form-control pull-left flip select" value="{{=itvalObj["status"]["val"]||""}}" data-extend="1"/>
                 </div>
                 <div class="col-xs-2">
-                    <div class="radio radio-primary">
+                    <div class="togglebutton">
                         <label>
-                            <input name="range{{=itvalObj.id||0}}" id="optionsRadios1" value="option1" checked="checked" type="radio"> min
-                        </label>
-                    </div>
-                    <div class="radio radio-primary">
-                        <label>
-                            <input name="range{{=itvalObj.id||0}}" id="optionsRadios2" value="option2" type="radio"> max
+                            min <input type="checkbox" class="extend" {{?itvalObj["status"]["vale"][0]==1}}checked="checked"{{?}}> max
                         </label>
                     </div>
                 </div>
                 <div class="col-xs-3">
-                    <input type="text" value="{{=itvalObj["vale"]||""}}" class="form-control extend" />%
+                    <div class="input-group">
+                        <input type="text" value="{{=itvalObj["status"]["vale"][1]||""}}" class="form-control extend" data-id="{{=itvalObj["status"]["id"]||0}}" />
+                        <span class="input-group-addon">%</span>
+                    </div>
                 </div>
                 <div class="col-xs-2">
                     <button type="button" class="btn btn-danger btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>

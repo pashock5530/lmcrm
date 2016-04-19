@@ -135,9 +135,15 @@
                        var $el = $('#content').find('#'+k);
                         if($el.length) $el.jSplash({
                             event:{
-                                onShow:function(){$.material.init() },
-                                onEdit:function(){$.material.init() },
-                                onModal:function($el){$.material.init($el) }
+                                onShow:function(){
+                                    $.material.init();
+                                },
+                                onEdit:function(){
+                                    $.material.init();
+                                },
+                                onModal:function($el){
+                                    $.material.init($el);
+                                }
                             }}).data('splash').load({data:resp[k]},false,{}).show();
                     }
                 }
@@ -162,7 +168,7 @@
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
-                            //window.location = '{{ route('admin.characteristics.index') }}';
+                            window.location = '{{ route('admin.characteristics.index') }}';
                         },
                         error: function (XMLHttpRequest, textStatus) {
                             alert(textStatus);

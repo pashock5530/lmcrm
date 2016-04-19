@@ -35,12 +35,12 @@
     <![endif]-->
    <link rel="stylesheet" type="text/css" href="{{ asset('assets/web/css/custom.css') }}">
 
-   <script type="text/javascript" src="{{ asset('components/jquery/jquery-2.min.js') }}"></script>
-   <script type="text/javascript" src="{{ asset('components/bootstrap/js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('components/bootstrap/js/material.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('components/bootstrap/js/ripples.min.js') }}"></script>
-   <script type="text/javascript" src="{{ asset('assets/web/js/custom.js') }}"></script>
-    <link rel="shortcut icon" href="{!! asset('site/ico/favicon.ico')  !!} ">
+  <script type="text/javascript" src="{{ asset('components/jquery/jquery-2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('components/bootstrap/js/bootstrap.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('components/bootstrap/js/material.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('components/bootstrap/js/ripples.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/web/js/custom.js') }}"></script>
+  <link rel="shortcut icon" href="{!! asset('site/ico/favicon.ico')  !!} ">
 </head>
 <body>
 @include('partials.nav')
