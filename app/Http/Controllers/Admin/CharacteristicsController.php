@@ -195,7 +195,7 @@ class CharacteristicsController extends AdminController {
                 $arr['val'] = $chrct->stepname;
                 $arr['vale'] = [$chrct->minmax,$chrct->percent];
                 $arr['position'] = $chrct->position;
-                $threshold['values'][]=['status'=>$arr];
+                $threshold['values'][]=$arr;
             }
         }
 
@@ -290,19 +290,35 @@ class CharacteristicsController extends AdminController {
 
         $data = $request->only('threshold');
         $new_chr = $data['threshold']['data'];
+        $rId=[];
+        if($new_chr) {
+            $nId=[];
+            foreach($new_chr as $i=>$attr) {
+                if(isset($attr['id'])) { $nId[]=$attr['id']; }
+            }
+            $oId = $group->statuses()->lists('id')->all();
+            $rId = array_diff($oId,$nId);
+            if(count($rId)) { $group->statuses()->whereIn('id',$rId)->delete(); }
+        } else {
+            $group->statuses()->delete();
+        }
+
         if($new_chr) foreach($new_chr as $attr) {
-            $attr = $attr["status"];
             if (isset($attr['id']) && $attr['id']) {
-                $status = CharacteristicStatuses::find($attr['id']);
-                $status->stepname =$attr['val'];
-                $status->minmax =$attr['vale'][0];
-                $status->percent =$attr['vale'][1];
-                $status->save();
+                if(!in_array($attr['id'],$rId)) {
+                    $status = CharacteristicStatuses::find($attr['id']);
+                    $status->stepname = $attr['val'];
+                    $status->minmax = $attr['vale'][0];
+                    $status->percent = $attr['vale'][1];
+                    $status->position = (isset($attr['position']))?$attr['position']:0;
+                    $status->save();
+                }
             } else {
                 $status = new CharacteristicStatuses();
                 $status->stepname =$attr['val'];
                 $status->minmax =$attr['vale'][0];
                 $status->percent =$attr['vale'][1];
+                $status->position = (isset($attr['position']))?$attr['position']:0;
                 $group->statuses()->save($status);
             }
         }

@@ -118,12 +118,17 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-4">
                             <input type="hidden" value="" class="data" data-name="{{=prop}}" data-type="record"/>
                             <input type="text" class="form-control pull-left flip select" value="" data-extend="1"/>
                         </div>
-                        <div class="col-xs-2">
-                            <input type="text" value="" class="form-control extend" />
+                        <div class="col-xs-3">
+                            <div class="input-group">
+                                <input type="text" value="" name="" class="form-control extend random-name" />
+                                <span class="input-group-btn">
+                                    <a data-fancybox-type="iframe" href="/mediabrowser/" class="btn btn-xs mediabrowser-js" type="button"><span class="glyphicon glyphicon-folder-open"></span></a>
+                                </span>
+                            </div>
                         </div>
                         <div class="col-xs-2">
                             <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
@@ -140,12 +145,17 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-4">
                             <input type="hidden" value="{{=itvalObj["val"]}}" class="data" name="{{=prop}}" data-type="record" data-id="{{=itvalObj["id"]||0}}" />
                             <input type="text" class="form-control pull-left flip select" value="{{=itvalObj["val"]||""}}" data-extend="1"/>
                         </div>
-                        <div class="col-xs-2">
-                            <input type="text" value="{{=itvalObj["vale"][1]||""}}" class="form-control extend" />
+                        <div class="col-xs-3">
+                            <div class="input-group">{{ var randID=Math.floor((Math.random() * 1000) + 1); }}
+                                <input type="text" value="{{=itvalObj["vale"][1]||""}}" name="jsp-{{=randID}}" class="form-control extend random-name" />
+                                <span class="input-group-btn">
+                                    <a data-fancybox-type="iframe" href="/mediabrowser/jsp-{{=randID}}" class="btn btn-xs mediabrowser-js" type="button"><span class="glyphicon glyphicon-folder-open"></span></a>
+                                </span>
+                            </div>
                         </div>
                         <div class="col-xs-2">
                             <button type="button" class="btn btn-danger btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>

@@ -117,11 +117,19 @@
                 }
                 this.onSave();
             },
+            delete_array : function (data, index) {
+                var index = (index || index === 0) ? index : false;
+                if (index !== false) {
+                    data.entity.values.splice(index,1);
+                    //delete data.entity.values[index];
+                }
+                return true;
+            },
             delete : function (data, index) {
                 var index = (index || index === 0) ? index : false;
                 if (data.entity.variables) {
                     if (index === false) {
-                        ; //data.entity.values.push(new_data);
+                        ;
                     }
                     else {
                         //data = null;
@@ -565,6 +573,10 @@
                             var indx = $(this).closest(".row-container").find(".duplicated").index($(this).closest('.row'));
                             return _this.route.get('default.statuses', data, {index:indx, elements:$elements});
                         });
+                        $container.find(".btn-duplicate-remove").click(function(){
+                            var indx = $(this).closest(".row-container").find(".duplicated").index($(this).closest('.row'));
+                            return _this.route.get('delete_array', data, {index:indx});
+                        });
                         _this.tmpl.addRule('duplicate_option', $container,null,null,null);
                         break;
                     case 'default.icon':
@@ -797,6 +809,14 @@
                                 .find('.data').addClass('data').attr('name', $newItem.find('.data').first().data('name'));
                             $newItem
                                 .find('input,select').val(null);
+
+                            $newItem.find('.random-name').each(function(){
+                                var rID = Math.floor((Math.random() * 1000) + 1);
+                                $(this).attr('name','jsp-'+rID);
+                                $newItem.find(".mediabrowser-js").each(function(){
+                                    $(this).attr('href',$(this).attr('href')+'jsp-'+rID);
+                                });
+                            });
                         });
                         $context.find('.duplicate').each(function(){
                             (function($item){
@@ -1013,6 +1033,9 @@
                     case 'store_array':
                         result = _this.controller.store_array(data,params);
                         break;
+                    case 'delete_array':
+                        result = _this.controller.delete_array(data,params);
+                        break;
                     case 'edit_array':
                         result = _this.controller.store_array(data,params);
                         break;
@@ -1149,7 +1172,7 @@
                         var $modal = $(this).closest('.modal');
                         var data={};
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
-                            if(obj.name) {
+                            if(obj.name && !$(obj).hasClass('random-name')) {
                                 var $extend = $(obj).closest('.duplicate').find('input.extend');
                                 var ext = null;
                                 if($extend.length>1) {
@@ -1211,7 +1234,7 @@
                 var index = param.index;
                 var data={};
                 $.each($elements, function(i, obj) {
-                    if(obj.name) {
+                    if(obj.name && !$(obj).hasClass('random-name')) {
                         var $extend = $(obj).closest('.duplicate').find('input.extend');
                         var ext = null;
                         if($extend.length>1) {
@@ -1226,15 +1249,14 @@
                             if(!$(obj).is(':checked')) { return true; }
                         }
                         if($(obj).val()) {
-                            if (data[obj.name]) {
-                                if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
-                                    data[obj.name] = [data[obj.name]];
-                                }
-                                data[obj.name].push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
+                            if (Object.prototype.toString.call(data) === '[object Array]') {
+                                //if (Object.prototype.toString.call(data) !== '[object Array]') { data = [data]; }
+                                data.push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
                             } else {
-                                data[obj.name]={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                data={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
                             }
                         }
+                        data['position']=index+1;
                     }
                 });
                 var store_data = data;
@@ -1277,7 +1299,7 @@
                         var $modal = $(this).closest('.modal');
                         var data={};
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
-                            if(obj.name) {
+                            if(obj.name && !$(obj).hasClass('random-name')) {
                                 var $extend = $(obj).closest('.duplicate').find('input.extend');
                                 var ext = null;
                                 if($extend.length>1) {
@@ -1402,6 +1424,14 @@
                 var values = data.values || [];
                 data.values = values;
                 _this.model.store_array(data,params);
+                _this.show();
+                return true;
+            },
+
+            delete_array : function (data,params) {
+                data.values = data.values || [];
+                var indx = params.index || false;
+                _this.model.delete_array({entity:data},indx);
                 _this.show();
                 return true;
             },

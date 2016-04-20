@@ -1146,7 +1146,7 @@ table.dataTable thead .sorting:after {
 }
 
 .fancybox-lock .fancybox-overlay {
-    z-index: 150;
+    z-index: 1500;
 }
 
 .icon.icon-128 {

@@ -28,18 +28,18 @@
             {{~(it.values) ? ((typeof it.values=='string' || (typeof it.values=='object' && it.values.constructor.toString().indexOf('Array') == -1) ) ? [it.values] : it.values) : [] :itvalObj}}
             <div class="row duplicate duplicated">
                 <div class="col-xs-5">
-                    <input type="text" name="status" class="form-control pull-left flip select" value="{{=itvalObj["status"]["val"]||""}}" data-extend="1"/>
+                    <input type="text" name="status" class="form-control pull-left flip select" value="{{=itvalObj["val"]||""}}" data-id="{{=itvalObj["id"]||0}}" data-extend="1"/>
                 </div>
                 <div class="col-xs-2">
                     <div class="togglebutton">
                         <label>
-                            min <input type="checkbox" class="extend" {{?itvalObj["status"]["vale"][0]==1}}checked="checked"{{?}}> max
+                            min <input type="checkbox" class="extend" {{?itvalObj["vale"][0]==1}}checked="checked"{{?}}> max
                         </label>
                     </div>
                 </div>
                 <div class="col-xs-3">
                     <div class="input-group">
-                        <input type="text" value="{{=itvalObj["status"]["vale"][1]||""}}" class="form-control extend" data-id="{{=itvalObj["status"]["id"]||0}}" />
+                        <input type="text" value="{{=itvalObj["vale"][1]||""}}" class="form-control extend"  />
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
