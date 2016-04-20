@@ -1545,7 +1545,18 @@
         this.prepare = function(opt){
             this.tmpl.prepare(opt);
             return this;
-        }
+        };
+
+        this.settings = function(path,val){
+            var value = this.model.db.data['settings'];
+            var path = path.split('.');
+            for(var i=0; i<path.length-1;i++){
+                value=value[path[i]];
+            }
+            if(val) { value[path[path.length-1]]=val;  }
+            console.log(path,val,this.model.db);
+            return value;
+        };
 
         this.show = function () {
             this.tmpl.show();

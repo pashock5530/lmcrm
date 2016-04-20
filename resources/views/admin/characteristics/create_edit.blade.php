@@ -126,6 +126,7 @@
                 navigation.closest('.wizard').find('.bar').css({width:$percent+'%'});
             }});
 
+            var cntLead = 10;
             $.ajax({
                 url:  '{{ route('admin.chrct.form',[$fid]) }}',
                 method: 'GET',
@@ -133,10 +134,25 @@
                 success: function(resp){
                     for(var k in resp) {
                        var $el = $('#content').find('#'+k);
+
                         if($el.length) $el.jSplash({
                             event:{
                                 onShow:function(){
                                     $.material.init();
+                                    $('#content .jSplash-data .btn-calc').click(function(){
+                                        cntLead = 10;
+                                        var $rows = $(".statuses").find(".duplicated");
+                                        for(var j=$rows.length-1;j>=0;j--){
+                                            var $ext = $rows.eq(j).find('.extend');
+                                            var range = $ext.eq(0).is(":checked")? $ext.eq(1).val():100-$ext.eq(1).val()
+                                            if(range) cntLead = parseInt(cntLead / range * 100);
+                                        }
+                                        $(".statuses #recLead").val(cntLead).trigger('change');
+                                    });
+                                    $(".statuses #recLead").off().change(function(){
+                                        cntLead = $(this).val();
+                                        $el.data('splash').settings('stat.minLead',$(this).val());
+                                    });
                                 },
                                 onEdit:function(){
                                     $.material.init();
@@ -156,6 +172,7 @@
                 for(var i=0; i<$jElements.length;i++) {
                     postData[$jElements.eq(i).attr('id')] = $jElements.eq(i).data('splash').serialize();
                 }
+                postData['stat_minLead']=cntLead;
 
                 if(postData) {
                     $this.prop('disabled',true);

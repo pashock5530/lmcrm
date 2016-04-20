@@ -142,6 +142,9 @@ class CharacteristicsController extends AdminController {
                 "label" => 'Form name',
                 "type"=>'statuses',
                 'option'=>[],
+                'stat'=>[
+                    'minLead'=>10
+                ]
             ]
         ];
 
@@ -197,6 +200,7 @@ class CharacteristicsController extends AdminController {
                 $arr['position'] = $chrct->position;
                 $threshold['values'][]=$arr;
             }
+            $threshold['settings']['stat']['minLead']=$group->minLead;
         }
 
         $data=['opt'=>$settings,"cform"=>$data,'lead'=>$lead,'threshold'=>$threshold];
@@ -226,11 +230,13 @@ class CharacteristicsController extends AdminController {
         if($id) {
             $group = CharacteristicGroup::find($id);
             $group->name = $opt['opt']['data']['variables']['name'];
+            $group->minLead = $request->get('stat_minLead');
             $group->status = $opt['opt']['data']['variables']['status'];
         } else {
             $group = new CharacteristicGroup([
                 'name' => $opt['opt']['data']['variables']['name'],
-                'status' => $opt['opt']['data']['variables']['status']
+                'status' => $opt['opt']['data']['variables']['status'],
+                'minLead' => $request->get('stat_minLead'),
             ]);
             $group->save();
         }

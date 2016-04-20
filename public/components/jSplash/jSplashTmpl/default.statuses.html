@@ -1,4 +1,4 @@
-<div class="statuses">{{console.log(it.values);}}
+<div class="statuses">
     <div class="row row-container">
         <div class="form-group col-xs-12">
             <div class="row">
@@ -51,6 +51,22 @@
             <div class="col-xs-12">
                 <button type="button" class="btn btn-primary btn-duplicate-add btn-raised pull-right flip"><i class="entypo-plus"></i></button>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group _label-floating">
+                <label class="control-label" for="recLead">Recommend lead count</label>
+                <div class="input-group">
+                    <input type="text" id="recLead" value="{{=it.settings.stat.minLead || 10}}" class="form-control" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary btn-calc" type="button"><i class="entypo-cw"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+
         </div>
     </div>
 </div>

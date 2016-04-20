@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38c1a81b-bfb1-4310-8ebf-98bd2b57d3dd" name="Default" comment="" />
+    <list default="true" id="38c1a81b-bfb1-4310-8ebf-98bd2b57d3dd" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" afterPath="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_04_04_114657_create_characteristic_group.php" afterPath="$PROJECT_DIR$/database/migrations/2016_04_04_114657_create_characteristic_group.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/admin/css/admin.css" afterPath="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplash.js" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html" afterPath="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
+    </list>
     <ignored path="lmcrm.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -25,8 +34,8 @@
       <file leaf-file-name="CharacteristicsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.375">
-              <caret line="299" column="0" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
+            <state vertical-scroll-proportion="-19.375">
+              <caret line="203" column="9" selection-start-line="203" selection-start-column="9" selection-end-line="203" selection-end-column="9" />
               <folding>
                 <element signature="e#46#87#0#PHP" expanded="true" />
               </folding>
@@ -34,10 +43,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CharacteristicGroup.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicGroup.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.875">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="CharacteristicStatuses.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicStatuses.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-9.375">
               <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
               <folding />
             </state>
@@ -47,8 +66,8 @@
       <file leaf-file-name="jSplash.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.387097">
-              <caret line="819" column="27" selection-start-line="819" selection-start-column="27" selection-end-line="819" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1555" column="56" selection-start-line="1555" selection-start-column="56" selection-end-line="1555" selection-end-column="56" />
               <folding>
                 <element signature="e#1430#12384#0" expanded="false" />
                 <element signature="e#12496#15825#0" expanded="false" />
@@ -56,12 +75,8 @@
                 <element signature="e#16263#31307#0" expanded="false" />
                 <element signature="e#31345#32380#0" expanded="false" />
                 <element signature="e#32431#33622#0" expanded="false" />
-                <element signature="e#77895#77968#0" expanded="false" />
-                <element signature="e#79476#82504#0" expanded="false" />
-                <element signature="e#82624#82926#0" expanded="false" />
-                <element signature="e#83150#94930#0" expanded="false" />
-                <marker date="1461146924543" expanded="true" signature="93057:94305" placeholder="..." />
-                <marker date="1461146924543" expanded="true" signature="93100:94279" placeholder="..." />
+                <marker date="1461164179839" expanded="true" signature="93441:94689" placeholder="..." />
+                <marker date="1461164179839" expanded="true" signature="93484:94663" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -70,8 +85,8 @@
       <file leaf-file-name="create_edit.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6701031">
-              <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.50276244">
+              <caret line="153" column="93" selection-start-line="153" selection-start-column="93" selection-end-line="153" selection-end-column="93" />
               <folding />
             </state>
           </provider>
@@ -80,28 +95,8 @@
       <file leaf-file-name="default.statuses.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5833335">
-              <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="modal.attributes.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.attributes.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.875">
-              <caret line="157" column="34" selection-start-line="152" selection-start-column="28" selection-end-line="157" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="modal.dynamic.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.541666">
-              <caret line="118" column="36" selection-start-line="118" selection-start-column="36" selection-end-line="118" selection-end-column="36" />
+            <state vertical-scroll-proportion="-25.208334">
+              <caret line="57" column="52" selection-start-line="57" selection-start-column="52" selection-end-line="57" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -134,7 +129,6 @@
         <option value="$PROJECT_DIR$/resources/views/admin/characteristics/datatables/status.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/characteristics/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/lang/en/admin/characteristics.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_04_04_114657_create_characteristic_group.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_05_071411_create_characteristics.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_13_144926_create_characteristic_rules.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_17_083258_create_characteristic_lead.php" />
@@ -158,14 +152,15 @@
         <option value="$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_19_144506_create_characteristic_status.php" />
         <option value="$PROJECT_DIR$/app/Models/CharacteristicStatuses.php" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.attributes.html" />
+        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html" />
+        <option value="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_04_114657_create_characteristic_group.php" />
         <option value="$PROJECT_DIR$/app/Models/CharacteristicGroup.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php" />
         <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html" />
-        <option value="$PROJECT_DIR$/public/assets/admin/css/admin.css" />
-        <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
-        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.attributes.html" />
         <option value="$PROJECT_DIR$/public/components/jSplash/jSplash.js" />
-        <option value="$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html" />
+        <option value="$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php" />
       </list>
     </option>
   </component>
@@ -888,7 +883,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3368092" sideWeight="0.49809057" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3368092" sideWeight="0.49809057" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30031282" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -932,13 +927,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php</url>
-          <line>290</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="19" />
     </breakpoint-manager>
     <watches-manager />
@@ -969,13 +957,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_04_114657_create_characteristic_group.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29834256">
-          <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -1213,36 +1194,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicGroup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55473375">
-          <caret line="25" column="104" selection-start-line="25" selection-start-column="104" selection-end-line="25" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicStatuses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/admin/layouts/default.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.51035506">
           <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.375">
-          <caret line="299" column="0" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
-          <folding>
-            <element signature="e#46#87#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1262,51 +1217,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.387097">
-          <caret line="819" column="27" selection-start-line="819" selection-start-column="27" selection-end-line="819" selection-end-column="27" />
-          <folding>
-            <element signature="e#1430#12384#0" expanded="false" />
-            <element signature="e#12496#15825#0" expanded="false" />
-            <element signature="e#15881#16204#0" expanded="false" />
-            <element signature="e#16263#31307#0" expanded="false" />
-            <element signature="e#31345#32380#0" expanded="false" />
-            <element signature="e#32431#33622#0" expanded="false" />
-            <element signature="e#77895#77968#0" expanded="false" />
-            <element signature="e#79476#82504#0" expanded="false" />
-            <element signature="e#82624#82926#0" expanded="false" />
-            <element signature="e#83150#94930#0" expanded="false" />
-            <marker date="1461146924543" expanded="true" signature="93057:94305" placeholder="..." />
-            <marker date="1461146924543" expanded="true" signature="93100:94279" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5833335">
-          <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/assets/admin/css/admin.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8024055">
-          <caret line="1148" column="18" selection-start-line="1148" selection-start-column="18" selection-end-line="1148" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.attributes.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.875">
-          <caret line="157" column="34" selection-start-line="152" selection-start-column="28" selection-end-line="157" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/attributes.field.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7989691">
@@ -1315,18 +1225,93 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.attributes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.046392">
+          <caret line="157" column="34" selection-start-line="152" selection-start-column="28" selection-end-line="157" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/modal.dynamic.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.541666">
-          <caret line="118" column="36" selection-start-line="118" selection-start-column="36" selection-end-line="118" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/admin/css/admin.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.81958765">
+          <caret line="1133" column="26" selection-start-line="1133" selection-start-column="26" selection-end-line="1133" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicGroup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.875">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/CharacteristicStatuses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.375">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_04_114657_create_characteristic_group.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43814433">
+          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/CharacteristicsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.375">
+          <caret line="203" column="9" selection-start-line="203" selection-start-column="9" selection-end-line="203" selection-end-column="9" />
+          <folding>
+            <element signature="e#46#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplashTmpl/default.statuses.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-25.208334">
+          <caret line="57" column="52" selection-start-line="57" selection-start-column="52" selection-end-line="57" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/components/jSplash/jSplash.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1555" column="56" selection-start-line="1555" selection-start-column="56" selection-end-line="1555" selection-end-column="56" />
+          <folding>
+            <element signature="e#1430#12384#0" expanded="false" />
+            <element signature="e#12496#15825#0" expanded="false" />
+            <element signature="e#15881#16204#0" expanded="false" />
+            <element signature="e#16263#31307#0" expanded="false" />
+            <element signature="e#31345#32380#0" expanded="false" />
+            <element signature="e#32431#33622#0" expanded="false" />
+            <marker date="1461164179839" expanded="true" signature="93441:94689" placeholder="..." />
+            <marker date="1461164179839" expanded="true" signature="93484:94663" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/admin/characteristics/create_edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6701031">
-          <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.50276244">
+          <caret line="153" column="93" selection-start-line="153" selection-start-column="93" selection-end-line="153" selection-end-column="93" />
           <folding />
         </state>
       </provider>

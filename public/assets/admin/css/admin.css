@@ -1108,25 +1108,22 @@ table.dataTable thead .sorting:after {
     border-radius: 50% !important;
 }
 
-.flexbox {
-    display: flex;
-}
-
-.flex-justify {
-    justify-content: space-around;
-}
-
 .wizard {
     position: relative;
 }
 
 .wizard .step{
     position: relative;
-    background-color: white;
-    text-align: center;
+    background-color: #ffffff;
+    right: -2px;
     z-index: 1;
 }
 
+.wizard .step .btn{
+    background-color: #ffffff;
+}
+
+.wizard .step.active .btn,
 .wizard .step.passed .btn{
     background-color: #63a3db;
 }
@@ -1134,12 +1131,37 @@ table.dataTable thead .sorting:after {
 .wizard .step .btn-circle{
     padding-left: 11px !important;
     line-height: 1 !important;
+    display: inline-block;
 }
 
 .wizard .progress {
     position: relative;
     top: -25px;
 }
+
+.flexbox {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-justify {
+            -webkit-box-pack: justify;
+     -webkit-justify-content: space-between;
+               -ms-flex-pack: justify;
+             justify-content: space-between;
+}
+
+.flexbox .flex-item{
+    -webkit-box-flex: 1;
+        -webkit-flex: 1 100%;
+            -ms-flex: 1 100%;
+                flex: 1 100%;
+    background-color: transparent;
+    text-align: right;
+}
+
 
 .jSplash-form .panel-body .glyphicon {
     cursor: pointer;
