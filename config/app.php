@@ -164,9 +164,10 @@ return [
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
 
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+
+        Intervention\Image\ImageServiceProvider::class,
         Spescina\Mediabrowser\Providers\MediabrowserServiceProvider::class,
 
     ],

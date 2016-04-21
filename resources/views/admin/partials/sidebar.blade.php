@@ -3,15 +3,15 @@
 
         <ul class="nav" id="side-menu">
             <li>
-                <a href="{{ URL::to('') }}"><i class="fa fa-backward"></i> Go to frontend</a>
+                <a href="{{ route('home') }}"><i class="fa fa-backward"></i> Go to frontend</a>
             </li>
             <li>
-                <a href="{{url('admin/dashboard')}}">
+                <a href="{{ route('admin.index') }}">
                     <i class="fa fa-dashboard fa-fw"></i> Dashboard
                 </a>
             </li>
             <li>
-                <a href="{{url('admin/characteristics')}}">
+                <a href="{{ route('admin.characteristics.index') }}">
                     <i class="fa fa-list"></i> Сharacteristics
                 </a>
             </li>
@@ -54,12 +54,12 @@
                 </li>
                 -->
             <li>
-                <a href="{{url('admin/user')}}">
+                <a href="{{ route('admin.user.index') }}">
                     <i class="glyphicon glyphicon-user"></i> Users
                 </a>
             </li>
             <li>
-                <a href="{{ URL::to('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
+                <a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
             </li>
         </ul>
     </div>

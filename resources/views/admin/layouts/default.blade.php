@@ -37,7 +37,7 @@
 <body>
 <div id="wrapper">
     @include('admin.partials.nav')
-        <div class="col-xs-2">
+        <div class="col-xs-2 sidebar-wrapper">
             @include('admin.partials.sidebar')
         </div>
         <div class="col-xs-10" >

@@ -144,7 +144,7 @@
                                         var $rows = $(".statuses").find(".duplicated");
                                         for(var j=$rows.length-1;j>=0;j--){
                                             var $ext = $rows.eq(j).find('.extend');
-                                            var range = $ext.eq(0).is(":checked")? $ext.eq(1).val():100-$ext.eq(1).val()
+                                            var range = $ext.eq(0).is(":checked")? 100-$ext.eq(1).val():$ext.eq(1).val()
                                             if(range) cntLead = parseInt(cntLead / range * 100);
                                         }
                                         $(".statuses #recLead").val(cntLead).trigger('change');

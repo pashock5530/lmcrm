@@ -840,10 +840,6 @@ body {
     border-bottom: 1px solid #e7e7e7;
 }
 
-.sidebar ul li a.active {
-    background-color: #eee;
-}
-
 .sidebar .arrow {
     float: right;
 }
@@ -1095,6 +1091,21 @@ table.dataTable thead .sorting:after {
     color: #df8a13;
 }
 
+/* ------------------------------------------------------------------------------------------------------------------*/
+
+.sidebar {
+    position: relative;
+    background-color: transparent !important;
+}
+
+.sidebar .nav > li > a.active{
+    color: #23527c;
+}
+.sidebar .nav > li > a:focus,.sidebar .nav > li > a:hover {
+    color: #23527c;
+    background-color: #f8f8f8;
+}
+
 .navbar-static-top {
     z-index: 1 !important;
 }
@@ -1174,8 +1185,4 @@ table.dataTable thead .sorting:after {
 .icon.icon-128 {
     max-width: 128px;
     max-height: 128px;
-}
-
-.slider {
-    position: relative;
 }
