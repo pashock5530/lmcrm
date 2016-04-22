@@ -23,6 +23,7 @@
                 <li class="flex-item step"><a href="#tab2" data-toggle="tab" class="btn btn-circle">2</a></li>
                 <li class="flex-item step"><a href="#tab3" data-toggle="tab" class="btn btn-circle">3</a></li>
                 <li class="flex-item step"><a href="#tab4" data-toggle="tab" class="btn btn-circle">4</a></li>
+                <li class="flex-item step"><a href="#tab5" data-toggle="tab" class="btn btn-circle">5</a></li>
             </ul>
             <div class="progress progress-striped">
                 <div class="progress-bar progress-bar-info bar"></div>
@@ -49,12 +50,15 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab4">
-                    <h3 class="page-header">Finish</h3>
+                    <h3 class="page-header">Statuses</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="threshold">
                             Prepearing...
                         </div>
                     </form>
+                </div>
+                <div class="tab-pane" id="tab5">
+                    <h3 class="page-header">Finish</h3>
                     <br class="clearfix">
                     <button class="btn btn-warning btn-save btn-raised">Save</button>
                 </div>
@@ -126,7 +130,7 @@
                 navigation.closest('.wizard').find('.bar').css({width:$percent+'%'});
             }});
 
-            var cntLead = 10;
+            var cntLead = 1;
             $.ajax({
                 url:  '{{ route('admin.chrct.form',[$fid]) }}',
                 method: 'GET',
@@ -140,7 +144,7 @@
                                 onShow:function(){
                                     $.material.init();
                                     $('#content .jSplash-data .btn-calc').click(function(){
-                                        cntLead = 10;
+                                        cntLead = 1;
                                         var $rows = $(".statuses").find(".duplicated");
                                         for(var j=$rows.length-1;j>=0;j--){
                                             var $ext = $rows.eq(j).find('.extend');

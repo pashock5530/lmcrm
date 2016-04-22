@@ -56,9 +56,9 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="form-group _label-floating">
-                <label class="control-label" for="recLead">Recommend lead count</label>
+                <label class="control-label" for="recLead">Minimum lead to close 1 deal</label>
                 <div class="input-group">
-                    <input type="text" id="recLead" value="{{=it.settings.stat.minLead || 10}}" class="form-control" />
+                    <input type="text" id="recLead" value="{{=it.settings.stat.minLead || 1}}" class="form-control" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-fab btn-fab-mini btn-calc" type="button"><i class="entypo-cw"></i></button>
                     </span>
