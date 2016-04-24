@@ -760,7 +760,7 @@
                     case 'value.delete':
                         $context.on('click', function (sdata, params) {
                             return function () {
-                                bootbox.confirm('Delete item?', function (result) {
+                                bootbox.confirm(trans('delete_message'), function (result) {
                                     if (result) {
                                         _this.route.get('delete', sdata, params);
                                     }
@@ -772,7 +772,7 @@
                         $context.on('click', function (sdata, params) {
                             return function () {
                                 params.$img = $(this).closest('.image-editable').children('img').first();
-                                bootbox.confirm('Delete image?', function (result) {
+                                bootbox.confirm(trans('delete_message'), function (result) {
                                     if (result) {
                                         _this.route.get('delete', sdata, params);
                                     }
@@ -1615,6 +1615,7 @@
                     "name": "email",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "E-mail",
                         "placeholder": {"required": true, "value": "email@mail.com"},
                         //"required": {"value": 1, "edit": false}
@@ -1624,6 +1625,7 @@
                     "name": "textarea",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Text Area",
                         "placeholder": {"required": true},
                         "validate": {"required": false, "value": "email"},
@@ -1635,6 +1637,7 @@
                     "name": "input",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Text Input",
                         "placeholder": {"required": false},
                         "validate": {"required": false},
@@ -1645,6 +1648,7 @@
                     "name": "checkbox",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "CheckBox",
                         "option": {"value": [{'id':0,'val':"checkbox1"},{'id':0,'val':"checkbox2"},{'id':0,'val':"checkbox3"}]},
                         //"required": {"value": 0}
@@ -1654,6 +1658,7 @@
                     "name": "radio",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Radio",
                         "option": {"value": [{'id':0,'val':"radio1"},{'id':0,'val':"radio2"},{'id':0,'val':"radio3"}]},
                         //"required": {"value": 0}
@@ -1663,6 +1668,7 @@
                     "name": "select",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Dropdown",
                         "option": {"value": [{'id':0,'val':"option1"},{'id':0,'val':"option2"},{'id':0,'val':"option3"}]},
                         //"required": {"value": 0}
@@ -1672,6 +1678,7 @@
                     "name": "calendar",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Calendar",
                         //"required": {"value": 0}
                     },
@@ -1680,6 +1687,7 @@
                     "name": "submit",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Submit",
                     },
                 },
@@ -1712,7 +1720,7 @@
     jSplash.prototype.tmpl_defered = {
             'list.sortable':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                    '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                    '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
                 '</div>'+
                 '</div>'+
                 '<div class="list-group sortable">'+
@@ -1729,7 +1737,7 @@
                 '</div>',
             'list.gallery':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
                 '</div>'+
                 '</div>'+
                 '<div class="list-group sortable">'+
@@ -1770,7 +1778,7 @@
                 '</div>'+
                 '<div class="col-xs-12">'+
                     '<div class="form-group">'+
-                    '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                    '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
@@ -1808,7 +1816,7 @@
                 '</div>',
             'default.container':'<div class="panel panel-default">'+
                 '<div class="panel-heading">'+
-                    '<div class="panel-title">{{?it.settings && it.settings.label}}{{=it.settings.label}}{{?}}</div>'+
+                    '<div class="panel-title">{{?it.settings && it.settings.label}}{{=trans(it.settings.label)}}{{?}}</div>'+
                 '</div>'+
                 '<div class="panel-body" >'+
                     '{{?it.chain}}<chain><!--{ {=it.chain} }--></chain>{{?}}'+
@@ -1816,7 +1824,7 @@
                 '</div>',
             'default.text':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
+                '<label class="control-label _col-sm-2" >{{=trans(it.settings.label)}}</label>'+
                 '<input type="text" name="{{=it.name}}"'+
                 '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
                 '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
@@ -1867,7 +1875,7 @@
                 '</div>',
             'default.image':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                '<label class="control-label _col-sm-2">{{=it.settings.label }}</label>'+
+                '<label class="control-label _col-sm-2">{{=trans(it.settings.label)}}</label>'+
                 '<span class="image-editable">'+
                     '<img {{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }} src="{{?it.values && it.values!="" }}{{=it.values}}{{?? true}}http://placehold.it/250x250{{??}}{{?}}" >'+
                 '<div class="image-options">'+
@@ -1880,8 +1888,7 @@
                 '</div>',
             'default.icon':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                    '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
-
+                    '<label class="control-label _col-sm-2" >{{=trans(it.settings.label)}}</label>'+
                 '<div class="gallery-env col-sm-4 col-xs-6 edit-page-opt">'+
                     '<article class="image-thumb portfolio-item">'+
                     '<a class="image select-icon" href="#">'+
@@ -1915,15 +1922,35 @@
                 '</div>',
     };
 
+    window.trans=function(phrase){
+        var path=false;
+        if(typeof (dictionary) == 'undefined') { return phrase; }
+        var str=dictionary;
+
+        if (typeof phrase === "string") {
+            path = phrase.split(".");
+        }
+        if (!(path instanceof Array) || path.length === 0) {
+            return ;
+        }
+        for (var i in path) {
+            if (dictionary.hasOwnProperty(path[i])) {
+                str = str[path[i]];
+            } else {
+                return phrase;
+            }
+        }
+        return str;
+    };
+
     (function(){
         var list =[
-                'container.gmap',
-                'modal.dynamic',
-                'modal.attributes',
-                'form.field',
                 'attributes.field',
-
+                'container.gmap',
                 'default.statuses',
+                'form.field',
+                'modal.attributes',
+                'modal.dynamic',
             ],
             item = null;
 

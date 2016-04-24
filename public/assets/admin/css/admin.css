@@ -1133,10 +1133,13 @@ table.dataTable thead .sorting:after {
 .wizard .step .btn{
     background-color: #ffffff;
 }
-
 .wizard .step.active .btn,
 .wizard .step.passed .btn{
     background-color: #63a3db;
+}
+
+.wizard .nav > li > a:focus,.wizard .nav > li > a:hover {
+    background-color: #eee !important;
 }
 
 .wizard .step .btn-circle{

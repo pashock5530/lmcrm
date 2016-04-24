@@ -159,6 +159,7 @@ class CharacteristicsController extends AdminController {
                 $arr['id'] = $chrct->id;
                 $arr['_type'] = $chrct->_type;
                 $arr['label'] = $chrct->label;
+                $arr['icon'] = $chrct->icon;
                 //$arr['required'] = ($chrct->required)?1:0;
                 $arr['position'] = $chrct->position;
                 if($chrct->has('options')) {
@@ -180,6 +181,7 @@ class CharacteristicsController extends AdminController {
                 $arr['id'] = $chrct->id;
                 $arr['_type'] = $chrct->_type;
                 $arr['label'] = $chrct->label;
+                $arr['icon'] = $chrct->icon;
                 //$arr['required'] = ($chrct->required)?1:0;
                 $arr['position'] = $chrct->position;
                 if($chrct->has('options')) {
@@ -281,13 +283,13 @@ class CharacteristicsController extends AdminController {
                         $chr_options = CharacteristicOptions::find($optVal['id']);
                         $chr_options->ctype = 'lead';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        //$chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
                         $chr_options->save();
                     } else {
                         $chr_options = new CharacteristicOptions();
                         $chr_options->ctype = 'lead';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        //$chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
                         $leadAttr->options()->save($chr_options);
                     }
                 }
@@ -369,13 +371,13 @@ class CharacteristicsController extends AdminController {
                         $chr_options = CharacteristicOptions::find($optVal['id']);
                         $chr_options->ctype = 'agent';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
+                        //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
                         $chr_options->save();
                     } else {
                         $chr_options = new CharacteristicOptions();
                         $chr_options->ctype = 'agent';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
+                        //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
                         $characteristic->options()->save($chr_options);
                         $bitMask->addAttr($characteristic->id, $chr_options->id);
                     }
@@ -404,10 +406,9 @@ class CharacteristicsController extends AdminController {
      */
     public function data()
     {
-        $chr = CharacteristicGroup::select(['id','icon', 'name', 'status', 'created_at']);
+        $chr = CharacteristicGroup::select(['id','name', 'status', 'created_at']);
 
         return Datatables::of($chr)
-            ->edit_column('icon', function($model) { return view('admin.characteristics.datatables.icon',['icon'=>$model->icon]); } )
             ->edit_column('status', function($model) { return view('admin.characteristics.datatables.status',['status'=>$model->status]); } )
             ->add_column('actions', function($model) { return view('admin.characteristics.datatables.control',['id'=>$model->id]); } )
             ->remove_column('id')

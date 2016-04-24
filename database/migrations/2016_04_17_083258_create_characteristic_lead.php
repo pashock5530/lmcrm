@@ -17,6 +17,7 @@ class CreateCharacteristicLead extends Migration
             $table->integer('group_id');
             $table->string('_type');
             $table->string('label');
+            $table->string('icon',2083);
             $table->string('required');
             $table->integer('position');
             $table->timestamps();

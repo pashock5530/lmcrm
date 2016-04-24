@@ -30,19 +30,19 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane" id="tab1">
-                    <h3 class="page-header">Settings</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.settings')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="opt"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <h3 class="page-header">Lead form</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.lead_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="form jSplash-data" id="lead"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab3">
-                    <h3 class="page-header">Agent form</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.agent_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="cform">
                             Loading...
@@ -50,7 +50,7 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab4">
-                    <h3 class="page-header">Statuses</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.statuses')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="threshold">
                             Prepearing...
@@ -58,15 +58,15 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab5">
-                    <h3 class="page-header">Finish</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.finish')}}</h3>
                     <br class="clearfix">
-                    <button class="btn btn-warning btn-save btn-raised">Save</button>
+                    <button class="btn btn-warning btn-save btn-raised">{{trans('admin/modal.save')}}</button>
                 </div>
                 <ul class="pager wizard">
-                    <li class="previous first" style="display:none;"><a href="#">First</a></li>
-                    <li class="previous"><a href="#">Previous</a></li>
-                    <li class="next last" style="display:none;"><a href="#">Last</a></li>
-                    <li class="next"><a href="#">Next</a></li>
+                    <li class="previous first" style="display:none;"><a href="#">{!! trans('pagination.first') !!}</a></li>
+                    <li class="previous"><a href="#">{!! trans('pagination.previous') !!}</a></li>
+                    <li class="next last" style="display:none;"><a href="#">{{trans('pagination.last')}}</a></li>
+                    <li class="next"><a href="#">{{trans('pagination.next')}}</a></li>
                 </ul>
             </div>
         </div>
@@ -83,8 +83,8 @@
                     <div class="modal-body"></div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-info " data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success btn-raised btn-save">Save</button>
+                        <button type="button" class="btn btn-info " data-dismiss="modal">{{trans('admin/modal.close')}}</button>
+                        <button type="button" class="btn btn-success btn-raised btn-save">{{trans('admin/modal.save')}}</button>
                     </div>
                 </div>
             </form>
@@ -110,6 +110,7 @@
     <script type="text/javascript" src="{{ asset('components/jSplash/GMapInit.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/sly.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/jSplash.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('components/jSplash/lang/jSplash.'.LaravelLocalization::getCurrentLocale().'.js') }}"></script>
     <script type="text/javascript">
         $(function(){
             $(".jSplash-form").submit(function(){
