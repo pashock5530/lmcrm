@@ -13,7 +13,4 @@ return [
     'agent_form' => 'Agent form',
     'statuses' => 'Statuses',
     'finish' => 'Finish',
-    '' => '',
-    '' => '',
-    '' => '',
 ];
