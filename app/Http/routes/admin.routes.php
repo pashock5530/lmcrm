@@ -25,12 +25,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     */
 # Users
     Route::get('/', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
-//Route::resource('/','Admin\UserController');
+    //Route::resource('/','Admin\UserController');
     Route::get('user/data', 'Admin\UserController@data');
-//Route::get('user/{user}/show', 'Admin\UserController@show');
-//Route::get('user/{user}/edit', 'Admin\UserController@edit');
-//Route::get('user/{user}/delete', 'Admin\UserController@delete');
-    Route::resource('user', 'Admin\UserController', ['as' => 'admin.user']);
+
+    Route::get('user/create',['as'=>'admin.user.create', 'uses' => 'Admin\UserController@create']);
+    Route::get('user/{id}/edit',['as'=>'admin.user.edit', 'uses' => 'Admin\UserController@edit']);
+    Route::get('user/{id}/delete', ['as'=>'admin.user.delete', 'uses' => 'Admin\UserController@delete']);
+    //Route::resource('user', 'Admin\UserController');
+
+    Route::get('agent', ['as' => 'admin.agent.index', 'uses' => 'Admin\AgentController@index']);
+    Route::get('agent/data', 'Admin\AgentController@data');
+    Route::get('agent/create',['as'=>'admin.agent.create', 'uses' => 'Admin\AgentController@create']);
+    Route::post('agent/store',['as'=>'admin.agent.store', 'uses' => 'Admin\AgentController@store']);
+    Route::get('agent/{id}/edit',['as'=>'admin.agent.edit', 'uses' => 'Admin\AgentController@edit']);
+    Route::get('agent/{id}/delete', ['as'=>'admin.agent.delete', 'uses' => 'Admin\AgentController@delete']);
+    //Route::resource('agent', 'Admin\AgentController');
 
 //Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
     Route::get('characteristics/index', ['as' => 'admin.characteristics.index', 'uses' => 'Admin\CharacteristicsController@index']);

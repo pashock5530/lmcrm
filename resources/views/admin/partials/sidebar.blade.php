@@ -54,6 +54,11 @@
                 </li>
                 -->
             <li>
+                <a href="{{ route('admin.agent.index') }}">
+                    <i class="glyphicon glyphicon-star"></i> Agents
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.user.index') }}">
                     <i class="glyphicon glyphicon-user"></i> Users
                 </a>

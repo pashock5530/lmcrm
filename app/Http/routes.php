@@ -1,10 +1,12 @@
 <?php
 Route::group(['prefix' => 'admin'], function() {
     Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
+    Route::get('agent/data', 'Admin\AgentController@data');
+    Route::get('user/data', 'Admin\UserController@data');
 });
 //
 Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'web','localeSessionRedirect','localizationRedirect', 'localize' ]], function() {
-    include_once('routes/front.routes.php');
+    include('routes/front.routes.php');
 
-    include_once('routes/admin.routes.php');
+    include('routes/admin.routes.php');
 });

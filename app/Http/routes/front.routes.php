@@ -20,17 +20,21 @@ Route::any('/auth/destroy', ['as' => 'auth.destroy', 'uses' => 'Auth\SessionsCon
 //Route::resource('/auth', 'Auth\SessionsController', ['only' => ['create', 'store', 'destroy']]);
 
 # Registration
+/*
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/auth/register', ['as' => 'registration.form', 'uses' => 'RegistrationController@create']);
     Route::post('/auth/register', ['as' => 'registration.store', 'uses' => 'RegistrationController@store']);
 });
+*/
 # Forgotten Password
+/*
 Route::group(['middleware' => 'guest'], function () {
     Route::get('forgot_password', 'Auth\PasswordController@getEmail');
     Route::post('forgot_password', 'Auth\PasswordController@postEmail');
     Route::get('reset_password/{token}', 'Auth\PasswordController@getReset');
     Route::post('reset_password/{token}', 'Auth\PasswordController@postReset');
 });
+*/
 /*
 # Standard User Routes
 Route::group(['middleware' => ['auth','standardUser']], function()

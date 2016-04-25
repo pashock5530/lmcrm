@@ -1,19 +1,19 @@
 @extends('admin.layouts.default')
 
 {{-- Web site Title --}}
-@section('title') {!! trans("admin/users.users") !!} :: @parent
+@section('title') {!! trans("admin/agent.agents") !!} :: @parent
 @stop
 
 {{-- Content --}}
 @section('main')
     <div class="page-header">
         <h3>
-            {!! trans("admin/users.users") !!}
+            {!! trans("admin/agent.agents") !!}
                 <div class="pull-right flip">
-                    <a href="{!! route('admin.user.create') !!}"
-                       class="btn btn-sm  btn-primary iframe"><span
+                    <a href="{!! route('admin.agent.create') !!}"
+                       class="btn btn-sm  btn-primary"><span
                                 class="glyphicon glyphicon-plus-sign"></span> {{
-					trans("admin/modal.new") }}</a>
+                                trans("admin/modal.new") }}</a>
                 </div>
         </h3>
     </div>

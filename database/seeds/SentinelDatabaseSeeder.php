@@ -94,33 +94,17 @@ class SentinelDatabaseSeeder extends Seeder
 
         ));
 
-        $moderatorRole = Sentinel::getRoleRepository()->create(array(
-
-            'name' => 'Moderator',
-
-            'slug' => 'moderator',
-
-            'permissions' => array(
-
-                'users.update' => true,
-
-                'users.view' => true,
-
-            )
-
+        $subscriberRole = Sentinel::getRoleRepository()->create(array(
+            'name' => 'Agent',
+            'slug' => 'agent',
+            'permissions' => array()
         ));
 
         $subscriberRole = Sentinel::getRoleRepository()->create(array(
-
-            'name' => 'Subscriber',
-
-            'slug' => 'subscriber',
-
+            'name' => 'Salesman',
+            'slug' => 'salesman',
             'permissions' => array()
-
         ));
-
-
 
         // Assign Roles to Users
 

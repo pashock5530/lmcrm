@@ -6,15 +6,15 @@ use App\Models\User;
 use App\Http\Requests\AdminUsersEditFormRequest;
 //use App\Repositories\UserRepositoryInterface;
 use Datatables;
-use Illuminate\Support\Facades\Route;
 
-class UserController extends AdminController
+
+class AgentController extends AdminController
 {
 
 
     public function __construct()
     {
-        view()->share('type', 'user');
+        view()->share('type', 'agent');
     }
 
     /*
@@ -25,7 +25,7 @@ class UserController extends AdminController
     public function index()
     {
         // Show the page
-        return view('admin.user.index');
+        return view('admin.agent.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        return view('admin.user.create_edit');
+        return view('admin.agent.create_edit');
     }
 
     /**
@@ -59,10 +59,9 @@ class UserController extends AdminController
      * @param $user
      * @return Response
      */
-    public function edit($id)
+    public function edit(User $agent)
     {
-        $user=User::findOrFail($id);
-        return view('admin.user.create_edit', ['user'=>$user]);
+        return view('admin.agent.create_edit', compact('agent'));
     }
 
     /**
@@ -71,7 +70,7 @@ class UserController extends AdminController
      * @param $user
      * @return Response
      */
-    public function update(AdminUsersEditFormRequest $request, User $user)
+    public function update(AdminUsersEditFormRequest $request, User $agent)
     {
         $password = $request->password;
         $passwordConfirmation = $request->password_confirmation;
@@ -79,10 +78,10 @@ class UserController extends AdminController
         if (!empty($password)) {
             if ($password === $passwordConfirmation) {
                 //$user->password = bcrypt($password);
-                $user->password = \Hash::make($request->input('password'));
+                $agent->password = \Hash::make($request->input('password'));
             }
         }
-        $user->update($request->except('password','password_confirmation'));
+        $agent->update($request->except('password','password_confirmation'));
     }
 
     /**
@@ -92,9 +91,9 @@ class UserController extends AdminController
      * @return Response
      */
 
-    public function delete(User $user)
+    public function delete(User $agent)
     {
-        return view('admin.user.delete', compact('user'));
+        return view('admin.agent.delete', compact('agent'));
     }
 
     /**
@@ -103,9 +102,9 @@ class UserController extends AdminController
      * @param $user
      * @return Response
      */
-    public function destroy(User $user)
+    public function destroy(User $agent)
     {
-        $user->delete();
+        $agent->delete();
     }
 
     /**
@@ -115,10 +114,10 @@ class UserController extends AdminController
      */
     public function data()
     {
-        $users = User::select(array('users.id', 'users.name', 'users.email', 'users.created_at'));
+        $agents = \Sentinel::findRoleBySlug('agent')->users()->with('roles')->select(array('users.id', 'users.name', 'users.email', 'users.created_at'));
 
-        return Datatables::of($users)
-            ->add_column('actions',function($model) { return view('admin.user.datatables.control',['id'=>$model->id]); })
+        return Datatables::of($agents)
+            ->add_column('actions', function($model) { return view('admin.agent.datatables.control',['id'=>$model->id]); })
             ->remove_column('id')
             ->make();
     }
