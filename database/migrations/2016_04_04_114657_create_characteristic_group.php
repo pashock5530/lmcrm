@@ -14,6 +14,7 @@ class CreateCharacteristicGroup extends Migration
     {
         Schema::create('characteristic_group', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('status');
             $table->string('name');
             $table->integer('minLead');
             $table->string('table_name');

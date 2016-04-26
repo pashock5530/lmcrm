@@ -93,6 +93,7 @@
                 this.onSave();
             },
             store_array: function(data,index) {
+console.log('store_array',data,index);
                 var index = (index || index === 0) ? index : false;
                 var new_data = {};
                 if(index !== false) {
@@ -800,13 +801,32 @@
                             }
                         }({entity: entity, values: null}, params));
                         break;
+                    case 'split_option':
+                        $context.find('.btn-split').click(function() {
+                            var $newItem =  $context.find('.duplicate').first()
+                                .clone(true).removeClass('hidden').addClass('duplicated')
+                                .insertAfter($(this).closest('.duplicated'));
+                            $newItem
+                                .find('.data').attr('name', $newItem.find('.data').first().data('name'));
+                            $newItem
+                                .find('input,select').val(null);
+
+                            $newItem.find('.data').first().after(
+                                $('<input type="hidden" class="extend name-ignore" value="" data-name="parent" />')
+                                    .val($(this).closest('.duplicated').find('.data').first().data('id'))
+                            );
+                            $(this).closest('.duplicated').find('.data').first().after(
+                                $('<input type="hidden" class="extend name-ignore" value="1" data-name="split" />')
+                            );
+                        });
+                        break;
                     case 'duplicate_option':
                         $context.find('.btn-duplicate-add').click(function() {
                             var $newItem =  $context.find('.duplicate').first()
                                 .clone(true).removeClass('hidden').addClass('duplicated')
                                 .insertAfter($context.find('.duplicate').last());
                             $newItem
-                                .find('.data').addClass('data').attr('name', $newItem.find('.data').first().data('name'));
+                                .find('.data').attr('name', $newItem.find('.data').first().data('name'));
                             $newItem
                                 .find('input,select').val(null);
 
@@ -1172,8 +1192,8 @@
                         var $modal = $(this).closest('.modal');
                         var data={};
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
-                            if(obj.name && !$(obj).hasClass('random-name')) {
-                                var $extend = $(obj).closest('.duplicate').find('input.extend');
+                            if(obj.name && !$(obj).hasClass('name-ignore') ) {
+                                var $extend = $(obj).closest('.duplicate').find('input.extend:not([data-name])');
                                 var ext = null;
                                 if($extend.length>1) {
                                     ext = [];
@@ -1186,22 +1206,27 @@
                                 if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
                                     if(!$(obj).is(':checked')) { return true; }
                                 }
+                                var cdata = {};
+                                if($(obj).val()) {
+                                    if($(obj).data('type')=='record') {
+                                        cdata={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                    } else {
+                                        cdata=$(obj).val()+((ext)? '['+ext+']' : '');
+                                    }
+                                }
+                                var $extend = $(obj).closest('.duplicate').find('input.extend[data-name]');
+                                for(var i=0;i<$extend.length;i++){
+                                    var $ext = $extend.eq(i);
+                                    cdata[$ext.data('name')] = $ext.val();
+                                }
                                 if($(obj).val()) {
                                     if (data[obj.name]) {
                                         if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
                                             data[obj.name] = [data[obj.name]];
                                         }
-                                        if($(obj).data('type')=='record') {
-                                            data[obj.name].push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
-                                        } else {
-                                            data[obj.name].push($(obj).val()+((ext)? '['+ext+']' : ''));
-                                        }
+                                        data[obj.name].push(cdata);
                                     } else {
-                                        if($(obj).data('type')=='record') {
-                                            data[obj.name]={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
-                                        } else {
-                                            data[obj.name]=$(obj).val()+((ext)? '['+ext+']' : '');
-                                        }
+                                        data[obj.name]= cdata;
                                     }
                                 }
                             }
@@ -1218,6 +1243,7 @@
                     });
                 })(fdata,validator);
                 _this.tmpl.addRule('duplicate_option',$(_this.option.modal).find('.modal-body'),null,null,null);
+                _this.tmpl.addRule('split_option',$(_this.option.modal).find('.modal-body'),null,null,null);
                 $(_this.option.modal)
                     .one('hide.bs.modal', function (e) {
                         var $modal = $(this).closest('.modal');

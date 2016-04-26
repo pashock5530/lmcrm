@@ -82,4 +82,9 @@ class CharacteristicBit extends Model
 
         return $this->hasOne();
     }
+
+    public function copyAttr($group_index,$new_opt_index,$parent_opt_index){
+        DB::statement('UPDATE `'.$this->table.'` SET `'.implode('_', ['fb', $group_index, $new_opt_index]).'`=`'.implode('_', ['fb', $group_index, $parent_opt_index]).'` WHERE 1');
+        return true;
+    }
 }

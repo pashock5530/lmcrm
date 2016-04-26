@@ -149,9 +149,12 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5">
                             <input type="hidden" value="{{=itvalObj["val"]}}" class="data" name="{{=prop}}" data-type="record" data-id="{{=itvalObj["id"]||0}}" />
                             <input type="text" class="form-control pull-left flip select" value="{{=itvalObj["val"]||""}}" data-extend="1"/>
+                        </div>
+                        <div class="col-xs-1">
+                            <a class="btn-split"><i class="entypo-flow-branch"></i></a>
                         </div>
                         <div class="col-xs-2">
                             <button type="button" class="btn btn-danger btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>

@@ -34,7 +34,7 @@ class SentinelDatabaseSeeder extends Seeder
 
             'email'    => 'admin@admin.com',
 
-            'password' => 'password'
+            'password' => 'admin'
 
         ));
 
@@ -44,7 +44,7 @@ class SentinelDatabaseSeeder extends Seeder
 
             'email'    => 'user@user.com',
 
-            'password' => 'password'
+            'password' => 'user'
 
         ));
 
