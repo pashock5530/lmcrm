@@ -1093,6 +1093,10 @@ table.dataTable thead .sorting:after {
 
 /* ------------------------------------------------------------------------------------------------------------------*/
 
+.navbar-right {
+    margin-right: 0px !important;
+}
+
 .sidebar {
     position: relative;
     background-color: transparent !important;

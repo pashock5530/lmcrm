@@ -18,7 +18,7 @@ class Agent extends EloquentUser implements AuthenticatableContract, CanResetPas
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name','email', 'password',
+        'first_name', 'last_name','name','email', 'password',
     ];
 
     /**
@@ -29,4 +29,8 @@ class Agent extends EloquentUser implements AuthenticatableContract, CanResetPas
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function scopelistAll($query){
+        return $query->whereIn('id',\Sentinel::findRoleBySlug('agent')->users()->lists('id'))->select(array('users.id','users.first_name','users.last_name', 'users.name', 'users.email', 'users.created_at'));
+    }
 }

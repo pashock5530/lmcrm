@@ -38,7 +38,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     Route::get('agent/create',['as'=>'admin.agent.create', 'uses' => 'Admin\AgentController@create']);
     Route::post('agent/store',['as'=>'admin.agent.store', 'uses' => 'Admin\AgentController@store']);
     Route::get('agent/{id}/edit',['as'=>'admin.agent.edit', 'uses' => 'Admin\AgentController@edit']);
-    Route::get('agent/{id}/delete', ['as'=>'admin.agent.delete', 'uses' => 'Admin\AgentController@delete']);
+    Route::match(['put','post'],'agent/{id}',['as'=>'admin.agent.update', 'uses' => 'Admin\AgentController@update']);
+    Route::get('agent/{id}/destroy', ['as'=>'admin.agent.delete', 'uses' => 'Admin\AgentController@destroy']);
     //Route::resource('agent', 'Admin\AgentController');
 
 //Route::get('characteristics/data', 'Admin\CharacteristicsController@data');

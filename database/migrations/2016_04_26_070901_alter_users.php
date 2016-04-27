@@ -14,6 +14,7 @@ class AlterUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('name')->nullable()->after('last_name');
+            $table->string('confirmation_code')->nullable()->after('password');
         });
     }
 
@@ -26,6 +27,7 @@ class AlterUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('name');
+            $table->dropColumn('confirmation_code');
         });
     }
 }

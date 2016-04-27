@@ -49,7 +49,7 @@ class UserController extends AdminController
         $user = new User ($request->except('password','password_confirmation'));
         //$user->password = bcrypt($request->password);
         $user->password = \Hash::make($request->input('password'));
-        $user->confirmation_code = str_random(32);
+        //$user->confirmation_code = str_random(32);
         $user->save();
     }
 

@@ -54,7 +54,7 @@ class CharacteristicBit extends Model
                 foreach ($opt_index as $aVal) $this->removeAttr($group_index, $aVal);
             } else {
                 $index = implode('_', ['fb', $group_index, $opt_index]);
-                if (!in_array($index, $this->attributes())) {
+                if (in_array($index, $this->attributes())) {
                     DB::statement('ALTER TABLE `' . $this->table . '` DROP COLUMN `' . $index . '', []);
                 }
             }

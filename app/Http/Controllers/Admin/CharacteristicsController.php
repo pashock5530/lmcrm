@@ -380,7 +380,7 @@ class CharacteristicsController extends AdminController {
                         //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
                         $characteristic->options()->save($chr_options);
                         $bitMask->addAttr($characteristic->id, $chr_options->id);
-                        if($optVal['parent']) {
+                        if(isset($optVal['parent'])) {
                             $bitMask->copyAttr($characteristic->id,$chr_options->id,/*parent*/$optVal['parent']);
                         }
                     }

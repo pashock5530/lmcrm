@@ -19,8 +19,8 @@
 			trans("admin/modal.general") }}</a></li>
 </ul>
 <!-- ./ tabs -->
-@if (isset($user))
-{!! Form::model($user, array('route' => ['admin.agent.update',[$user->id]], 'method' => 'put', 'class' => 'bf', 'files'=> true)) !!}
+@if (isset($agent))
+{!! Form::model($agent,array('route' => ['admin.agent.update',$agent->id], 'method' => 'put', 'class' => 'bf', 'files'=> true)) !!}
 @else
 {!! Form::open(array('route' => ['admin.agent.store'], 'method' => 'post', 'class' => 'bf', 'files'=> true)) !!}
 @endif
@@ -42,11 +42,11 @@
                 <span class="help-block">{{ $errors->first('last_name', ':message') }}</span>
             </div>
         </div>
-        <div class="form-group  {{ $errors->has('username') ? 'has-error' : '' }}">
-            {!! Form::label('username', trans("admin/users.username"), array('class' => 'control-label')) !!}
+        <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
+            {!! Form::label('name', trans("admin/users.username"), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::text('username', null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('username', ':message') }}</span>
+                {!! Form::text('name', null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('name', ':message') }}</span>
             </div>
         </div>
         <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
@@ -73,17 +73,16 @@
     </div>
     <div class="form-group">
         <div class="col-md-12">
-            <button type="reset" class="btn btn-sm btn-warning close_popup">
-                <span class="glyphicon glyphicon-ban-circle"></span> {{
-				trans("admin/modal.cancel") }}
-            </button>
-            <button type="reset" class="btn btn-sm btn-default">
+            <a class="btn btn-sm btn-warning close_popup" href="{{ URL::previous() }}">
+                <span class="glyphicon glyphicon-ban-circle"></span> {{	trans("admin/modal.cancel") }}
+            </a>
+            <button type="reset" class="btn btn-sm btn-default">.
                 <span class="glyphicon glyphicon-remove-circle"></span> {{
 				trans("admin/modal.reset") }}
             </button>
             <button type="submit" class="btn btn-sm btn-success">
                 <span class="glyphicon glyphicon-ok-circle"></span>
-                @if	(isset($user))
+                @if	(isset($agent))
                     {{ trans("admin/modal.edit") }}
                 @else
                     {{trans("admin/modal.create") }}
