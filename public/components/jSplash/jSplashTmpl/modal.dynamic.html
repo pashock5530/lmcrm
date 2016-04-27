@@ -84,7 +84,7 @@
                                 <button type="button" class="btn btn-warning btn-duplicate-remove pull-right flip"><i class="entypo-cancel"></i></button>
                             </div>
                         </div>
-                        {{~(it.values[prop] && it.values[prop].length) ? it.values[prop] : it.settings[prop] || [{}] :itvalObj}}
+                        {{~(it.values[prop]) ? ((typeof it.values[prop]=='string' || (typeof it.values[prop]=='object' && it.values[prop].constructor.toString().indexOf('Array') == -1) ) ? [it.values[prop]] : it.values[prop]) : it.settings[prop] || [{}] :itvalObj}}
                         {{ itval = itvalObj["val"].split(/\[|\]/g); }}
                         <div class="row duplicate duplicated">
                             <div class="col-xs-7">

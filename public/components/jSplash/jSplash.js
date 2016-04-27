@@ -1793,7 +1793,7 @@ console.log('store_array',data,index);
                 '<div class="list-group-item">'+
                     '<div class="row">'+
                     '<span class="col-xs-10">{{=value}}</span>'+
-                '<span class="col-xs-2">'+
+                '<span class="col-xs-2 form-group">'+
                     '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
@@ -1824,7 +1824,7 @@ console.log('store_array',data,index);
                 '<div class="list-group-item">'+
                 '<div class="row">'+
                 '<span class="col-xs-10">{{=value}}</span>'+
-                '<span class="col-xs-2">'+
+                '<span class="col-xs-2 form-group">'+
                 '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
