@@ -93,7 +93,6 @@
                 this.onSave();
             },
             store_array: function(data,index) {
-console.log('store_array',data,index);
                 var index = (index || index === 0) ? index : false;
                 var new_data = {};
                 if(index !== false) {
@@ -1107,11 +1106,64 @@ console.log('store_array',data,index);
                     return function () {
                         if (validator.form()) {
                             var $modal = $(this).closest('.modal');
+                            var data={};
+                            $.each($modal.find('input,textarea,select'), function(i, obj) {
+                                if(obj.name && !$(obj).hasClass('name-ignore') ) {
+                                    var $extend = $(obj).closest('.duplicate').find('input.extend:not([data-name])');
+                                    var ext = null;
+                                    if($extend.length>1) {
+                                        ext = [];
+                                        for(var i=0;i<$extend.length;i++){
+                                            ext[i]= ($extend.eq(i).attr('type') == 'checkbox' || $extend.eq(i).attr('type') == 'radio') ? (($extend.eq(i).is(':checked')) ? 1 : 0) : $extend.eq(i).val();
+                                        }
+                                    } else {
+                                        ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+                                    }
+                                    if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
+                                        if(!$(obj).is(':checked')) { return true; }
+                                    }
+                                    var cdata = {};
+                                    if($(obj).val()) {
+                                        if($(obj).data('type')=='record') {
+                                            cdata={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                        } else {
+                                            cdata=$(obj).val()+((ext)? '['+ext+']' : '');
+                                        }
+                                    }
+                                    var $extend = $(obj).closest('.duplicate').find('input.extend[data-name]');
+                                    for(var i=0;i<$extend.length;i++){
+                                        var $ext = $extend.eq(i);
+                                        cdata[$ext.data('name')] = $ext.val();
+                                    }
+                                    if($(obj).val()) {
+                                        if (data[obj.name]) {
+                                            if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
+                                                data[obj.name] = [data[obj.name]];
+                                            }
+                                            data[obj.name].push(cdata);
+                                        } else {
+                                            data[obj.name]= cdata;
+                                        }
+                                    }
+                                }
+                            });
+                            var store_data = data;
+                            store_data['_type'] = fdata.cf.name.replace(/^jsp\d+-/g,'');
+
+                            if (_this.route.get(param.do, {entity: sdata, values: store_data}, index)) {
+                                $modal.modal('hide');
+                                _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+                            }
+
+                            //*------------------------------------------------------------------------------
+/*
+                            var $modal = $(this).closest('.modal');
                             var data = $modal.find('input,textarea,select').serializeArray();
                             if (_this.route.get(param.do, {entity: sdata, values: data}, param)) {
                                 $modal.modal('hide');
                             }
                             _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+*/
                         }
                     };
                 }(validator));
@@ -1239,7 +1291,6 @@ console.log('store_array',data,index);
                             _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
                         }
                         //        }
-
                     });
                 })(fdata,validator);
                 _this.tmpl.addRule('duplicate_option',$(_this.option.modal).find('.modal-body'),null,null,null);
@@ -1580,7 +1631,6 @@ console.log('store_array',data,index);
                 value=value[path[i]];
             }
             if(val) { value[path[path.length-1]]=val;  }
-            console.log(path,val,this.model.db);
             return value;
         };
 

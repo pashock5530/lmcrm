@@ -187,7 +187,13 @@ class CharacteristicsController extends AdminController {
                 if($chrct->has('options')) {
                     $arr['option']=[];
                     foreach($chrct->options()->get() as $eav) {
-                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->icon];
+                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->value];
+                    }
+                }
+                if($chrct->has('validators')) {
+                    $arr['option']=[];
+                    foreach($chrct->validators()->get() as $eav) {
+                        $arr['validate'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->value];
                     }
                 }
                 $lead['values'][]=$arr;
@@ -264,13 +270,17 @@ class CharacteristicsController extends AdminController {
                 $leadAttr = new CharacteristicLead($attr);
                 $group->leadAttr()->save($leadAttr);
             }
+            $eoptions=array();
             if(isset($attr['option'])) {
-                $new_options = [];
                 if (isset($attr['option']['id'])) {
                     $attr['option'] = [$attr['option']];
                 }
-                for ($i = 0; $i < count($attr['option']); $i++) {
-                    if ($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
+                $eoptions=$attr['option'];
+            }
+            if(count($eoptions)) {
+                $new_options = [];
+                for ($i = 0; $i < count($eoptions); $i++) {
+                    if ($eoptions[$i]['id']) $new_options[] = $eoptions[$i]['id'];
                 }
 
                 $old_options = $leadAttr->options()->lists('id')->all();
@@ -278,19 +288,60 @@ class CharacteristicsController extends AdminController {
                     $leadAttr->options()->whereIn('id', $deleted)->delete();
                 }
 
-                foreach ($attr['option'] as $optVal) {
+                foreach ($eoptions as $optVal) {
                     if ($optVal['id']) {
                         $chr_options = CharacteristicOptions::find($optVal['id']);
                         $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'option';
                         $chr_options->name = $optVal['val'];
-                        //$chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        //$chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
                         $chr_options->save();
                     } else {
                         $chr_options = new CharacteristicOptions();
                         $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'option';
                         $chr_options->name = $optVal['val'];
-                        //$chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        //$chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+
                         $leadAttr->options()->save($chr_options);
+                    }
+                }
+            }
+
+            $eoptions=array();
+            if(isset($attr['validate'])) {
+                if (isset($attr['validate']['id'])) {
+                    $attr['validate'] = [$attr['validate']];
+                }
+                $eoptions=$attr['validate'];
+            }
+            if(count($eoptions)) {
+                $new_options = [];
+                for ($i = 0; $i < count($eoptions); $i++) {
+                    if ($eoptions[$i]['id']) $new_options[] = $eoptions[$i]['id'];
+                }
+
+                $old_options = $leadAttr->options()->lists('id')->all();
+                if ($deleted = (array_diff($old_options, $new_options))) {
+                    $leadAttr->options()->whereIn('id', $deleted)->delete();
+                }
+
+                foreach ($eoptions as $optVal) {
+                    if ($optVal['id']) {
+                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'validate';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        $chr_options->save();
+                    } else {
+                        $chr_options = new CharacteristicOptions();
+                        $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'validate';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+
+                        $leadAttr->validators()->save($chr_options);
                     }
                 }
             }
