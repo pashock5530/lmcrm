@@ -68,10 +68,12 @@
   <link rel="shortcut icon" href="{!! asset('site/ico/favicon.ico')  !!} ">
 </head>
 <body>
-@include('partials.nav')
+<div id="wrapper">
+    @include('partials.nav')
 
-<div class="container">
-@yield('content')
+    <div class="container">
+    @yield('content')
+    </div>
 </div>
 @include('partials.footer')
 

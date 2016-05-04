@@ -52,4 +52,27 @@
             </ul>
         </div>
     </div>
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a href="{{ route('agent.lead.create') }}" class="dialog"><i class="fa fa-user-plus"></i> add lead</a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.lead.create') }}"><i class="fa fa-sitemap"></i> Filtration customer</a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.lead.create') }}"><i class="fa fa-plus-square"></i> poluchil</a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.lead.create') }}"><i class="fa fa-minus-square"></i> otdal</a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.lead.create') }}" class="dialog"><i class="fa fa-eye"></i> otkryl</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
 </nav>
