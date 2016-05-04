@@ -13,6 +13,6 @@ class DashboardController extends AdminController {
     public function index()
     {
         $title = "Dashboard";
-        return redirect('admin/user');
+        return redirect()->route('admin.user.index');
     }
 }

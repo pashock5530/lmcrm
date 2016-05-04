@@ -21,7 +21,6 @@
     <table id="table" class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>{!! trans("admin/characteristics.icon") !!}</th>
             <th>{!! trans("admin/characteristics.name") !!}</th>
             <th>{!! trans("admin/characteristics.status") !!}</th>
             <th>{!! trans("admin/admin.created_at") !!}</th>

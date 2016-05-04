@@ -54,7 +54,7 @@ class CharacteristicBit extends Model
                 foreach ($opt_index as $aVal) $this->removeAttr($group_index, $aVal);
             } else {
                 $index = implode('_', ['fb', $group_index, $opt_index]);
-                if (!in_array($index, $this->attributes())) {
+                if (in_array($index, $this->attributes())) {
                     DB::statement('ALTER TABLE `' . $this->table . '` DROP COLUMN `' . $index . '', []);
                 }
             }
@@ -81,5 +81,10 @@ class CharacteristicBit extends Model
     public function getAppends() {
 
         return $this->hasOne();
+    }
+
+    public function copyAttr($group_index,$new_opt_index,$parent_opt_index){
+        DB::statement('UPDATE `'.$this->table.'` SET `'.implode('_', ['fb', $group_index, $new_opt_index]).'`=`'.implode('_', ['fb', $group_index, $parent_opt_index]).'` WHERE 1');
+        return true;
     }
 }

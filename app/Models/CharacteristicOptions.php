@@ -8,7 +8,7 @@ class CharacteristicOptions extends Model
 {
     protected $table = 'characteristic_options';
 
-    protected $fillable = ['characteristic_id','ctype', 'name','value', 'icon','position' ];
+    protected $fillable = ['characteristic_id','ctype','_type', 'name','value', 'icon','position' ];
 
     public function characteristic() {
         return $this->belongsTo('App\Models\Characteristics','id','characteristic_id');

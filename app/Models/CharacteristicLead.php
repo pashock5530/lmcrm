@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class CharacteristicLead extends Model
 {
     protected $table = 'characteristic_lead';
-    protected $fillable = ['_type', 'label','required', 'position' ];
+    protected $fillable = ['_type', 'label','icon','required', 'position' ];
 
     public function options() {
-        return $this->hasMany('App\Models\CharacteristicOptions','characteristic_id','id')->where('ctype','=','lead')->orderBy('position');
+        return $this->hasMany('App\Models\CharacteristicOptions','characteristic_id','id')->where('ctype','=','lead')->where('_type','=','option')->orderBy('position');
+    }
+    public function validators() {
+        return $this->hasMany('App\Models\CharacteristicOptions','characteristic_id','id')->where('ctype','=','lead')->where('_type','=','validate')->orderBy('position');
     }
 
     public function group() {

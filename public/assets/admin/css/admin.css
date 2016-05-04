@@ -763,7 +763,7 @@ body {
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 250px;
+        margin: 0 0 0 0px;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
     }
@@ -840,10 +840,6 @@ body {
     border-bottom: 1px solid #e7e7e7;
 }
 
-.sidebar ul li a.active {
-    background-color: #eee;
-}
-
 .sidebar .arrow {
     float: right;
 }
@@ -872,9 +868,9 @@ body {
 @media(min-width:768px) {
     .sidebar {
         z-index: 1;
-        position: absolute;
-        width: 250px;
-        margin-top: 60px;
+        /*position: absolute;*/
+        width: 100%;
+        margin-top: 0px;
     }
 
     .navbar-top-links .dropdown-messages,
@@ -1095,6 +1091,25 @@ table.dataTable thead .sorting:after {
     color: #df8a13;
 }
 
+/* ------------------------------------------------------------------------------------------------------------------*/
+
+.navbar-right {
+    margin-right: 0px !important;
+}
+
+.sidebar {
+    position: relative;
+    background-color: transparent !important;
+}
+
+.sidebar .nav > li > a.active{
+    color: #23527c;
+}
+.sidebar .nav > li > a:focus,.sidebar .nav > li > a:hover {
+    color: #23527c;
+    background-color: #f8f8f8;
+}
+
 .navbar-static-top {
     z-index: 1 !important;
 }
@@ -1108,32 +1123,33 @@ table.dataTable thead .sorting:after {
     border-radius: 50% !important;
 }
 
-.flexbox {
-    display: flex;
-}
-
-.flex-justify {
-    justify-content: space-around;
-}
-
 .wizard {
     position: relative;
 }
 
 .wizard .step{
     position: relative;
-    background-color: white;
-    text-align: center;
+    background-color: #ffffff;
+    right: -2px;
     z-index: 1;
 }
 
+.wizard .step .btn{
+    background-color: #ffffff;
+}
+.wizard .step.active .btn,
 .wizard .step.passed .btn{
     background-color: #63a3db;
+}
+
+.wizard .nav > li > a:focus,.wizard .nav > li > a:hover {
+    background-color: #eee !important;
 }
 
 .wizard .step .btn-circle{
     padding-left: 11px !important;
     line-height: 1 !important;
+    display: inline-block;
 }
 
 .wizard .progress {
@@ -1141,19 +1157,39 @@ table.dataTable thead .sorting:after {
     top: -25px;
 }
 
+.flexbox {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-justify {
+            -webkit-box-pack: justify;
+     -webkit-justify-content: space-between;
+               -ms-flex-pack: justify;
+             justify-content: space-between;
+}
+
+.flexbox .flex-item{
+    -webkit-box-flex: 1;
+        -webkit-flex: 1 100%;
+            -ms-flex: 1 100%;
+                flex: 1 100%;
+    background-color: transparent;
+    text-align: right;
+}
+
+
 .jSplash-form .panel-body .glyphicon {
     cursor: pointer;
 }
 
 .fancybox-lock .fancybox-overlay {
-    z-index: 150;
+    z-index: 1500;
 }
 
 .icon.icon-128 {
     max-width: 128px;
     max-height: 128px;
-}
-
-.slider {
-    position: relative;
 }

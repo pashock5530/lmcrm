@@ -16,6 +16,7 @@ class CreateCharacteristicOptions extends Migration
             $table->increments('id');
             $table->string('characteristic_id');
             $table->enum('ctype', array('agent', 'lead'));
+            $table->enum('_type', array('option', 'validate'));
             $table->string('name');
             $table->string('value');
             $table->string('position');

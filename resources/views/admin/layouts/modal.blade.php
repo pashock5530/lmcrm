@@ -16,6 +16,7 @@
     @show
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/bootstrap.min.css') }}">
+        @if(LaravelLocalization::getCurrentLocaleDirection()=='rtl') <link rel="stylesheet" href="{{ asset('components/bootstrap-rtl/dist/css/bootstrap-rtl.min.css') }}"> @endif
 
         <!--- -->
         <link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/bootstrap-material-design.css') }}">

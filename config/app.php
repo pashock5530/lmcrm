@@ -67,6 +67,10 @@ return [
 
     'locale' => 'en',
 
+    'locales' => [
+        'en' => 'English',
+        'he' => 'Hebrew'
+    ],
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -108,7 +112,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'errorlog'),
 
     /*
     |--------------------------------------------------------------------------
@@ -160,9 +164,10 @@ return [
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
 
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+
+        Intervention\Image\ImageServiceProvider::class,
         Spescina\Mediabrowser\Providers\MediabrowserServiceProvider::class,
 
     ],

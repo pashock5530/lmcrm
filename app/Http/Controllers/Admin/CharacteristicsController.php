@@ -9,6 +9,7 @@ use App\Models\CharacteristicGroup;
 use App\Models\Characteristics;
 use App\Models\CharacteristicRules;
 use App\Models\CharacteristicLead;
+use App\Models\CharacteristicStatuses;
 use App\Models\CharacteristicBit;
 use Illuminate\Http\Request;
 use Datatables;
@@ -17,6 +18,10 @@ class CharacteristicsController extends AdminController {
     public function __construct()
     {
         view()->share('type', 'characteristics');
+    }
+
+    public function show() {
+        return $this->index();
     }
     /*
    * Display a listing of the resource.
@@ -61,7 +66,7 @@ class CharacteristicsController extends AdminController {
             "renderType"=>"dynamicAttributes",
             "id"=>null,
             "targetEntity"=>"CharacteristicForm",
-            "values"=>[],
+            "values"=>[ ],
             "settings"=>[
                 "view"=>[
                     "show"=>"form.attributes",
@@ -76,7 +81,11 @@ class CharacteristicsController extends AdminController {
             "renderType"=>"dynamicForm",
             "id"=>null,
             "targetEntity"=>"CharacteristicLead",
-            "values"=>[],
+            "values"=>[
+                ["id"=>0,"_type"=>'input',"label"=>'Name',"position"=>1],
+                ["id"=>0,"_type"=>'email',"label"=>'E-mail',"position"=>2],
+                ["id"=>0,"_type"=>'input',"label"=>'Pnone',"position"=>3],
+            ],
             "settings"=>[
                 "view"=>[
                     "show"=>"form.dynamic",
@@ -122,7 +131,21 @@ class CharacteristicsController extends AdminController {
             ],
         ];
         $threshold = [
-
+            "renderType"=>"single",
+            'name' => 'status',
+            'values'=>'',
+            "attributes" => [
+                "type"=>'text',
+                "class" => 'form-control',
+            ],
+            "settings"=>[
+                "label" => 'Form name',
+                "type"=>'statuses',
+                'option'=>[],
+                'stat'=>[
+                    'minLead'=>10
+                ]
+            ]
         ];
 
         if($id) {
@@ -136,6 +159,7 @@ class CharacteristicsController extends AdminController {
                 $arr['id'] = $chrct->id;
                 $arr['_type'] = $chrct->_type;
                 $arr['label'] = $chrct->label;
+                $arr['icon'] = $chrct->icon;
                 //$arr['required'] = ($chrct->required)?1:0;
                 $arr['position'] = $chrct->position;
                 if($chrct->has('options')) {
@@ -151,24 +175,43 @@ class CharacteristicsController extends AdminController {
                 $data['values'][]=$arr;
             }
 
+            if($group->has('leadAttr')) { $lead['values']=array(); }
             foreach($group->leadAttr()->get() as $chrct) {
                 $arr=[];
                 $arr['id'] = $chrct->id;
                 $arr['_type'] = $chrct->_type;
                 $arr['label'] = $chrct->label;
+                $arr['icon'] = $chrct->icon;
                 //$arr['required'] = ($chrct->required)?1:0;
                 $arr['position'] = $chrct->position;
                 if($chrct->has('options')) {
                     $arr['option']=[];
                     foreach($chrct->options()->get() as $eav) {
-                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->icon];
+                        $arr['option'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->value];
+                    }
+                }
+                if($chrct->has('validators')) {
+                    $arr['option']=[];
+                    foreach($chrct->validators()->get() as $eav) {
+                        $arr['validate'][]=['id'=>$eav->id,'val'=>$eav->name,'vale'=>$eav->value];
                     }
                 }
                 $lead['values'][]=$arr;
             }
+
+            if($group->has('statuses')) { $threshold['values']=array(); }
+            foreach($group->statuses()->get() as $chrct) {
+                $arr=[];
+                $arr['id'] = $chrct->id;
+                $arr['val'] = $chrct->stepname;
+                $arr['vale'] = [$chrct->minmax,$chrct->percent];
+                $arr['position'] = $chrct->position;
+                $threshold['values'][]=$arr;
+            }
+            $threshold['settings']['stat']['minLead']=$group->minLead;
         }
 
-        $data=['opt'=>$settings,"cform"=>$data,'lead'=>$lead];
+        $data=['opt'=>$settings,"cform"=>$data,'lead'=>$lead,'threshold'=>$threshold];
         return response()->json($data);
     }
 
@@ -195,11 +238,13 @@ class CharacteristicsController extends AdminController {
         if($id) {
             $group = CharacteristicGroup::find($id);
             $group->name = $opt['opt']['data']['variables']['name'];
+            $group->minLead = $request->get('stat_minLead');
             $group->status = $opt['opt']['data']['variables']['status'];
         } else {
             $group = new CharacteristicGroup([
                 'name' => $opt['opt']['data']['variables']['name'],
-                'status' => $opt['opt']['data']['variables']['status']
+                'status' => $opt['opt']['data']['variables']['status'],
+                'minLead' => $request->get('stat_minLead'),
             ]);
             $group->save();
         }
@@ -208,7 +253,6 @@ class CharacteristicsController extends AdminController {
         $group->save();
 
         $data = $request->only('lead');
-
         $new_chr = $data['lead']['data']['variables'];
         if($new_chr) foreach($new_chr as $index=>$leadAttr) {
             if(isset($leadAttr['_status'])){
@@ -218,7 +262,6 @@ class CharacteristicsController extends AdminController {
                 }
             }
         }
-
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $leadAttr = CharacteristicLead::find($attr['id']);
@@ -227,13 +270,17 @@ class CharacteristicsController extends AdminController {
                 $leadAttr = new CharacteristicLead($attr);
                 $group->leadAttr()->save($leadAttr);
             }
+            $eoptions=array();
             if(isset($attr['option'])) {
-                $new_options = [];
                 if (isset($attr['option']['id'])) {
                     $attr['option'] = [$attr['option']];
                 }
-                for ($i = 0; $i < count($attr['option']); $i++) {
-                    if ($attr['option'][$i]['id']) $new_options[] = $attr['option'][$i]['id'];
+                $eoptions=$attr['option'];
+            }
+            if(count($eoptions)) {
+                $new_options = [];
+                for ($i = 0; $i < count($eoptions); $i++) {
+                    if ($eoptions[$i]['id']) $new_options[] = $eoptions[$i]['id'];
                 }
 
                 $old_options = $leadAttr->options()->lists('id')->all();
@@ -241,26 +288,101 @@ class CharacteristicsController extends AdminController {
                     $leadAttr->options()->whereIn('id', $deleted)->delete();
                 }
 
-                foreach ($attr['option'] as $optVal) {
+                foreach ($eoptions as $optVal) {
                     if ($optVal['id']) {
                         $chr_options = CharacteristicOptions::find($optVal['id']);
                         $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'option';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        //$chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
                         $chr_options->save();
                     } else {
                         $chr_options = new CharacteristicOptions();
                         $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'option';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        //$chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+
                         $leadAttr->options()->save($chr_options);
+                    }
+                }
+            }
+
+            $eoptions=array();
+            if(isset($attr['validate'])) {
+                if (isset($attr['validate']['id'])) {
+                    $attr['validate'] = [$attr['validate']];
+                }
+                $eoptions=$attr['validate'];
+            }
+            if(count($eoptions)) {
+                $new_options = [];
+                for ($i = 0; $i < count($eoptions); $i++) {
+                    if ($eoptions[$i]['id']) $new_options[] = $eoptions[$i]['id'];
+                }
+
+                $old_options = $leadAttr->options()->lists('id')->all();
+                if ($deleted = (array_diff($old_options, $new_options))) {
+                    $leadAttr->options()->whereIn('id', $deleted)->delete();
+                }
+
+                foreach ($eoptions as $optVal) {
+                    if ($optVal['id']) {
+                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'validate';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+                        $chr_options->save();
+                    } else {
+                        $chr_options = new CharacteristicOptions();
+                        $chr_options->ctype = 'lead';
+                        $chr_options->_type = 'validate';
+                        $chr_options->name = $optVal['val'];
+                        $chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
+
+                        $leadAttr->validators()->save($chr_options);
                     }
                 }
             }
         }
 
-        $data = $request->only('cform');
+        $data = $request->only('threshold');
+        $new_chr = $data['threshold']['data'];
+        $rId=[];
+        if($new_chr) {
+            $nId=[];
+            foreach($new_chr as $i=>$attr) {
+                if(isset($attr['id'])) { $nId[]=$attr['id']; }
+            }
+            $oId = $group->statuses()->lists('id')->all();
+            $rId = array_diff($oId,$nId);
+            if(count($rId)) { $group->statuses()->whereIn('id',$rId)->delete(); }
+        } else {
+            $group->statuses()->delete();
+        }
 
+        if($new_chr) foreach($new_chr as $attr) {
+            if (isset($attr['id']) && $attr['id']) {
+                if(!in_array($attr['id'],$rId)) {
+                    $status = CharacteristicStatuses::find($attr['id']);
+                    $status->stepname = $attr['val'];
+                    $status->minmax = $attr['vale'][0];
+                    $status->percent = $attr['vale'][1];
+                    $status->position = (isset($attr['position']))?$attr['position']:0;
+                    $status->save();
+                }
+            } else {
+                $status = new CharacteristicStatuses();
+                $status->stepname =$attr['val'];
+                $status->minmax =$attr['vale'][0];
+                $status->percent =$attr['vale'][1];
+                $status->position = (isset($attr['position']))?$attr['position']:0;
+                $group->statuses()->save($status);
+            }
+        }
+
+        $data = $request->only('cform');
         $new_chr = $data['cform']['data']['variables'];
         if($new_chr) foreach($new_chr as $index=>$characteristic) {
             if(isset($characteristic['_status'])){
@@ -271,7 +393,6 @@ class CharacteristicsController extends AdminController {
                 }
             }
         }
-
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 $characteristic = Characteristics::find($attr['id']);
@@ -301,15 +422,18 @@ class CharacteristicsController extends AdminController {
                         $chr_options = CharacteristicOptions::find($optVal['id']);
                         $chr_options->ctype = 'agent';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
+                        //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
                         $chr_options->save();
                     } else {
                         $chr_options = new CharacteristicOptions();
                         $chr_options->ctype = 'agent';
                         $chr_options->name = $optVal['val'];
-                        $chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
+                        //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
                         $characteristic->options()->save($chr_options);
                         $bitMask->addAttr($characteristic->id, $chr_options->id);
+                        if(isset($optVal['parent'])) {
+                            $bitMask->copyAttr($characteristic->id,$chr_options->id,/*parent*/$optVal['parent']);
+                        }
                     }
                     $default_value[$chr_options->id] = (isset($optVal['vale'][0]) && $optVal['vale'][0]) ? 1 : 0;
                 }
@@ -336,10 +460,9 @@ class CharacteristicsController extends AdminController {
      */
     public function data()
     {
-        $chr = CharacteristicGroup::select(['id','icon', 'name', 'status', 'created_at']);
+        $chr = CharacteristicGroup::select(['id','name', 'status', 'created_at']);
 
         return Datatables::of($chr)
-            ->edit_column('icon', function($model) { return view('admin.characteristics.datatables.icon',['icon'=>$model->icon]); } )
             ->edit_column('status', function($model) { return view('admin.characteristics.datatables.status',['status'=>$model->status]); } )
             ->add_column('actions', function($model) { return view('admin.characteristics.datatables.control',['id'=>$model->id]); } )
             ->remove_column('id')

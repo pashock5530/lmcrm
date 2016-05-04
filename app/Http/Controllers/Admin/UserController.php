@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Http\Requests\AdminUsersEditFormRequest;
 //use App\Repositories\UserRepositoryInterface;
 use Datatables;
-
+use Illuminate\Support\Facades\Route;
 
 class UserController extends AdminController
 {
@@ -49,7 +49,7 @@ class UserController extends AdminController
         $user = new User ($request->except('password','password_confirmation'));
         //$user->password = bcrypt($request->password);
         $user->password = \Hash::make($request->input('password'));
-        $user->confirmation_code = str_random(32);
+        //$user->confirmation_code = str_random(32);
         $user->save();
     }
 
@@ -59,9 +59,10 @@ class UserController extends AdminController
      * @param $user
      * @return Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('admin.user.create_edit', compact('user'));
+        $user=User::findOrFail($id);
+        return view('admin.user.create_edit', ['user'=>$user]);
     }
 
     /**
@@ -117,8 +118,7 @@ class UserController extends AdminController
         $users = User::select(array('users.id', 'users.name', 'users.email', 'users.created_at'));
 
         return Datatables::of($users)
-            ->add_column('actions', '<a href="{{{ URL::to(\'admin/user/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{{ URL::to(\'admin/user/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>')
+            ->add_column('actions',function($model) { return view('admin.user.datatables.control',['id'=>$model->id]); })
             ->remove_column('id')
             ->make();
     }

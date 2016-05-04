@@ -1,6 +1,9 @@
 <div class="col-xs-10" xmlns="http://www.w3.org/1999/html">
     <div class="row">
-        <div class="form-group col-xs-12">
+        <div class="form-group col-xs-2">
+            {{?it.icon}}<label class="control-label text-center"><img src="/{{=it.icon}}" class="thumbnail" style="max-width: 95%"/></label>{{?}}
+        </div>
+        <div class="form-group col-xs-9">
             {{ switch(it['_type'])
             {
             case 'email': }}

@@ -18,7 +18,7 @@ class CreateCharacteristics extends Migration
 
             $table->string('_type');
             $table->string('label');
-
+            $table->string('icon',2083);
             $table->string('required');
             $table->string('default_value');
             $table->integer('position');

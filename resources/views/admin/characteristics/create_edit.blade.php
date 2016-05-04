@@ -23,46 +23,50 @@
                 <li class="flex-item step"><a href="#tab2" data-toggle="tab" class="btn btn-circle">2</a></li>
                 <li class="flex-item step"><a href="#tab3" data-toggle="tab" class="btn btn-circle">3</a></li>
                 <li class="flex-item step"><a href="#tab4" data-toggle="tab" class="btn btn-circle">4</a></li>
+                <li class="flex-item step"><a href="#tab5" data-toggle="tab" class="btn btn-circle">5</a></li>
             </ul>
             <div class="progress progress-striped">
                 <div class="progress-bar progress-bar-info bar"></div>
             </div>
             <div class="tab-content">
                 <div class="tab-pane" id="tab1">
-                    <h3 class="page-header">Settings</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.settings')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="opt"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <h3 class="page-header">Agent form</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.lead_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="form jSplash-data" id="cform"> Loading... </div>
+                        <div class="form jSplash-data" id="lead"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab3">
-                    <h3 class="page-header">Lead form</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.agent_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="jSplash-data" id="lead">
+                        <div class="jSplash-data" id="cform">
                             Loading...
                         </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab4">
-                    <h3 class="page-header">Finish</h3>
+                    <h3 class="page-header">{{trans('admin/characteristics.statuses')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="_jSplash-data" id="threshold">
+                        <div class="jSplash-data" id="threshold">
                             Prepearing...
                         </div>
                     </form>
+                </div>
+                <div class="tab-pane" id="tab5">
+                    <h3 class="page-header">{{trans('admin/characteristics.finish')}}</h3>
                     <br class="clearfix">
-                    <button class="btn btn-warning btn-save btn-raised">Save</button>
+                    <button class="btn btn-warning btn-save btn-raised">{{trans('admin/modal.save')}}</button>
                 </div>
                 <ul class="pager wizard">
-                    <li class="previous first" style="display:none;"><a href="#">First</a></li>
-                    <li class="previous"><a href="#">Previous</a></li>
-                    <li class="next last" style="display:none;"><a href="#">Last</a></li>
-                    <li class="next"><a href="#">Next</a></li>
+                    <li class="previous first" style="display:none;"><a href="#">{!! trans('pagination.first') !!}</a></li>
+                    <li class="previous"><a href="#">{!! trans('pagination.previous') !!}</a></li>
+                    <li class="next last" style="display:none;"><a href="#">{{trans('pagination.last')}}</a></li>
+                    <li class="next"><a href="#">{{trans('pagination.next')}}</a></li>
                 </ul>
             </div>
         </div>
@@ -79,8 +83,8 @@
                     <div class="modal-body"></div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-info " data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success btn-raised btn-save">Save</button>
+                        <button type="button" class="btn btn-info " data-dismiss="modal">{{trans('admin/modal.close')}}</button>
+                        <button type="button" class="btn btn-success btn-raised btn-save">{{trans('admin/modal.save')}}</button>
                     </div>
                 </div>
             </form>
@@ -106,6 +110,7 @@
     <script type="text/javascript" src="{{ asset('components/jSplash/GMapInit.js') }}"></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/sly.min.js') }}" async></script>
     <script type="text/javascript" src="{{ asset('components/jSplash/jSplash.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('components/jSplash/lang/jSplash.'.LaravelLocalization::getCurrentLocale().'.js') }}"></script>
     <script type="text/javascript">
         $(function(){
             $(".jSplash-form").submit(function(){
@@ -126,6 +131,7 @@
                 navigation.closest('.wizard').find('.bar').css({width:$percent+'%'});
             }});
 
+            var cntLead = 1;
             $.ajax({
                 url:  '{{ route('admin.chrct.form',[$fid]) }}',
                 method: 'GET',
@@ -133,11 +139,32 @@
                 success: function(resp){
                     for(var k in resp) {
                        var $el = $('#content').find('#'+k);
+
                         if($el.length) $el.jSplash({
                             event:{
-                                onShow:function(){$.material.init() },
-                                onEdit:function(){$.material.init() },
-                                onModal:function($el){$.material.init($el) }
+                                onShow:function(){
+                                    $.material.init();
+                                    $('#content .jSplash-data .btn-calc').click(function(){
+                                        cntLead = 1;
+                                        var $rows = $(".statuses").find(".duplicated");
+                                        for(var j=$rows.length-1;j>=0;j--){
+                                            var $ext = $rows.eq(j).find('.extend');
+                                            var range = $ext.eq(0).is(":checked")? 100-$ext.eq(1).val():$ext.eq(1).val()
+                                            if(range) cntLead = parseInt(cntLead / range * 100);
+                                        }
+                                        $(".statuses #recLead").val(cntLead).trigger('change');
+                                    });
+                                    $(".statuses #recLead").off().change(function(){
+                                        cntLead = $(this).val();
+                                        $el.data('splash').settings('stat.minLead',$(this).val());
+                                    });
+                                },
+                                onEdit:function(){
+                                    $.material.init();
+                                },
+                                onModal:function($el){
+                                    $.material.init($el);
+                                }
                             }}).data('splash').load({data:resp[k]},false,{}).show();
                     }
                 }
@@ -150,6 +177,7 @@
                 for(var i=0; i<$jElements.length;i++) {
                     postData[$jElements.eq(i).attr('id')] = $jElements.eq(i).data('splash').serialize();
                 }
+                postData['stat_minLead']=cntLead;
 
                 if(postData) {
                     $this.prop('disabled',true);
@@ -162,7 +190,7 @@
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
-                            window.location = '{{ route('admin.characteristics.index') }}';
+                            //window.location = '{{ route('admin.characteristics.index') }}';
                         },
                         error: function (XMLHttpRequest, textStatus) {
                             alert(textStatus);

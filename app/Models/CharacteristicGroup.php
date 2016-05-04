@@ -8,7 +8,7 @@ class CharacteristicGroup extends Model
 {
     protected $table = 'characteristic_group';
 
-    protected $fillable = ['name', 'table_name' ,'status', 'icon'];
+    protected $fillable = ['name', 'minLead','table_name' ,'status'];
 
     public function characteristics() {
         return $this->hasMany('App\Models\Characteristics','group_id','id')->orderBy('position');
@@ -20,6 +20,10 @@ class CharacteristicGroup extends Model
 
     public function rules() {
         return $this->hasMany('App\Models\CharacteristicRules','group_id','id');
+    }
+
+    public function statuses() {
+        return $this->hasMany('App\Models\CharacteristicStatuses','group_id','id')->orderBy('position');
     }
 
     protected static function boot() {

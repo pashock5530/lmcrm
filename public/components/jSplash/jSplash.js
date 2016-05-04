@@ -96,6 +96,13 @@
                 var index = (index || index === 0) ? index : false;
                 var new_data = {};
                 if(index !== false) {
+                    if(typeof data.entity.values!='object') {
+                        if(typeof data.entity.values=='string') {
+                            data.entity.values = [];
+                        } else {
+                            data.entity.values = [data.entity.values];
+                        }
+                    }
                     // extend new values by existing open
                     new_data = data.entity.values[index] || {};
                     new_data = {};
@@ -110,11 +117,19 @@
                 }
                 this.onSave();
             },
+            delete_array : function (data, index) {
+                var index = (index || index === 0) ? index : false;
+                if (index !== false) {
+                    data.entity.values.splice(index,1);
+                    //delete data.entity.values[index];
+                }
+                return true;
+            },
             delete : function (data, index) {
                 var index = (index || index === 0) ? index : false;
                 if (data.entity.variables) {
                     if (index === false) {
-                        ; //data.entity.values.push(new_data);
+                        ;
                     }
                     else {
                         //data = null;
@@ -338,7 +353,6 @@
             },
 
             renderItem : function (type, data, context) {
-                
                 var data = data || {};
                 if(data.hasOwnProperty('name')) {
                     data['name'] = 'jsp'+_this.counter+'-'+data['name'].replace(/^jsp\d+-/g,'');
@@ -551,10 +565,19 @@
                             }(i, $(this));
                         });
                         break;
-                    case 'default.selectpage':
-                    case 'modal.selectpage':
-                        $html.append($(doT.template(tmpl.view(type))(data)));
-                        _this.tmpl.addRule('selectpage.setup', $html.find('.select-page'), data);
+                    case 'default.statuses':
+                        var $container = $(doT.template(tmpl.view(type))(data));
+                        $html.append($container);
+                        $container.find("input,textarea,select").change(function(){
+                            var $elements = $(this).closest('.row').find("input,textarea,select");
+                            var indx = $(this).closest(".row-container").find(".duplicated").index($(this).closest('.row'));
+                            return _this.route.get('default.statuses', data, {index:indx, elements:$elements});
+                        });
+                        $container.find(".btn-duplicate-remove").click(function(){
+                            var indx = $(this).closest(".row-container").find(".duplicated").index($(this).closest('.row'));
+                            return _this.route.get('delete_array', data, {index:indx});
+                        });
+                        _this.tmpl.addRule('duplicate_option', $container,null,null,null);
                         break;
                     case 'default.icon':
                     case 'modal.icon':
@@ -737,7 +760,7 @@
                     case 'value.delete':
                         $context.on('click', function (sdata, params) {
                             return function () {
-                                bootbox.confirm('Delete item?', function (result) {
+                                bootbox.confirm(trans('delete_message'), function (result) {
                                     if (result) {
                                         _this.route.get('delete', sdata, params);
                                     }
@@ -749,7 +772,7 @@
                         $context.on('click', function (sdata, params) {
                             return function () {
                                 params.$img = $(this).closest('.image-editable').children('img').first();
-                                bootbox.confirm('Delete image?', function (result) {
+                                bootbox.confirm(trans('delete_message'), function (result) {
                                     if (result) {
                                         _this.route.get('delete', sdata, params);
                                     }
@@ -777,15 +800,42 @@
                             }
                         }({entity: entity, values: null}, params));
                         break;
+                    case 'split_option':
+                        $context.find('.btn-split').click(function() {
+                            var $newItem =  $context.find('.duplicate').first()
+                                .clone(true).removeClass('hidden').addClass('duplicated')
+                                .insertAfter($(this).closest('.duplicated'));
+                            $newItem
+                                .find('.data').attr('name', $newItem.find('.data').first().data('name'));
+                            $newItem
+                                .find('input,select').val(null);
+
+                            $newItem.find('.data').first().after(
+                                $('<input type="hidden" class="extend name-ignore" value="" data-name="parent" />')
+                                    .val($(this).closest('.duplicated').find('.data').first().data('id'))
+                            );
+                            $(this).closest('.duplicated').find('.data').first().after(
+                                $('<input type="hidden" class="extend name-ignore" value="1" data-name="split" />')
+                            );
+                        });
+                        break;
                     case 'duplicate_option':
                         $context.find('.btn-duplicate-add').click(function() {
                             var $newItem =  $context.find('.duplicate').first()
                                 .clone(true).removeClass('hidden').addClass('duplicated')
                                 .insertAfter($context.find('.duplicate').last());
                             $newItem
-                                .find('.data').addClass('data').attr('name', $newItem.find('.data').first().data('name'));
+                                .find('.data').attr('name', $newItem.find('.data').first().data('name'));
                             $newItem
                                 .find('input,select').val(null);
+
+                            $newItem.find('.random-name').each(function(){
+                                var rID = Math.floor((Math.random() * 1000) + 1);
+                                $(this).attr('name','jsp-'+rID);
+                                $newItem.find(".mediabrowser-js").each(function(){
+                                    $(this).attr('href',$(this).attr('href')+'jsp-'+rID);
+                                });
+                            });
                         });
                         $context.find('.duplicate').each(function(){
                             (function($item){
@@ -855,7 +905,7 @@
                         $fields.each(function (j, el2) {
                             var $field = $(el2),
                                 name = $field.attr('name'),
-                                validate = attrDefault($field, 'validate', '').toString(),
+                                validate = $field.attr('validate') ? $field.attr('validate').toString() : '',
                                 _validate = validate.split(',');
 
                             for (var k in _validate) {
@@ -961,6 +1011,9 @@
                             values: params.values
                         });
                         break;
+                    case 'default.statuses':
+                        result = _this.controller.dynamic_statuses_save(data, params)
+                        break;
                     case 'form.attributes.before_create':
                         result = _this.controller.dynamic_form_attr_preopen(data, params);
                         break;
@@ -999,6 +1052,9 @@
                     case 'store_array':
                         result = _this.controller.store_array(data,params);
                         break;
+                    case 'delete_array':
+                        result = _this.controller.delete_array(data,params);
+                        break;
                     case 'edit_array':
                         result = _this.controller.store_array(data,params);
                         break;
@@ -1022,8 +1078,6 @@
                     case 'icon.change':
                         result = _this.controller.icon_select(data, params);
                         break;
-                    case 'selectpage.setup':
-                        result = _this.controller.selectpage_setup(data, params);
                     default:
                         ;
                 }
@@ -1052,11 +1106,64 @@
                     return function () {
                         if (validator.form()) {
                             var $modal = $(this).closest('.modal');
+                            var data={};
+                            $.each($modal.find('input,textarea,select'), function(i, obj) {
+                                if(obj.name && !$(obj).hasClass('name-ignore') ) {
+                                    var $extend = $(obj).closest('.duplicate').find('input.extend:not([data-name])');
+                                    var ext = null;
+                                    if($extend.length>1) {
+                                        ext = [];
+                                        for(var i=0;i<$extend.length;i++){
+                                            ext[i]= ($extend.eq(i).attr('type') == 'checkbox' || $extend.eq(i).attr('type') == 'radio') ? (($extend.eq(i).is(':checked')) ? 1 : 0) : $extend.eq(i).val();
+                                        }
+                                    } else {
+                                        ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+                                    }
+                                    if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
+                                        if(!$(obj).is(':checked')) { return true; }
+                                    }
+                                    var cdata = {};
+                                    if($(obj).val()) {
+                                        if($(obj).data('type')=='record') {
+                                            cdata={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                        } else {
+                                            cdata=$(obj).val()+((ext)? '['+ext+']' : '');
+                                        }
+                                    }
+                                    var $extend = $(obj).closest('.duplicate').find('input.extend[data-name]');
+                                    for(var i=0;i<$extend.length;i++){
+                                        var $ext = $extend.eq(i);
+                                        cdata[$ext.data('name')] = $ext.val();
+                                    }
+                                    if($(obj).val()) {
+                                        if (data[obj.name]) {
+                                            if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
+                                                data[obj.name] = [data[obj.name]];
+                                            }
+                                            data[obj.name].push(cdata);
+                                        } else {
+                                            data[obj.name]= cdata;
+                                        }
+                                    }
+                                }
+                            });
+                            var store_data = data;
+                            store_data['_type'] = fdata.cf.name.replace(/^jsp\d+-/g,'');
+
+                            if (_this.route.get(param.do, {entity: sdata, values: store_data}, index)) {
+                                $modal.modal('hide');
+                                _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+                            }
+
+                            //*------------------------------------------------------------------------------
+/*
+                            var $modal = $(this).closest('.modal');
                             var data = $modal.find('input,textarea,select').serializeArray();
                             if (_this.route.get(param.do, {entity: sdata, values: data}, param)) {
                                 $modal.modal('hide');
                             }
                             _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+*/
                         }
                     };
                 }(validator));
@@ -1137,8 +1244,8 @@
                         var $modal = $(this).closest('.modal');
                         var data={};
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
-                            if(obj.name) {
-                                var $extend = $(obj).closest('.duplicate').find('input.extend');
+                            if(obj.name && !$(obj).hasClass('name-ignore') ) {
+                                var $extend = $(obj).closest('.duplicate').find('input.extend:not([data-name])');
                                 var ext = null;
                                 if($extend.length>1) {
                                     ext = [];
@@ -1151,22 +1258,27 @@
                                 if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
                                     if(!$(obj).is(':checked')) { return true; }
                                 }
+                                var cdata = {};
+                                if($(obj).val()) {
+                                    if($(obj).data('type')=='record') {
+                                        cdata={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                                    } else {
+                                        cdata=$(obj).val()+((ext)? '['+ext+']' : '');
+                                    }
+                                }
+                                var $extend = $(obj).closest('.duplicate').find('input.extend[data-name]');
+                                for(var i=0;i<$extend.length;i++){
+                                    var $ext = $extend.eq(i);
+                                    cdata[$ext.data('name')] = $ext.val();
+                                }
                                 if($(obj).val()) {
                                     if (data[obj.name]) {
                                         if (Object.prototype.toString.call(data[obj.name]) !== '[object Array]') {
                                             data[obj.name] = [data[obj.name]];
                                         }
-                                        if($(obj).data('type')=='record') {
-                                            data[obj.name].push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
-                                        } else {
-                                            data[obj.name].push($(obj).val()+((ext)? '['+ext+']' : ''));
-                                        }
+                                        data[obj.name].push(cdata);
                                     } else {
-                                        if($(obj).data('type')=='record') {
-                                            data[obj.name]={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
-                                        } else {
-                                            data[obj.name]=$(obj).val()+((ext)? '['+ext+']' : '');
-                                        }
+                                        data[obj.name]= cdata;
                                     }
                                 }
                             }
@@ -1179,10 +1291,10 @@
                             _this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
                         }
                         //        }
-
                     });
                 })(fdata,validator);
                 _this.tmpl.addRule('duplicate_option',$(_this.option.modal).find('.modal-body'),null,null,null);
+                _this.tmpl.addRule('split_option',$(_this.option.modal).find('.modal-body'),null,null,null);
                 $(_this.option.modal)
                     .one('hide.bs.modal', function (e) {
                         var $modal = $(this).closest('.modal');
@@ -1191,6 +1303,43 @@
                     .modal('show', {backdrop: 'static'});
 
                 this.onModal(_this.option.modal);
+                return c;
+            },
+
+            dynamic_statuses_save: function(sdata, param) {
+                var $elements = param.elements;
+                var index = param.index;
+                var data={};
+                $.each($elements, function(i, obj) {
+                    if(obj.name && !$(obj).hasClass('random-name')) {
+                        var $extend = $(obj).closest('.duplicate').find('input.extend');
+                        var ext = null;
+                        if($extend.length>1) {
+                            ext = [];
+                            for(var i=0;i<$extend.length;i++){
+                                ext[i]= ($extend.eq(i).attr('type') == 'checkbox' || $extend.eq(i).attr('type') == 'radio') ? (($extend.eq(i).is(':checked')) ? 1 : 0) : $extend.eq(i).val();
+                            }
+                        } else {
+                            ext = ($extend.attr('type') == 'checkbox' || $extend.attr('type') == 'radio') ? (($extend.is(':checked')) ? 1 : 0) : $extend.val();
+                        }
+                        if($(obj).attr('type')=='radio' || $(obj).attr('type')=='checkbox') {
+                            if(!$(obj).is(':checked')) { return true; }
+                        }
+                        if($(obj).val()) {
+                            if (Object.prototype.toString.call(data) === '[object Array]') {
+                                //if (Object.prototype.toString.call(data) !== '[object Array]') { data = [data]; }
+                                data.push({'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext});
+                            } else {
+                                data={'id':$(obj).data('id')||0,'val':$(obj).val(), 'vale': ext};
+                            }
+                        }
+                        data['position']=index+1;
+                    }
+                });
+                var store_data = data;
+                if (_this.route.get('store_array', {entity: sdata, values: store_data}, index)) {
+                    //_this.route.get('position.update', sdata, {oldIndex: 0, newIndex: 0});
+                }
                 return c;
             },
 
@@ -1227,7 +1376,7 @@
                         var $modal = $(this).closest('.modal');
                         var data={};
                         $.each($modal.find('input,textarea,select'), function(i, obj) {
-                            if(obj.name) {
+                            if(obj.name && !$(obj).hasClass('random-name')) {
                                 var $extend = $(obj).closest('.duplicate').find('input.extend');
                                 var ext = null;
                                 if($extend.length>1) {
@@ -1356,6 +1505,14 @@
                 return true;
             },
 
+            delete_array : function (data,params) {
+                data.values = data.values || [];
+                var indx = params.index || false;
+                _this.model.delete_array({entity:data},indx);
+                _this.show();
+                return true;
+            },
+
             save : function (data, param) {
                 _this.model.save(data, param.index);
                 _this.show();
@@ -1465,7 +1622,17 @@
         this.prepare = function(opt){
             this.tmpl.prepare(opt);
             return this;
-        }
+        };
+
+        this.settings = function(path,val){
+            var value = this.model.db.data['settings'];
+            var path = path.split('.');
+            for(var i=0; i<path.length-1;i++){
+                value=value[path[i]];
+            }
+            if(val) { value[path[path.length-1]]=val;  }
+            return value;
+        };
 
         this.show = function () {
             this.tmpl.show();
@@ -1524,6 +1691,7 @@
                     "name": "email",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "E-mail",
                         "placeholder": {"required": true, "value": "email@mail.com"},
                         //"required": {"value": 1, "edit": false}
@@ -1533,6 +1701,7 @@
                     "name": "textarea",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Text Area",
                         "placeholder": {"required": true},
                         "validate": {"required": false, "value": "email"},
@@ -1544,6 +1713,7 @@
                     "name": "input",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Text Input",
                         "placeholder": {"required": false},
                         "validate": {"required": false},
@@ -1554,6 +1724,7 @@
                     "name": "checkbox",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "CheckBox",
                         "option": {"value": [{'id':0,'val':"checkbox1"},{'id':0,'val':"checkbox2"},{'id':0,'val':"checkbox3"}]},
                         //"required": {"value": 0}
@@ -1563,6 +1734,7 @@
                     "name": "radio",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Radio",
                         "option": {"value": [{'id':0,'val':"radio1"},{'id':0,'val':"radio2"},{'id':0,'val':"radio3"}]},
                         //"required": {"value": 0}
@@ -1572,6 +1744,7 @@
                     "name": "select",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Dropdown",
                         "option": {"value": [{'id':0,'val':"option1"},{'id':0,'val':"option2"},{'id':0,'val':"option3"}]},
                         //"required": {"value": 0}
@@ -1581,6 +1754,7 @@
                     "name": "calendar",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Calendar",
                         //"required": {"value": 0}
                     },
@@ -1589,6 +1763,7 @@
                     "name": "submit",
                     "settings": {
                         "id":false,
+                        "icon":null,
                         "label": "Submit",
                     },
                 },
@@ -1621,7 +1796,7 @@
     jSplash.prototype.tmpl_defered = {
             'list.sortable':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                    '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                    '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
                 '</div>'+
                 '</div>'+
                 '<div class="list-group sortable">'+
@@ -1638,7 +1813,7 @@
                 '</div>',
             'list.gallery':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                '<button type="button" class="btn btn-success btn-lg btn-icon icon-left in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
                 '</div>'+
                 '</div>'+
                 '<div class="list-group sortable">'+
@@ -1668,7 +1843,7 @@
                 '<div class="list-group-item">'+
                     '<div class="row">'+
                     '<span class="col-xs-10">{{=value}}</span>'+
-                '<span class="col-xs-2">'+
+                '<span class="col-xs-2 form-group">'+
                     '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
@@ -1679,7 +1854,7 @@
                 '</div>'+
                 '<div class="col-xs-12">'+
                     '<div class="form-group">'+
-                    '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=it.settings.button }}</button>'+
+                    '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
@@ -1699,7 +1874,7 @@
                 '<div class="list-group-item">'+
                 '<div class="row">'+
                 '<span class="col-xs-10">{{=value}}</span>'+
-                '<span class="col-xs-2">'+
+                '<span class="col-xs-2 form-group">'+
                 '{{?it.tmpl.controls.indexOf("move")!=-1}}<span class="glyphicon glyphicon-move" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("edit")!=-1}}<span class="glyphicon glyphicon-pencil in-modal splash-edit" aria-hidden="true"></span>{{?}}'+
                 '{{?it.tmpl.controls.indexOf("delete")!=-1}}<span class="glyphicon glyphicon-trash splash-delete" aria-hidden="true"></span>{{?}}'+
@@ -1717,7 +1892,7 @@
                 '</div>',
             'default.container':'<div class="panel panel-default">'+
                 '<div class="panel-heading">'+
-                    '<div class="panel-title">{{?it.settings && it.settings.label}}{{=it.settings.label}}{{?}}</div>'+
+                    '<div class="panel-title">{{?it.settings && it.settings.label}}{{=trans(it.settings.label)}}{{?}}</div>'+
                 '</div>'+
                 '<div class="panel-body" >'+
                     '{{?it.chain}}<chain><!--{ {=it.chain} }--></chain>{{?}}'+
@@ -1725,7 +1900,7 @@
                 '</div>',
             'default.text':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
+                '<label class="control-label _col-sm-2" >{{=trans(it.settings.label)}}</label>'+
                 '<input type="text" name="{{=it.name}}"'+
                 '{{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }}'+
                 '{{?it.settings.validate}} data-validate="{{=it.settings.validate}}" {{?}}'+
@@ -1776,7 +1951,7 @@
                 '</div>',
             'default.image':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                '<label class="control-label _col-sm-2">{{=it.settings.label }}</label>'+
+                '<label class="control-label _col-sm-2">{{=trans(it.settings.label)}}</label>'+
                 '<span class="image-editable">'+
                     '<img {{ for(var index in it.attributes) { }} {{=index}}="{{=it.attributes[index] }}" {{ } }} src="{{?it.values && it.values!="" }}{{=it.values}}{{?? true}}http://placehold.it/250x250{{??}}{{?}}" >'+
                 '<div class="image-options">'+
@@ -1789,8 +1964,7 @@
                 '</div>',
             'default.icon':'<div class="form-group">'+
                 '<div class="col-xs-12">'+
-                    '<label class="control-label _col-sm-2" >{{=it.settings.label }}</label>'+
-
+                    '<label class="control-label _col-sm-2" >{{=trans(it.settings.label)}}</label>'+
                 '<div class="gallery-env col-sm-4 col-xs-6 edit-page-opt">'+
                     '<article class="image-thumb portfolio-item">'+
                     '<a class="image select-icon" href="#">'+
@@ -1824,13 +1998,35 @@
                 '</div>',
     };
 
+    window.trans=function(phrase){
+        var path=false;
+        if(typeof (dictionary) == 'undefined') { return phrase; }
+        var str=dictionary;
+
+        if (typeof phrase === "string") {
+            path = phrase.split(".");
+        }
+        if (!(path instanceof Array) || path.length === 0) {
+            return ;
+        }
+        for (var i in path) {
+            if (dictionary.hasOwnProperty(path[i])) {
+                str = str[path[i]];
+            } else {
+                return phrase;
+            }
+        }
+        return str;
+    };
+
     (function(){
         var list =[
-                'container.gmap',
-                'modal.dynamic',
-                'modal.attributes',
-                'form.field',
                 'attributes.field',
+                'container.gmap',
+                'default.statuses',
+                'form.field',
+                'modal.attributes',
+                'modal.dynamic',
             ],
             item = null;
 

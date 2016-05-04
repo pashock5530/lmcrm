@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'save' => 'Save',
+    'close' => 'Close',
     'create' => 'Create',
     'edit' => 'Edit',
     'reset' => 'Reset',
