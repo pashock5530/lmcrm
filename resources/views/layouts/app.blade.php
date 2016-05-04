@@ -24,8 +24,21 @@
   @if(LaravelLocalization::getCurrentLocaleDirection()=='rtl') <link rel="stylesheet" href="{{ asset('components/bootstrap-rtl/dist/css/bootstrap-rtl.min.css') }}"> @endif
 
   <!-- Bootstrap Material Design -->
-  <link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/bootstrap-material-design.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/ripples.min.css') }}">
+  <!--<link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/bootstrap-material-design.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/ripples.min.css') }}">-->
+
+        <link href="{{ asset('components/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
+        <link href="{{ asset('components/bootstrap-checkbox/awesome-bootstrap-checkbox.css')}}" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="{{ asset('assets/web/css/sb-admin.css')}}" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="{{ asset('components/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+
+        <!-- Custom THEME -->
+        <link href="{{ asset('assets/web/css/lmcrm-theme.css')}}" rel="stylesheet" type="text/css">
+
     @yield('styles')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,11 +48,23 @@
     <![endif]-->
    <link rel="stylesheet" type="text/css" href="{{ asset('assets/web/css/custom.css') }}">
 
+  <!-- jQuery -->
   <script type="text/javascript" src="{{ asset('components/jquery/jquery-2.min.js') }}"></script>
+  <!-- Bootstrap Core JavaScript -->
   <script type="text/javascript" src="{{ asset('components/bootstrap/js/bootstrap.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('components/bootstrap/js/material.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('components/bootstrap/js/ripples.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('assets/web/js/custom.js') }}"></script>
+  <!--<script type="text/javascript" src="{{ asset('components/bootstrap/js/material.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('components/bootstrap/js/ripples.min.js') }}"></script>-->
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{ asset('components/metisMenu/dist/metisMenu.min.js')}}"></script>
+    <script src="{{ asset('components/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+    <!-- DataTables JavaScript -->
+    <script src="{{ asset('components/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('components/datatables-responsive/js/dataTables.responsive.js')}}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ asset('assets/web/js/sb-admin.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('assets/web/js/lmcrm.js') }}"></script>
   <link rel="shortcut icon" href="{!! asset('site/ico/favicon.ico')  !!} ">
 </head>
 <body>
