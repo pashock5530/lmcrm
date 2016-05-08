@@ -11,7 +11,7 @@
             {!! trans("admin/characteristics.characteristic") !!}
             <div class="pull-right flip">
                 <div class="pull-right flip">
-                    <a href="{!! URL::to('admin/characteristics/create') !!}"
+                    <a href="{!! route('admin.characteristics.create') !!}"
                        class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> {{ trans("admin/modal.new") }}</a>
                 </div>
             </div>

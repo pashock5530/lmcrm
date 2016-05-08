@@ -54,9 +54,12 @@
   <script type="text/javascript" src="{{ asset('components/bootstrap/js/bootstrap.min.js') }}"></script>
   <!--<script type="text/javascript" src="{{ asset('components/bootstrap/js/material.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('components/bootstrap/js/ripples.min.js') }}"></script>-->
-    <!-- Metis Menu Plugin JavaScript -->
+
+    <!-- Plugin JavaScript -->
     <script src="{{ asset('components/metisMenu/dist/metisMenu.min.js')}}"></script>
     <script src="{{ asset('components/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{ asset('components/bootbox/bootbox.min.js')}}"></script>
+    <script src="{{ asset('components/ajax-form/jquery.form.min.js')}}"></script>
     <!-- DataTables JavaScript -->
     <script src="{{ asset('components/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js')}}"></script>

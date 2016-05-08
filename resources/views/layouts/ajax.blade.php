@@ -8,5 +8,6 @@
 </head>
 <body>
     @yield('content')
+    <span class="clearfix"></span>
 </body>
 </html>

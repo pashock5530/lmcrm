@@ -10,6 +10,10 @@ class CharacteristicGroup extends Model
 
     protected $fillable = ['name', 'minLead','table_name' ,'status'];
 
+    public function scopeActive($query,$status = true) {
+        return $query->where('status','=',($status)?true:false);
+    }
+
     public function characteristics() {
         return $this->hasMany('App\Models\Characteristics','group_id','id')->orderBy('position');
     }

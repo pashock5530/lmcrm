@@ -1,7 +1,7 @@
 @extends('layouts.master')
 {{-- Content --}}
 @section('content')
-    {!! Form::open(array('route' => ['agent.lead.store'], 'method' => 'post', 'files'=> false)) !!}
+    {!! Form::open(array('route' => ['agent.lead.store'], 'method' => 'post', 'class'=>'ajax-form', 'files'=> false)) !!}
 
     <div class="form-group  {{ $errors->has('first_name') ? 'has-error' : '' }}">
         <div class="col-xs-10">

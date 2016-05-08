@@ -44,11 +44,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
 
 //Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
     Route::get('characteristics/index', ['as' => 'admin.characteristics.index', 'uses' => 'Admin\CharacteristicsController@index']);
+    Route::get('characteristics/create', ['as' => 'admin.characteristics.create', 'uses' => 'Admin\CharacteristicsController@create']);
+    Route::get('characteristics/{id}/edit', ['as' => 'admin.characteristics.edit', 'uses' => 'Admin\CharacteristicsController@edit']);
     Route::any('characteristics/{id}/update', ['as' => 'admin.characteristics.update', 'uses' => 'Admin\CharacteristicsController@update']);
     Route::get('characteristics/form/{id}/conf', ['as' => 'admin.chrct.form', 'uses' => 'Admin\CharacteristicsController@get_config']);
 //Route::post('characteristics/form/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\CharacteristicsController@save_config']);
     Route::get('characteristics/{id}/delete', ['as' => 'admin.characteristics.delete', 'uses' => 'Admin\CharacteristicsController@destroy']);
-    Route::resource('characteristics', 'Admin\CharacteristicsController');
+    //Route::resource('characteristics', 'Admin\CharacteristicsController');
 
 });
 ?>

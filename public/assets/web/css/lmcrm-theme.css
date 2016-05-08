@@ -116,3 +116,9 @@ a { /*1100*/
     position: relative;
     top: -4px;
 }
+
+footer,.footer,#footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}

@@ -59,7 +59,7 @@
                     <a href="{{ route('agent.lead.create') }}" class="dialog"><i class="fa fa-user-plus"></i> add lead</a>
                 </li>
                 <li>
-                    <a href="{{ route('agent.lead.create') }}"><i class="fa fa-sitemap"></i> Filtration customer</a>
+                    <a href="{{ route('agent.sphere.index') }}"><i class="fa fa-sitemap"></i> Filtration customer</a>
                 </li>
                 <li>
                     <a href="{{ route('agent.lead.create') }}"><i class="fa fa-plus-square"></i> poluchil</a>

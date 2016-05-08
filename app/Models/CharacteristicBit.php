@@ -9,11 +9,15 @@ class CharacteristicBit extends Model
     protected $table = NULL;
 
     public $tableDB = NULL;
+    public $timestamps = false;
 
     public function __construct($id = NULL, array $attributes = array())
     {
-        $this->table = 'bitmask_'.$id;
-        DB::statement('CREATE TABLE IF NOT EXISTS `'.$this->table.'`(`id` INT NOT NULL AUTO_INCREMENT, `agent_id` BIGINT NOT NULL, `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`))',[]);
+        $this->table = 'bitmask_'.(int)$id;
+        if (!DB::table($this->table)->skip(0)->take(1)->get()) {
+            DB::statement('CREATE TABLE IF NOT EXISTS `' . $this->table . '`(`id` INT NOT NULL AUTO_INCREMENT, `agent_id` BIGINT NOT NULL, `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`))', []);
+            DB::statement('ALTER TABLE `'.$this->table.'` ADD UNIQUE (`agent_id`)');
+        }
         $this->tableDB = DB::table($this->table);
 
         parent::__construct($attributes);
@@ -23,6 +27,10 @@ class CharacteristicBit extends Model
 
     public function getTableName(){
         return $this->table;
+    }
+
+    public function findMask($agent_id){
+        return $this->tableDB->where('agent_id','=',$agent_id);
     }
 
     public function attributes() {
@@ -58,6 +66,19 @@ class CharacteristicBit extends Model
                     DB::statement('ALTER TABLE `' . $this->table . '` DROP COLUMN `' . $index . '', []);
                 }
             }
+        }
+        return true;
+    }
+
+    public function setAttr($agent_id,$opt_index){
+        if (is_array($opt_index)) {
+            $values = array();
+            $mask = $this->tableDB->where('agent_id','=',$agent_id)->get();
+            if($mask) { $values['id']=$mask->id; } else { $values['id'] = $this->tableDB->insertGetId(['agent_id'=>$agent_id]); }
+            if (in_array($opt_index, $this->attributes())) {
+                $values[$opt_index]=1;
+            }
+            $this->tableDB->update($values);
         }
         return true;
     }
