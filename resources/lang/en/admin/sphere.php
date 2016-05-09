@@ -2,8 +2,8 @@
 
 return [
     'icon' => 'Icon',
-    'characteristic' => 'Characteristic',
-    'name' => 'Characteristic name',
+    'sphere' => 'Sphere of influence',
+    'name' => 'Sphere',
     'group' => 'Group',
     'status' => 'Status',
     'values' => 'Lead deals range',

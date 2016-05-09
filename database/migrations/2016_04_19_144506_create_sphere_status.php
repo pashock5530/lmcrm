@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCharacteristicLead extends Migration
+class CreateSphereStatuses extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,12 @@ class CreateCharacteristicLead extends Migration
      */
     public function up()
     {
-        Schema::create('characteristic_lead', function (Blueprint $table) {
+        Schema::create('sphere_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('group_id');
-            $table->string('_type');
-            $table->string('label');
-            $table->string('icon',2083);
-            $table->string('required');
+            $table->integer('sphere_id');
+            $table->string('stepname');
+            $table->boolean('minmax');
+            $table->float('percent');
             $table->integer('position');
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateCharacteristicLead extends Migration
      */
     public function down()
     {
-        Schema::drop('characteristic_lead');
+        Schema::drop('sphere_statuses');
     }
 }

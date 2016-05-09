@@ -3,6 +3,8 @@
 {{-- Web site Title --}}
 @section('title') {!!  trans('site/user.login') !!} :: @parent @stop
 
+@section('sidebar') @stop
+
 {{-- Content --}}
 @section('content')
     <div class="row">

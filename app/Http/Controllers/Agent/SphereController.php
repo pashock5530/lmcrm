@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Agent;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
-use App\Models\CharacteristicGroup as Sphere;
-use App\Models\Characteristics as SphereAttr;
-use App\Models\CharacteristicBit as SphereMask;
+use App\Models\Sphere;
+use App\Models\SphereMask;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -39,10 +38,10 @@ class SphereController extends Controller {
     public function edit($id)
     {
         $data = Sphere::findOrFail($id);
-        $data->load('characteristics.options');
-        //$mask = new SphereMask($group->id);
-        //$data = $mask->findMask(\Sentinel::getUser()->id);
-        return view('agent.sphere.edit')->with('sphere',$data);
+        $data->load('attributes.options');
+        $mask = new SphereMask($data->id);
+        $mask = $mask->findAgentShortMask(\Sentinel::getUser()->id);
+        return view('agent.sphere.edit')->with('sphere',$data)->with('mask',$mask);
     }
 
     /**
@@ -53,7 +52,7 @@ class SphereController extends Controller {
     public function update(Request $request,$id)
     {
         $validator = Validator::make($request->all(), [
-            'options[]' => 'numeric',
+            'options.*' => 'numeric',
         ]);
         if ($validator->fails()) {
             if($request->ajax()){
@@ -64,15 +63,17 @@ class SphereController extends Controller {
         }
         $sphere = Sphere::findOrFail($id);
         $mask = new SphereMask($sphere->id);
-        $mask->agent_id=\Sentinel::getUser()->id;
 
-
-        $mask->save();
+        $options=array();
+        if ($request->has('options')) {
+            $options=$request->only('options')['options'];
+        }
+        $mask->setAttr(\Sentinel::getUser()->id,$options);
 
         if($request->ajax()){
             return response()->json();
         } else {
-            return redirect()->route('agent.lead.index');
+            return redirect()->route('agent.sphere.index');
         }
     }
 

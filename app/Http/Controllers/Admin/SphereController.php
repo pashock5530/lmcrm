@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminController;
-use App\Models\CharacteristicOptions;
+use App\Models\SphereAttrOptions;
 use Illuminate\Support\Facades\Input;
-use App\Models\CharacteristicGroup;
-use App\Models\Characteristics;
-use App\Models\CharacteristicRules;
-use App\Models\CharacteristicLead;
-use App\Models\CharacteristicStatuses;
-use App\Models\CharacteristicBit;
+use App\Models\Sphere;
+use App\Models\SphereAttr;
+use App\Models\SphereLead;
+use App\Models\SphereStatuses;
+use App\Models\SphereMask;
 use Illuminate\Http\Request;
 use Datatables;
 
-class CharacteristicsController extends AdminController {
+class SphereController extends AdminController {
     public function __construct()
     {
-        view()->share('type', 'characteristics');
+        view()->share('type', 'sphere');
     }
 
     public function show() {
@@ -31,7 +30,7 @@ class CharacteristicsController extends AdminController {
     public function index()
     {
         // Show the page
-        return view('admin.characteristics.index');
+        return view('admin.sphere.index');
     }
 
     /**
@@ -41,7 +40,7 @@ class CharacteristicsController extends AdminController {
      */
     public function edit($id)
     {
-        return view('admin.characteristics.create_edit')->with('fid',$id);
+        return view('admin.sphere.create_edit')->with('fid',$id);
     }
 
 
@@ -52,7 +51,7 @@ class CharacteristicsController extends AdminController {
      */
     public function create()
     {
-        return view('admin.characteristics.create_edit')->with('fid',0);
+        return view('admin.sphere.create_edit')->with('fid',0);
     }
 
     /**
@@ -65,7 +64,7 @@ class CharacteristicsController extends AdminController {
         $data = [
             "renderType"=>"dynamicAttributes",
             "id"=>null,
-            "targetEntity"=>"CharacteristicForm",
+            "targetEntity"=>"SphereForm",
             "values"=>[ ],
             "settings"=>[
                 "view"=>[
@@ -80,7 +79,7 @@ class CharacteristicsController extends AdminController {
         $lead = [
             "renderType"=>"dynamicForm",
             "id"=>null,
-            "targetEntity"=>"CharacteristicLead",
+            "targetEntity"=>"SphereLead",
             "values"=>[
                 ["id"=>0,"_type"=>'input',"label"=>'Name',"position"=>1],
                 ["id"=>0,"_type"=>'email',"label"=>'E-mail',"position"=>2],
@@ -96,7 +95,7 @@ class CharacteristicsController extends AdminController {
             ]
         ];
         $settings = [
-            "targetEntity"=>"CharacteristicSettings",
+            "targetEntity"=>"SphereSettings",
             "_settings"=>[
                 "label"=>'Options',
             ],
@@ -149,12 +148,12 @@ class CharacteristicsController extends AdminController {
         ];
 
         if($id) {
-            $group = CharacteristicGroup::find($id);
+            $group = Sphere::find($id);
             $data['id']=$id;
             $settings['variables']['name']['values'] = $group->name;
             $settings['variables']['status']['values'] = $group->status;
 
-            foreach($group->characteristics()->get() as $chrct) {
+            foreach($group->attributes()->get() as $chrct) {
                 $arr=[];
                 $arr['id'] = $chrct->id;
                 $arr['_type'] = $chrct->_type;
@@ -236,19 +235,19 @@ class CharacteristicsController extends AdminController {
         $opt = $request->only('opt');
 
         if($id) {
-            $group = CharacteristicGroup::find($id);
+            $group = Sphere::find($id);
             $group->name = $opt['opt']['data']['variables']['name'];
             $group->minLead = $request->get('stat_minLead');
             $group->status = $opt['opt']['data']['variables']['status'];
         } else {
-            $group = new CharacteristicGroup([
+            $group = new Sphere([
                 'name' => $opt['opt']['data']['variables']['name'],
                 'status' => $opt['opt']['data']['variables']['status'],
                 'minLead' => $request->get('stat_minLead'),
             ]);
             $group->save();
         }
-        $bitMask = new CharacteristicBit($group->id);
+        $bitMask = new SphereMask($group->id);
         $group->table_name = $bitMask->getTableName();
         $group->save();
 
@@ -264,10 +263,10 @@ class CharacteristicsController extends AdminController {
         }
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
-                $leadAttr = CharacteristicLead::find($attr['id']);
+                $leadAttr = SphereLead::find($attr['id']);
                 $leadAttr->update($attr);
             } else {
-                $leadAttr = new CharacteristicLead($attr);
+                $leadAttr = new SphereLead($attr);
                 $group->leadAttr()->save($leadAttr);
             }
             $eoptions=array();
@@ -290,14 +289,14 @@ class CharacteristicsController extends AdminController {
 
                 foreach ($eoptions as $optVal) {
                     if ($optVal['id']) {
-                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options = SphereAttrOptions::find($optVal['id']);
                         $chr_options->ctype = 'lead';
                         $chr_options->_type = 'option';
                         $chr_options->name = $optVal['val'];
                         //$chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
                         $chr_options->save();
                     } else {
-                        $chr_options = new CharacteristicOptions();
+                        $chr_options = new SphereAttrOptions();
                         $chr_options->ctype = 'lead';
                         $chr_options->_type = 'option';
                         $chr_options->name = $optVal['val'];
@@ -328,14 +327,14 @@ class CharacteristicsController extends AdminController {
 
                 foreach ($eoptions as $optVal) {
                     if ($optVal['id']) {
-                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options = SphereAttrOptions::find($optVal['id']);
                         $chr_options->ctype = 'lead';
                         $chr_options->_type = 'validate';
                         $chr_options->name = $optVal['val'];
                         $chr_options->value = (isset($optVal['vale'])) ? $optVal['vale'] : NULL;
                         $chr_options->save();
                     } else {
-                        $chr_options = new CharacteristicOptions();
+                        $chr_options = new SphereAttrOptions();
                         $chr_options->ctype = 'lead';
                         $chr_options->_type = 'validate';
                         $chr_options->name = $optVal['val'];
@@ -365,7 +364,7 @@ class CharacteristicsController extends AdminController {
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
                 if(!in_array($attr['id'],$rId)) {
-                    $status = CharacteristicStatuses::find($attr['id']);
+                    $status = SphereStatuses::find($attr['id']);
                     $status->stepname = $attr['val'];
                     $status->minmax = $attr['vale'][0];
                     $status->percent = $attr['vale'][1];
@@ -373,7 +372,7 @@ class CharacteristicsController extends AdminController {
                     $status->save();
                 }
             } else {
-                $status = new CharacteristicStatuses();
+                $status = new SphereStatuses();
                 $status->stepname =$attr['val'];
                 $status->minmax =$attr['vale'][0];
                 $status->percent =$attr['vale'][1];
@@ -387,7 +386,7 @@ class CharacteristicsController extends AdminController {
         if($new_chr) foreach($new_chr as $index=>$characteristic) {
             if(isset($characteristic['_status'])){
                 if($characteristic['_status'] == 'DELETE') {
-                    $group->characteristics()->where('id', '=', $characteristic['id'])->delete();
+                    $group->attributes()->where('id', '=', $characteristic['id'])->delete();
                     $bitMask->removeAttr([(int)$characteristic['id']], null);
                     unset($new_chr[$index]);
                 }
@@ -395,11 +394,11 @@ class CharacteristicsController extends AdminController {
         }
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
-                $characteristic = Characteristics::find($attr['id']);
+                $characteristic = SphereAttr::find($attr['id']);
                 $characteristic->update($attr);
             } else {
-                $characteristic = new Characteristics($attr);
-                $group->characteristics()->save($characteristic);
+                $characteristic = new SphereAttr((array)$attr);
+                $group->attributes()->save($characteristic);
             }
             if (isset($attr['option'])) {
                 $new_options = [];
@@ -419,13 +418,13 @@ class CharacteristicsController extends AdminController {
                 $default_value = [];
                 foreach ($attr['option'] as $optVal) {
                     if ($optVal['id']) {
-                        $chr_options = CharacteristicOptions::find($optVal['id']);
+                        $chr_options = SphereAttrOptions::find($optVal['id']);
                         $chr_options->ctype = 'agent';
                         $chr_options->name = $optVal['val'];
                         //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
                         $chr_options->save();
                     } else {
-                        $chr_options = new CharacteristicOptions();
+                        $chr_options = new SphereAttrOptions();
                         $chr_options->ctype = 'agent';
                         $chr_options->name = $optVal['val'];
                         //$chr_options->icon = (isset($optVal['vale'][1])) ? $optVal['vale'][1] : NULL;
@@ -446,11 +445,11 @@ class CharacteristicsController extends AdminController {
     }
 
     public function destroy($id){
-        $group = CharacteristicGroup::find($id);
-        $bitMask = new CharacteristicBit($group->id);
+        $group = Sphere::find($id);
+        $bitMask = new SphereMask($group->id);
         $bitMask->_delete();
         $group->delete();
-        return redirect()->route('admin.characteristics.index');
+        return redirect()->route('admin.sphere.index');
     }
 
     /**
@@ -460,11 +459,11 @@ class CharacteristicsController extends AdminController {
      */
     public function data()
     {
-        $chr = CharacteristicGroup::select(['id','name', 'status', 'created_at']);
+        $chr = Sphere::select(['id','name', 'status', 'created_at']);
 
         return Datatables::of($chr)
-            ->edit_column('status', function($model) { return view('admin.characteristics.datatables.status',['status'=>$model->status]); } )
-            ->add_column('actions', function($model) { return view('admin.characteristics.datatables.control',['id'=>$model->id]); } )
+            ->edit_column('status', function($model) { return view('admin.sphere.datatables.status',['status'=>$model->status]); } )
+            ->add_column('actions', function($model) { return view('admin.sphere.datatables.control',['id'=>$model->id]); } )
             ->remove_column('id')
             ->make();
     }

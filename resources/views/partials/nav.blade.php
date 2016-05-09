@@ -11,6 +11,7 @@
             <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('assets/web/images/logo.png') }}"> LR CRM</a>
         </div>
 
+
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-top-links navbar-right language_bar_chooser flip">
@@ -52,6 +53,7 @@
             </ul>
         </div>
     </div>
+    @section('sidebar')
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
@@ -75,4 +77,5 @@
         <!-- /.sidebar-collapse -->
     </div>
     <!-- /.navbar-static-side -->
+    @show
 </nav>

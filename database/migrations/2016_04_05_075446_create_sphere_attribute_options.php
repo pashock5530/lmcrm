@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCharacteristicGroup extends Migration
+class CreateSphereAttributeOptions extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,14 @@ class CreateCharacteristicGroup extends Migration
      */
     public function up()
     {
-        Schema::create('characteristic_group', function (Blueprint $table) {
+        Schema::create('sphere_attribute_options', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('status');
+            $table->string('sphere_attr_id');
+            $table->enum('ctype', array('agent', 'lead'));
+            $table->enum('_type', array('option', 'validate'));
             $table->string('name');
-            $table->integer('minLead');
-            $table->string('table_name');
+            $table->string('value');
+            $table->string('position');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateCharacteristicGroup extends Migration
      */
     public function down()
     {
-        Schema::drop('characteristic_group');
+        Schema::drop('sphere_attribute_options');
     }
 }

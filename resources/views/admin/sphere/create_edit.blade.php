@@ -1,14 +1,14 @@
 @extends('admin.layouts.default')
 
 {{-- Web site Title --}}
-@section('title') {!! trans("admin/characteristics.characteristic") !!} :: @parent
+@section('title') {!! trans("admin/sphere.sphere") !!} :: @parent
 @stop
 
 {{-- Content --}}
 @section('main')
     <div class="page-header">
         <h3>
-            {!! trans("admin/characteristics.characteristic") !!}
+            {!! trans("admin/sphere.sphere") !!}
         <div class="pull-right flip">
             <a class="btn btn-primary btn-xs close_popup" href="{{ URL::previous() }}">
                 <span class="glyphicon glyphicon-backward"></span> {!! trans('admin/admin.back') !!}
@@ -30,19 +30,19 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane" id="tab1">
-                    <h3 class="page-header">{{trans('admin/characteristics.settings')}}</h3>
+                    <h3 class="page-header">{{trans('admin/sphere.settings')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="opt"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <h3 class="page-header">{{trans('admin/characteristics.lead_form')}}</h3>
+                    <h3 class="page-header">{{trans('admin/sphere.lead_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="form jSplash-data" id="lead"> Loading... </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab3">
-                    <h3 class="page-header">{{trans('admin/characteristics.agent_form')}}</h3>
+                    <h3 class="page-header">{{trans('admin/sphere.agent_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="cform">
                             Loading...
@@ -50,7 +50,7 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab4">
-                    <h3 class="page-header">{{trans('admin/characteristics.statuses')}}</h3>
+                    <h3 class="page-header">{{trans('admin/sphere.statuses')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
                         <div class="jSplash-data" id="threshold">
                             Prepearing...
@@ -58,7 +58,7 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="tab5">
-                    <h3 class="page-header">{{trans('admin/characteristics.finish')}}</h3>
+                    <h3 class="page-header">{{trans('admin/sphere.finish')}}</h3>
                     <br class="clearfix">
                     <button class="btn btn-warning btn-save btn-raised">{{trans('admin/modal.save')}}</button>
                 </div>
@@ -133,7 +133,7 @@
 
             var cntLead = 1;
             $.ajax({
-                url:  '{{ route('admin.chrct.form',[$fid]) }}',
+                url:  '{{ route('admin.attr.form',[$fid]) }}',
                 method: 'GET',
                 dataType: 'json',
                 success: function(resp){
@@ -185,12 +185,12 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: '{{ route('admin.characteristics.update',[$fid]) }}',
+                        url: '{{ route('admin.sphere.update',[$fid]) }}',
                         method: 'PUT',
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
-                            window.location = '{{ route('admin.characteristics.index') }}';
+                            window.location = '{{ route('admin.sphere.index') }}';
                         },
                         error: function (XMLHttpRequest, textStatus) {
                             alert(textStatus);

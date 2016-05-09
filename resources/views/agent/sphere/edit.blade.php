@@ -12,7 +12,7 @@
     <div class="container" id="content">
         {!! Form::model($sphere,array('route' => ['agent.sphere.update',$sphere->id], 'method' => 'put', 'class' => 'bf', 'files'=> true)) !!}
         <div class="panel-group" id="accordion">
-            @forelse($sphere->characteristics as $attr)
+            @forelse($sphere->attributes as $attr)
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -23,7 +23,7 @@
                     <div class="panel-body">
                         @foreach($attr->options as $option)
                             <div class="checkbox checkbox-inline">
-                                {!! Form::checkbox('options[]',$option->id, null, array('class' => '','id'=>"ch-$option->id")) !!}
+                                {!! Form::checkbox('options[]',$option->id, $mask[$option->id], array('class' => '','id'=>"ch-$option->id")) !!}
                                 <label for="ch-{{ $option->id }}">{{ $option->name }}</label>
                             </div>
                         @endforeach

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCharacteristics extends Migration
+class CreateSphereAttributes extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CreateCharacteristics extends Migration
      */
     public function up()
     {
-        Schema::create('characteristics', function (Blueprint $table) {
+        Schema::create('sphere_attributes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('group_id');
+            $table->integer('sphere_id');
 
             $table->string('_type');
             $table->string('label');
@@ -33,6 +33,6 @@ class CreateCharacteristics extends Migration
      */
     public function down()
     {
-        Schema::drop('characteristics');
+        Schema::drop('sphere_attributes');
     }
 }

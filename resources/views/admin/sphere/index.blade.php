@@ -1,17 +1,17 @@
 @extends('admin.layouts.default')
 
 {{-- Web site Title --}}
-@section('title') {!! trans("admin/characteristics.characteristic") !!} :: @parent
+@section('title') {!! trans("admin/sphere.sphere") !!} :: @parent
 @stop
 
 {{-- Content --}}
 @section('main')
     <div class="page-header">
         <h3>
-            {!! trans("admin/characteristics.characteristic") !!}
+            {!! trans("admin/sphere.sphere") !!}
             <div class="pull-right flip">
                 <div class="pull-right flip">
-                    <a href="{!! route('admin.characteristics.create') !!}"
+                    <a href="{!! route('admin.sphere.create') !!}"
                        class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> {{ trans("admin/modal.new") }}</a>
                 </div>
             </div>
@@ -21,8 +21,8 @@
     <table id="table" class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>{!! trans("admin/characteristics.name") !!}</th>
-            <th>{!! trans("admin/characteristics.status") !!}</th>
+            <th>{!! trans("admin/sphere.name") !!}</th>
+            <th>{!! trans("admin/sphere.status") !!}</th>
             <th>{!! trans("admin/admin.created_at") !!}</th>
             <th>{!! trans("admin/admin.action") !!}</th>
         </tr>

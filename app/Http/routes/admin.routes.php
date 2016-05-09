@@ -42,15 +42,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     Route::get('agent/{id}/destroy', ['as'=>'admin.agent.delete', 'uses' => 'Admin\AgentController@destroy']);
     //Route::resource('agent', 'Admin\AgentController');
 
-//Route::get('characteristics/data', 'Admin\CharacteristicsController@data');
-    Route::get('characteristics/index', ['as' => 'admin.characteristics.index', 'uses' => 'Admin\CharacteristicsController@index']);
-    Route::get('characteristics/create', ['as' => 'admin.characteristics.create', 'uses' => 'Admin\CharacteristicsController@create']);
-    Route::get('characteristics/{id}/edit', ['as' => 'admin.characteristics.edit', 'uses' => 'Admin\CharacteristicsController@edit']);
-    Route::any('characteristics/{id}/update', ['as' => 'admin.characteristics.update', 'uses' => 'Admin\CharacteristicsController@update']);
-    Route::get('characteristics/form/{id}/conf', ['as' => 'admin.chrct.form', 'uses' => 'Admin\CharacteristicsController@get_config']);
-//Route::post('characteristics/form/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\CharacteristicsController@save_config']);
-    Route::get('characteristics/{id}/delete', ['as' => 'admin.characteristics.delete', 'uses' => 'Admin\CharacteristicsController@destroy']);
-    //Route::resource('characteristics', 'Admin\CharacteristicsController');
+    //Route::get('sphere/data', 'Admin\sphereController@data');
+    Route::get('sphere/index', ['as' => 'admin.sphere.index', 'uses' => 'Admin\SphereController@index']);
+    Route::get('sphere/create', ['as' => 'admin.sphere.create', 'uses' => 'Admin\SphereController@create']);
+    Route::get('sphere/{id}/edit', ['as' => 'admin.sphere.edit', 'uses' => 'Admin\SphereController@edit']);
+    Route::any('sphere/{id}/update', ['as' => 'admin.sphere.update', 'uses' => 'Admin\SphereController@update']);
+    Route::get('sphere/form/{id}/conf', ['as' => 'admin.attr.form', 'uses' => 'Admin\SphereController@get_config']);
+    //Route::post('sphere/form/conf', ['as'=>'admin.chrct.form', 'uses'=> 'Admin\SphereController@save_config']);
+    Route::get('sphere/{id}/delete', ['as' => 'admin.sphere.delete', 'uses' => 'Admin\SphereController@destroy']);
+    //Route::resource('sphere', 'Admin\SphereController');
 
 });
 ?>
