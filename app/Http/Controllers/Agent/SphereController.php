@@ -40,7 +40,7 @@ class SphereController extends Controller {
         $data = Sphere::findOrFail($id);
         $data->load('attributes.options');
         $mask = new SphereMask($data->id);
-        $mask = $mask->findAgentShortMask(\Sentinel::getUser()->id);
+        $mask = $mask->findShortMask(\Sentinel::getUser()->id);
         return view('agent.sphere.edit')->with('sphere',$data)->with('mask',$mask);
     }
 

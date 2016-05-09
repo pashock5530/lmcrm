@@ -23,7 +23,7 @@
                     <div class="panel-body">
                         @foreach($attr->options as $option)
                             <div class="checkbox checkbox-inline">
-                                {!! Form::checkbox('options[]',$option->id, $mask[$option->id], array('class' => '','id'=>"ch-$option->id")) !!}
+                                {!! Form::checkbox('options[]',$option->id, isset($mask[$option->id])?$mask[$option->id]:null, array('class' => '','id'=>"ch-$option->id")) !!}
                                 <label for="ch-{{ $option->id }}">{{ $option->name }}</label>
                             </div>
                         @endforeach

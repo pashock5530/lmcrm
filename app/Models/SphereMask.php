@@ -29,13 +29,15 @@ class SphereMask extends Model
         return $this->table;
     }
 
-    public function findAgentMask($agent_id){
+    public function findMask($agent_id){
         return $this->tableDB->where('agent_id','=',$agent_id);
     }
 
-    public function findAgentShortMask($agent_id){
+    public function findShortMask($agent_id){
         $short_mask=array();
-        $mask = get_object_vars($this->tableDB->where('agent_id','=',$agent_id)->first());
+        $mask = $this->tableDB->where('agent_id','=',$agent_id)->first();
+        if(!$mask) { return $short_mask; }
+        $mask=get_object_vars($mask);
         foreach($mask as $field=>$val){
             if(stripos($field,'fb_')!==false){
                 $short_mask[preg_replace('/^fb_[\d]+_/','',$field)]=$val;
