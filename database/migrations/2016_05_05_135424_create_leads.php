@@ -25,7 +25,7 @@ class CreateLeads extends Migration
             $table->timestamps();
 
             $table->engine = 'InnoDB';
-            $table->unique(['agent_id','phone']);
+            //$table->unique(['agent_id','phone']);
         });
     }
 

@@ -16,7 +16,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$attr->id}}">{{ $attr->label }}</a>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$attr->id}}"> <i class="fa fa-chevron-down pull-left flip"></i> {{ $attr->label }}</a>
                     </h4>
                 </div>
                 <div id="collapse{{$attr->id}}" class="panel-collapse collapse">

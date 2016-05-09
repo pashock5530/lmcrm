@@ -34,5 +34,8 @@ class Lead extends EloquentUser {
     #    'password', 'remember_token',
     #];
 
+    public function spheres(){
+        return $this->belongsToMany('App\Models\Sphere', 'sphere_leads', 'lead_id', 'sphere_id');
+    }
 
 }

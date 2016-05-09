@@ -19,7 +19,11 @@ class Sphere extends Model
     }
 
     public function leadAttr() {
-        return $this->hasMany('App\Models\SphereLead','sphere_id','id')->orderBy('position');
+        return $this->hasMany('App\Models\SphereLeadAttr','sphere_id','id')->orderBy('position');
+    }
+
+    public function leads(){
+        return $this->belongsToMany('App\Models\Lead', 'sphere_leads', 'sphere_id', 'lead_id');
     }
 
     public function statuses() {

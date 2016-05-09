@@ -7,7 +7,7 @@ use App\Models\SphereAttrOptions;
 use Illuminate\Support\Facades\Input;
 use App\Models\Sphere;
 use App\Models\SphereAttr;
-use App\Models\SphereLead;
+use App\Models\SphereLeadAttr;
 use App\Models\SphereStatuses;
 use App\Models\SphereMask;
 use Illuminate\Http\Request;
@@ -79,7 +79,7 @@ class SphereController extends AdminController {
         $lead = [
             "renderType"=>"dynamicForm",
             "id"=>null,
-            "targetEntity"=>"SphereLead",
+            "targetEntity"=>"SphereLeadAttr",
             "values"=>[
                 ["id"=>0,"_type"=>'input',"label"=>'Name',"position"=>1],
                 ["id"=>0,"_type"=>'email',"label"=>'E-mail',"position"=>2],
@@ -263,10 +263,10 @@ class SphereController extends AdminController {
         }
         if($new_chr) foreach($new_chr as $attr) {
             if (isset($attr['id']) && $attr['id']) {
-                $leadAttr = SphereLead::find($attr['id']);
+                $leadAttr = SphereLeadAttr::find($attr['id']);
                 $leadAttr->update($attr);
             } else {
-                $leadAttr = new SphereLead($attr);
+                $leadAttr = new SphereLeadAttr($attr);
                 $group->leadAttr()->save($leadAttr);
             }
             $eoptions=array();

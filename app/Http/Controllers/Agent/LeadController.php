@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
 use App\Models\Lead;
+use App\Models\Sphere;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 //use App\Http\Requests\Admin\ArticleRequest;
@@ -34,7 +35,8 @@ class LeadController extends Controller {
      */
     public function create()
     {
-        return view('agent.lead.create')->with('lead',[]);
+        $spheres = Sphere::active()->lists('name','id');
+        return view('agent.lead.create')->with('lead',[])->with('spheres',$spheres);
     }
 
     /**
@@ -45,8 +47,9 @@ class LeadController extends Controller {
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|regex:/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
+            'phone' => 'required|regex:/\(?([0-9]{3})\)?([\s.-])*([0-9]{3})([\s.-])*([0-9]{4})/',
             'name' => 'required',
+            'sphere.*'=>'integer'
         ]);
         if ($validator->fails()) {
             if($request->ajax()){
@@ -58,9 +61,10 @@ class LeadController extends Controller {
 
         $agent = Agent::findOrFail(\Sentinel::getUser()->id);
 
-        $lead = new Lead($request->all());
+        $lead = new Lead($request->except('sphere'));
 
         $agent->leads()->save($lead);
+        $lead->spheres()->attach($request->only('sphere'));
 
         if($request->ajax()){
             return response()->json();

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SphereLead extends Model
+class SphereLeadAttr extends Model
 {
-    protected $table = 'sphere_leads';
+    protected $table = 'sphere_lead_attributes';
     protected $fillable = ['_type', 'label','icon','required', 'position' ];
 
     public function options() {

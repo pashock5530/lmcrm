@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Agent;
+namespace App\Http\Controllers\Operator;
 
 use App\Http\Controllers\Controller;
 use Validator;
@@ -25,9 +25,8 @@ class SphereController extends Controller {
     */
     public function index()
     {
-        $spheres = Sphere::active()->get();
-        // Show the page
-        return view('agent.sphere.index')->with('spheres',$spheres);
+        $spheres = Sphere::with('leads')->active()->get();
+        return view('sphere.lead.list')->with('spheres',$spheres);
     }
 
     /**
@@ -35,9 +34,9 @@ class SphereController extends Controller {
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($sphere,$id)
     {
-        $data = Sphere::findOrFail($id);
+        $data = Sphere::findOrFail($sphere);
         $data->load('attributes.options');
         $mask = new SphereMask($data->id);
         $mask = $mask->findAgentShortMask(\Sentinel::getUser()->id);

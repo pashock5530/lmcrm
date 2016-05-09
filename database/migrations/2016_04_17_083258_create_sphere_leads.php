@@ -12,7 +12,7 @@ class CreateSphereLeads extends Migration
      */
     public function up()
     {
-        Schema::create('sphere_leads', function (Blueprint $table) {
+        Schema::create('sphere_lead_attributes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sphere_id');
             $table->string('_type');
@@ -21,6 +21,11 @@ class CreateSphereLeads extends Migration
             $table->string('required');
             $table->integer('position');
             $table->timestamps();
+        });
+        Schema::create('sphere_leads', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('sphere_id');
+            $table->integer('lead_id');
         });
     }
 
@@ -31,6 +36,7 @@ class CreateSphereLeads extends Migration
      */
     public function down()
     {
+        Schema::drop('sphere_lead_attributes');
         Schema::drop('sphere_leads');
     }
 }

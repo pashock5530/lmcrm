@@ -72,6 +72,10 @@
                 <li>
                     <a href="{{ route('agent.lead.create') }}" class="dialog"><i class="fa fa-eye"></i> otkryl</a>
                 </li>
+                <hr/>
+                <li>
+                    <a href="{{ route('operator.sphere.index') }}" ><i class="fa fa-list"></i> Leads filter</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
