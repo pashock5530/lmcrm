@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="container" id="content">
-        {!! Form::model($sphere,array('route' => ['agent.sphere.update',$sphere->id], 'method' => 'put', 'class' => 'bf', 'files'=> true)) !!}
+        {!! Form::model($sphere,array('route' => ['operator.sphere.lead.update','sphere'=>$sphere->id,'id'=>$lead], 'method' => 'put', 'class' => 'validate', 'files'=> false)) !!}
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -20,9 +20,50 @@
                 </div>
                 <div id="collapseLead" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                            <div class="form jSplash-data" id="lead"> Loading... </div>
-                        </form>
+                        @forelse($sphere->leadAttr as $attr)
+                            <h3 class="page_header">{{ $attr->label }} </h3>
+                            @if ($attr->_type == 'checkbox')
+                                @foreach($attr->options as $option)
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            {!! Form::checkbox('info['.$attr->id.']',$option->id, isset($leadInfo[$option->id])?$leadInfo[$option->id]:null, array('class' => '','id'=>"ch-$option->id")) !!}
+                                            <label for="ch-{{ $option->id }}">{{ $option->name }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @elseif ($attr->_type == 'radio')
+                                @foreach($attr->options as $option)
+                                    <div class="form-group">
+                                        <div class="radio">
+                                            {!! Form::radio('info['.$attr->id.']',$option->id, isset($leadInfo[$option->id])?$leadInfo[$option->id]:null, array('class' => '','id'=>"r-$option->id")) !!}
+                                            <label for="r-{{ $option->id }}">{{ $option->name }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @elseif ($attr->_type == 'select')
+                                <div class="form-group">
+                                    {!! Form::select('info['.$attr->id.']',$attr->options->lists('name','id'),isset($leadInfo[$attr->id])?$leadInfo[$attr->id]:null, array('class' => '')) !!}
+                                </div>
+                            @elseif ($attr->_type == 'email')
+                                <div class="form-group">
+                                    {!! Form::email('info['.$attr->id.']',isset($leadInfo[$attr->id])?$leadInfo[$attr->id]:null, array('class' => 'form-control','data-rule-email'=>true)) !!}
+                                </div>
+                            @elseif ($attr->_type == 'input')
+                                <div class="form-group">
+                                    {!! Form::text('info['.$attr->id.']',isset($leadInfo[$attr->id])?$leadInfo[$attr->id]:null, array('class' => 'form-control')+$attr->validatorRules()) !!}
+                                </div>
+                            @elseif ($attr->_type == 'calendar')
+                                <div class="form-group">
+                                    <div class="input-group">
+                                    {!! Form::text('info['.$attr->id.']',isset($leadInfo[$attr->id])?$leadInfo[$attr->id]:null, array('class' => 'form-control datepicker')) !!}
+                                        <div class="input-group-addon"> <a href="#"><i class="fa fa-calendar"></i></a> </div>
+                                    </div>
+                                </div>
+                            @else
+                                <br/>
+                            @endif
+                        @empty
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -34,11 +75,35 @@
                 </div>
                 <div id="collapseForm" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                            <div class="jSplash-data" id="cform">
-                                Loading...
-                            </div>
-                        </form>
+                        @forelse($sphere->attributes as $attr)
+                            <h3 class="page_header">{{ $attr->label }} </h3>
+                                @if ($attr->_type == 'checkbox')
+                                  @foreach($attr->options as $option)
+                                   <div class="form-group">
+                                        <div class="checkbox">
+                                            {!! Form::checkbox('options[]',$option->id, isset($mask[$option->id])?$mask[$option->id]:null, array('class' => '','id'=>"ch-$option->id")) !!}
+                                            <label for="ch-{{ $option->id }}">{{ $option->name }}</label>
+                                        </div>
+                                   </div>
+                                  @endforeach
+                                @elseif ($attr->_type == 'radio')
+                                 @foreach($attr->options as $option)
+                                  <div class="form-group">
+                                    <div class="radio">
+                                        {!! Form::radio('options[]',$option->id, isset($mask[$option->id])?$mask[$option->id]:null, array('class' => '','id'=>"r-$option->id")) !!}
+                                        <label for="r-{{ $option->id }}">{{ $option->name }}</label>
+                                    </div>
+                                  </div>
+                                 @endforeach
+                                @elseif ($attr->_type == 'select')
+                                  <div class="form-group">
+                                        {!! Form::select('options[]',$attr->options->lists('name','id'),$attr->id, array('class' => '')) !!}
+                                  </div>
+                                @else
+                                    I am  else <br/>
+                                @endif
+                        @empty
+                        @endforelse
                     </div>
                 </div>
             </div>

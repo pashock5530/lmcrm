@@ -38,4 +38,7 @@ class Lead extends EloquentUser {
         return $this->belongsToMany('App\Models\Sphere', 'sphere_leads', 'lead_id', 'sphere_id');
     }
 
+    public function info(){
+        return $this->hasMany('App\Models\LeadInfoEAV','lead_id','id');
+    }
 }

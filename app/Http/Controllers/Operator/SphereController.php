@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Operator;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
+use App\Models\Lead;
+use App\Models\LeadInfoEAV;
 use App\Models\Sphere;
 use App\Models\SphereMask;
 
@@ -37,10 +39,17 @@ class SphereController extends Controller {
     public function edit($sphere,$id)
     {
         $data = Sphere::findOrFail($sphere);
-        $data->load('attributes.options');
+        $data->load('attributes.options','leadAttr.options','leadAttr.validators');
         $mask = new SphereMask($data->id);
         $mask = $mask->findShortMask($id);
-        return view('sphere.lead.edit')->with('sphere',$data)->with('mask',$mask);
+
+        $lead = Lead::find($id);
+        $lead_info=$lead->info()->lists('value','key');
+        return view('sphere.lead.edit')
+            ->with('sphere',$data)
+            ->with('mask',$mask)
+            ->with('lead',$id)
+            ->with('leadInfo',$lead_info);
     }
 
     /**
@@ -48,9 +57,9 @@ class SphereController extends Controller {
      *
      * @return Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request,$sphere_id,$lead_id)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->except('info'), [
             'options.*' => 'integer',
         ]);
         if ($validator->fails()) {
@@ -60,19 +69,29 @@ class SphereController extends Controller {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
         }
-        $sphere = Sphere::findOrFail($id);
+        $sphere = Sphere::findOrFail($sphere_id);
         $mask = new SphereMask($sphere->id);
-
         $options=array();
         if ($request->has('options')) {
             $options=$request->only('options')['options'];
         }
-        $mask->setAttr(\Sentinel::getUser()->id,$options);
+        $mask->setAttr($lead_id,$options);
+
+        $lead = Lead::find($lead_id);
+        $lead->info()->delete();
+        if(count($request->only('info')['info'])) {
+            $save_arr = array();
+            foreach ($request->only('info')['info'] as $key => $val) {
+                $save_arr[] = new LeadInfoEAV(['key' => $key, 'value' => $val]);
+            }
+            $lead->info()->saveMany($save_arr);
+            unset($save_arr);
+        }
 
         if($request->ajax()){
             return response()->json();
         } else {
-            return redirect()->route('agent.sphere.index');
+            return redirect()->route('operator.sphere.index');
         }
     }
 

@@ -120,7 +120,8 @@ a { /*1100*/
 }
 
 footer,.footer,#footer{
-	position: absolute;
+	/*position: absolute;*/
+	padding: 35px 20px 10px;
 	bottom: 0;
 	width: 100%;
 }

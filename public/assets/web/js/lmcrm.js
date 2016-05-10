@@ -1,6 +1,29 @@
 $(function(){
 	$('select').selectpicker();
 
+	if ($.isFunction($.fn.datepicker)) {
+		$(".datepicker").each(function (i, el) {
+			var $this = $(el),
+					opts = {
+						format: $this.attr('format') || 'mm/dd/yyyy',
+						startDate:  $this.attr('startDate') || '',
+						endDate:  $this.attr( 'endDate') || '',
+						daysOfWeekDisabled:  $this.attr('disabledDays') || '',
+						startView:  $this.attr('startView') || 0,
+					},
+					$n = $this.next();
+			$this.datepicker(opts);
+			if ($n.is('.input-group-addon') && $n.has('a')) {
+				$n.on('click', function (ev) {
+					ev.preventDefault();
+					$this.datepicker('show');
+				});
+			}
+		});
+	}
+	if ($.isFunction($.fn.validate)) {
+		$(".validate").validate();
+	}
 
 	$(".dialog").click(function(){
 		var href=$(this).attr("href");
