@@ -100,6 +100,13 @@ body {
 
 .sidebar ul li {
     border-bottom: 0px solid #d9d9d9;
+    text-align: center;
+}
+
+@media (max-width: 768px){
+    .sidebar ul li {
+        float: left;
+    }
 }
 
 .sidebar ul li.active {
@@ -137,6 +144,9 @@ body {
 
 .sidebar .nav-third-level li a {
     padding-left: 52px;
+}
+.sidebar .nav > li > a:focus,.sidebar .nav > li > a:hover {
+    color: #98dbee;
 }
 
 @media(min-width:768px) {

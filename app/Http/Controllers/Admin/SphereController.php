@@ -80,11 +80,11 @@ class SphereController extends AdminController {
             "renderType"=>"dynamicForm",
             "id"=>null,
             "targetEntity"=>"SphereLeadAttr",
-            "values"=>[
-                ["id"=>0,"_type"=>'input',"label"=>'Name',"position"=>1],
-                ["id"=>0,"_type"=>'email',"label"=>'E-mail',"position"=>2],
-                ["id"=>0,"_type"=>'input',"label"=>'Pnone',"position"=>3],
-            ],
+#            "values"=>[
+#                ["id"=>0,"_type"=>'input',"label"=>'Name',"position"=>1],
+#                ["id"=>0,"_type"=>'email',"label"=>'E-mail',"position"=>2],
+#                ["id"=>0,"_type"=>'input',"label"=>'Pnone',"position"=>3],
+#            ],
             "settings"=>[
                 "view"=>[
                     "show"=>"form.dynamic",

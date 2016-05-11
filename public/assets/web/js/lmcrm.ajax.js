@@ -1,8 +1,8 @@
 $(function(){
-	$('select').selectpicker();
+	$('.ajax-content select').selectpicker();
 
 	if ($.isFunction($.fn.datepicker)) {
-		$(".datepicker").each(function (i, el) {
+		$(".ajax-content .datepicker").each(function (i, el) {
 			var $this = $(el),
 					opts = {
 						format: $this.attr('format') || 'mm/dd/yyyy',
@@ -22,10 +22,10 @@ $(function(){
 		});
 	}
 	if ($.isFunction($.fn.validate)) {
-		$(".validate").validate();
+		$(".ajax-content .validate").validate();
 	}
 
-	$(".dialog").click(function(){
+	$(".ajax-content .dialog").click(function(){
 		var href=$(this).attr("href");
 		$.ajax({
 			url:href,
@@ -44,10 +44,4 @@ $(function(){
 		});
 		return false;
 	});
-
-	if ($.isFunction($.fn.DataTable)) {
-		$('.dataTable').DataTable({
-			responsive: true
-		});
-	}
 });

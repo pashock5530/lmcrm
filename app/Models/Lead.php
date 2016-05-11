@@ -22,7 +22,7 @@ class Lead extends EloquentUser {
      * @var array
      */
     protected $fillable = [
-        'agent_id','name', 'phone', 'comment',
+        'agent_id','name', 'phone_id', 'comment', 'date', 'bad'
     ];
 
     /**
@@ -40,5 +40,9 @@ class Lead extends EloquentUser {
 
     public function info(){
         return $this->hasMany('App\Models\LeadInfoEAV','lead_id','id');
+    }
+
+    public function phone(){
+        return $this->hasOne('App\Models\LeadPhone','id','phone_id');
     }
 }

@@ -10,18 +10,41 @@
         </div>
     </div>
     <div class="container" id="content">
-        {!! Form::model($sphere,array('route' => ['operator.sphere.lead.update','sphere'=>$sphere->id,'id'=>$lead], 'method' => 'put', 'class' => 'validate', 'files'=> false)) !!}
+        {!! Form::model($lead,array('route' => ['operator.sphere.lead.update','sphere'=>$sphere->id,'id'=>$lead->id], 'method' => 'put', 'class' => 'validate', 'files'=> false)) !!}
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseLead"> <i class="fa fa-chevron-down pull-left flip"></i>  $attr->label </a>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseLead"> <i class="fa fa-chevron-down pull-left flip"></i>  @lang('Lead info') </a>
                     </h4>
                 </div>
                 <div id="collapseLead" class="panel-collapse collapse in">
                     <div class="panel-body">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                {!! Form::checkbox('bad',1,null, array('class' => 'form-control','id'=>'bad_lead')) !!}
+                                <label for="bad_lead">@lang('lead/lead.bad')</label>
+                            </div>
+                        </div>
+                        <h4 class="page_header">@lang('lead/lead.name')</h4>
+                        <div class="form-group">
+                            {!! Form::text('name',null, array('class' => 'form-control','disabled'=>true)) !!}
+                        </div>
+                        <h4 class="page_header">@lang('lead/lead.phone')</h4>
+                        <div class="form-group">
+                            {!! Form::text('phone',$lead->phone->phone, array('class' => 'form-control','disabled'=>true)) !!}
+                        </div>
+                        <h4 class="page_header">@lang('lead/lead.email')</h4>
+                        <div class="form-group">
+                            {!! Form::text('email',null, array('class' => 'form-control','disabled'=>true)) !!}
+                        </div>
+                        <h4 class="page_header">@lang('lead/lead.comments')</h4>
+                        <div class="form-group">
+                            {!! Form::textarea('comment',null, array('class' => 'form-control','disabled'=>true)) !!}
+                        </div>
+                        <hr/>
                         @forelse($sphere->leadAttr as $attr)
-                            <h3 class="page_header">{{ $attr->label }} </h3>
+                            <h4 class="page_header">{{ $attr->label }} </h4>
                             @if ($attr->_type == 'checkbox')
                                 @foreach($attr->options as $option)
                                     <div class="form-group">
@@ -70,13 +93,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseForm"> <i class="fa fa-chevron-down pull-left flip"></i>  $attr->label </a>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseForm"> <i class="fa fa-chevron-down pull-left flip"></i>  @lang('Filtration') </a>
                     </h4>
                 </div>
                 <div id="collapseForm" class="panel-collapse collapse in">
                     <div class="panel-body">
                         @forelse($sphere->attributes as $attr)
-                            <h3 class="page_header">{{ $attr->label }} </h3>
+                            <h4 class="page_header">{{ $attr->label }} </h4>
                                 @if ($attr->_type == 'checkbox')
                                   @foreach($attr->options as $option)
                                    <div class="form-group">
@@ -96,8 +119,12 @@
                                   </div>
                                  @endforeach
                                 @elseif ($attr->_type == 'select')
+                                    @php($selected=array())
+                                    @forelse($attr->options as $option)
+                                        @if(isset($mask[$option->id]) && $mask[$option->id]) @php($selected[]=$option->id) @endif
+                                    @empty @endforelse
                                   <div class="form-group">
-                                        {!! Form::select('options[]',$attr->options->lists('name','id'),$attr->id, array('class' => '')) !!}
+                                        {!! Form::select('options[]',$attr->options->lists('name','id'),$selected, array('class' => 'form-control')) !!}
                                   </div>
                                 @else
                                     I am  else <br/>

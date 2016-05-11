@@ -15,7 +15,7 @@
                 </div>
                 <div id="collapse{{$sphere->id}}" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                             <tr>
                                 <th>{!! trans("site/lead.name") !!}</th>
@@ -30,7 +30,7 @@
                                     <td>{!! $lead->name !!}</td>
                                     <td>@if($sphere->status) <span class="label label-success">on</span> @else <span class="label label-danger">off</span> @endif</td>
                                     <td>{!! $lead->updated_at !!}</td>
-                                    <td><a href="{{ route('operator.sphere.lead.edit',['sphere'=>$sphere->id,'id'=>$lead->id]) }}" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("main.edit") }}</a></td>
+                                    <td><a href="{{ route('operator.sphere.lead.edit',['sphere'=>$sphere->id,'id'=>$lead->id]) }}" class="btn btn-sm" ><img src="/public/icons/list-edit.png" class="icon pull-left flip"></a></td>
                                 </tr>
                             @empty
                             @endforelse

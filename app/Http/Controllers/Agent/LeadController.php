@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
 use App\Models\Lead;
+use App\Models\LeadPhone;
 use App\Models\Sphere;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -60,8 +61,11 @@ class LeadController extends Controller {
         }
 
         $agent = Agent::findOrFail(\Sentinel::getUser()->id);
+        $phone = LeadPhone::firstOrCreate(preg_replace('/[^\d]/','',$request->only('phone')));
 
-        $lead = new Lead($request->except('sphere'));
+        $lead = new Lead($request->except('sphere','phone'));
+        $lead->phone_id=$phone->id;
+        $lead->date=date('Y-m-d');
 
         $agent->leads()->save($lead);
         $lead->spheres()->attach($request->only('sphere'));

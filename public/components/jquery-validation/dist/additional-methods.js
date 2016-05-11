@@ -776,6 +776,13 @@ $.validator.addMethod( "phoneUS", function( phone_number, element ) {
 		phone_number.match( /^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]([02-9]\d|1[02-9])-?\d{4}$/ );
 }, "Please specify a valid phone number" );
 
+$.validator.addMethod( "phone", function( phone_number, element ) {
+	phone_number = phone_number.replace( /\s+/g, "" );
+	return this.optional( element ) || phone_number.length > 9 &&
+			phone_number.match( /^\(?([0-9]{3})\)?([\s.-])*([0-9]{3})([\s.-])*([0-9]{4})$/ );
+}, "Please specify a valid phone number" );
+
+
 /* For UK phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$

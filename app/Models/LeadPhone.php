@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+class LeadPhone extends Model {
 
-class LeadInfoEAV extends Model {
-
-    protected $table="lead_info";
+    protected $table="lead_phone";
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +14,11 @@ class LeadInfoEAV extends Model {
      * @var array
      */
     protected $fillable = [
-        'lead_id','key', 'value',
+        'phone'
     ];
 
+
+    public function lead(){
+        return $this->hasMany('App\Models\Lead','phone_id', 'id');
+    }
 }

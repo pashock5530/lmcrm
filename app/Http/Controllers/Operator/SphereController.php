@@ -43,12 +43,12 @@ class SphereController extends Controller {
         $mask = new SphereMask($data->id);
         $mask = $mask->findShortMask($id);
 
-        $lead = Lead::find($id);
+        $lead = Lead::with('phone')->find($id);
         $lead_info=$lead->info()->lists('value','key');
         return view('sphere.lead.edit')
             ->with('sphere',$data)
             ->with('mask',$mask)
-            ->with('lead',$id)
+            ->with('lead',$lead)
             ->with('leadInfo',$lead_info);
     }
 

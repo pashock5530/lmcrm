@@ -16,12 +16,14 @@ class CreateLeads extends Migration
             $table->increments('id');
             $table->integer('agent_id');
             $table->string('email')->nullable();
-            $table->string('phone');
+            $table->integer('phone_id');
             $table->string('password')->nullable();
             $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->string('name')->nullable();
             $table->text('comment')->nullable();
+            $table->boolean('bad')->default(false);
+            $table->date('date')->nullable();
             $table->timestamps();
 
             $table->engine = 'InnoDB';

@@ -55,6 +55,7 @@
     <script src="{{ asset('components/bootbox/bootbox.min.js')}}"></script>
     <script src="{{ asset('components/ajax-form/jquery.form.min.js')}}"></script>
     <script src="{{ asset('components/jquery-validation/dist/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('components/jquery-validation/dist/additional-methods.js')}}"></script>
     @if(LaravelLocalization::getCurrentLocale()!='en')<script src="{{ asset('components/jquery-validation/dist/localization/messages_'.LaravelLocalization::getCurrentLocale().'.min.js')}}"></script>@endif
     <!-- DataTables JavaScript -->
     <script src="{{ asset('components/datatables/media/js/jquery.dataTables.min.js')}}"></script>
