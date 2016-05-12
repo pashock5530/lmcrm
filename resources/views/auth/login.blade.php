@@ -3,6 +3,8 @@
 {{-- Web site Title --}}
 @section('title') {!!  trans('site/user.login') !!} :: @parent @stop
 
+@section('sidebar') @stop
+
 {{-- Content --}}
 @section('content')
     <div class="row">
@@ -31,9 +33,8 @@
             <div class="form-group">
                 <div class="col-xs-16 text-center">
                     <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="remember"> Remember Me
-                        </label>
+                        <input type="checkbox" name="remember" id="remember">
+                        <label for="remember">Remember Me</label>
                     </div>
                 </div>
             </div>

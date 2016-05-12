@@ -11,8 +11,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.characteristics.index') }}">
-                    <i class="fa fa-list"></i> Сharacteristics
+                <a href="{{ route('admin.sphere.index') }}">
+                    <i class="fa fa-list"></i> Sphere of influence
                 </a>
             </li>
             <!--
