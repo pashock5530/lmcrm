@@ -62,15 +62,15 @@
                             <label>Inline Checkboxes</label>
                             <div class="checkbox checkbox-inline">
                                 <input type="checkbox" id="chki1"/>
-                                <label class="checkbox-inline" for="chki1">1</label>
+                                <label class="checkbox-inline" for="chki1">Checkbox 1</label>
                             </div>
                             <div class="checkbox checkbox-inline">
                                 <input type="checkbox" id="chki2"/>
-                                <label class="checkbox-inline" for="chki1">1</label>
+                                <label class="checkbox-inline" for="chki2">Checkbox 2</label>
                             </div>
                             <div class="checkbox checkbox-inline">
                                 <input type="checkbox" id="chki3"/>
-                                <label class="checkbox-inline" for="chki3">1</label>
+                                <label class="checkbox-inline" for="chki3">Checkbox 3</label>
                             </div>
                         </div>
                         <div class="form-group">
