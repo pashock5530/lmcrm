@@ -58,19 +58,19 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="{{ route('agent.lead.create') }}" class="dialog"><i class="icon icon-add-user"></i> add lead</a>
+                    <a href="{{ route('agent.lead.create') }}" class="dialog"><i class="icon icon-add-user"></i>@lang('site/sidebar.add_lead')</a>
                 </li>
                 <li>
                     <a href="{{ route('agent.sphere.index') }}"><i class="fa fa-sitemap"></i> Filtration customer</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-buy"></i> poluchil</a>
+                    <a href="#"><i class="icon icon-buy"></i>@lang('site/sidebar.lead_obtain')</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-sell"></i> otdal</a>
+                    <a href="#"><i class="icon icon-sell"></i>@lang('site/sidebar.lead_deposit')</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-document"></i> otkryl</a>
+                    <a href="#"><i class="icon icon-document"></i>@lang('site/sidebar.lead_opened')</a>
                 </li>
                 <hr/>
                 <li>

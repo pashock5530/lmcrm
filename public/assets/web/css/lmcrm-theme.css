@@ -1,4 +1,7 @@
+@import url(http://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
+
 body {
+	font-family: 'Open Sans Hebrew', sans-serif;
 	background-color: #ffffff;
 }
 

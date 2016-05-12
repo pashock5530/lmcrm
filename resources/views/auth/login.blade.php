@@ -33,9 +33,8 @@
             <div class="form-group">
                 <div class="col-xs-16 text-center">
                     <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="remember"> Remember Me
-                        </label>
+                        <input type="checkbox" name="remember" id="remember">
+                        <label for="remember">Remember Me</label>
                     </div>
                 </div>
             </div>
