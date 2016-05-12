@@ -232,6 +232,9 @@ class SphereController extends AdminController {
      */
     public function update(Request $request,$id)
     {
+        if(!count($request->all())) {
+            return response()->json(FALSE);
+        }
         $opt = $request->only('opt');
 
         if($id) {

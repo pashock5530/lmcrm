@@ -186,7 +186,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: '{{ route('admin.sphere.update',[$fid]) }}',
-                        method: 'PUT',
+                        method: 'POST',
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);
