@@ -266,7 +266,7 @@ class SphereController extends AdminController {
                 $leadAttr = SphereLeadAttr::find($attr['id']);
                 $leadAttr->update($attr);
             } else {
-                $leadAttr = new SphereLeadAttr($attr);
+                $leadAttr = new SphereLeadAttr((array)$attr);
                 $group->leadAttr()->save($leadAttr);
             }
             $eoptions=array();

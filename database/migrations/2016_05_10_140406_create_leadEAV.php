@@ -19,7 +19,7 @@ class CreateLeadEAV extends Migration
             $table->string('value',2083);
             $table->timestamps();
             $table->engine = 'InnoDB';
-            $table->unique(['lead_id','key','value']);
+            #$table->unique(['lead_id','key','value']);
         });
     }
 
