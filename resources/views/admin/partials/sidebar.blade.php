@@ -15,6 +15,11 @@
                     <i class="fa fa-list"></i> Sphere of influence
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin.sphere.reprice') }}">
+                    <i class="fa fa-list"></i> Sphere filtration re-price
+                </a>
+            </li>
             <!--
                 <li>
                     <a href="#">

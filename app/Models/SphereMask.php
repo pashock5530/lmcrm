@@ -32,6 +32,10 @@ class SphereMask extends Model
         return $this->tableDB;
     }
 
+    public function query_builder(){
+        return $this->tableDB;
+    }
+
     public function getTableName(){
         return $this->table;
     }
@@ -43,11 +47,21 @@ class SphereMask extends Model
 
     public function getStatus($agent_id=NULL){
         $agent_id = ($agent_id)?$agent_id:$this->agentID;
-        return $this->tableDB->where('agent_id','=',$agent_id)->pluck('status');
+        return $this->tableDB->where('agent_id','=',$agent_id)->first();
     }
+
     public function setStatus($status=0,$agent_id=NULL){
         $agent_id = ($agent_id)?$agent_id:$this->agentID;
         return $this->tableDB->where('agent_id','=',$agent_id)->update(['status'=>$status]);
+    }
+
+    public function getPrice($agent_id=NULL){
+        $agent_id = ($agent_id)?$agent_id:$this->agentID;
+        return $this->tableDB->where('agent_id','=',$agent_id)->first();
+    }
+    public function setPrice($val=0,$agent_id=NULL){
+        $agent_id = ($agent_id)?$agent_id:$this->agentID;
+        return $this->tableDB->where('agent_id','=',$agent_id)->update(['lead_price'=>$val]);
     }
 
     public function findMask($agent_id=NULL){

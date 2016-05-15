@@ -127,7 +127,7 @@
                                         {!! Form::select('options[]',$attr->options->lists('name','id'),$selected, array('class' => 'form-control')) !!}
                                   </div>
                                 @else
-                                    I am  else <br/>
+
                                 @endif
                         @empty
                         @endforelse

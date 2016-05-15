@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\AdminController;
 use App\Models\SphereAttrOptions;
 use Illuminate\Support\Facades\Input;
+use App\Models\User;
 use App\Models\Sphere;
 use App\Models\SphereAttr;
 use App\Models\SphereLeadAttr;
@@ -487,5 +488,43 @@ class SphereController extends AdminController {
             ->add_column('actions', function($model) { return view('admin.sphere.datatables.control',['id'=>$model->id]); } )
             ->remove_column('id')
             ->make();
+    }
+
+    public function filtration(){
+        $spheres = Sphere::active()->get();
+        $collection = array();
+        foreach($spheres as $sphere){
+            $mask = new SphereMask($sphere->id);
+            $collection[$sphere->id] = $mask->query_builder()
+                ->join('users','users.id','=','agent_id')
+                ->where('status','=',0)
+                ->get();
+        }
+        return view('admin.sphere.reprice')
+            ->with('collection',$collection)
+            ->with('spheres',Sphere::active()->lists('name','id'));
+    }
+
+    public function filtrationEdit($sphere,$agent_id){
+        $sphere = Sphere::findOrFail($sphere);
+        $mask = new SphereMask($sphere->id);
+        $bitmask = $mask->findShortMask($agent_id);
+
+        return view('admin.sphere.reprice_edit')
+            ->with('sphere',$sphere)
+            ->with('agent_id',$agent_id)
+            ->with('mask',$bitmask)
+            ->with('price',$mask->getPrice($agent_id));
+    }
+
+    public function filtrationUpdate(Request $request,$sphere,$id){
+        $sphere = Sphere::findOrFail($sphere);
+        $mask = new SphereMask($sphere->id);
+        $mask->setUserID($id);
+
+        $mask->setPrice($request->input('price',0));
+        $mask->setStatus(1);
+
+        return redirect()->route('admin.sphere.reprice');
     }
 }
