@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Models\Agent;
+use App\Models\AgentSphere;
+use App\Models\Sphere;
 //use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\AdminUsersEditFormRequest;
 //use App\Repositories\UserRepositoryInterface;
@@ -35,7 +37,8 @@ class AgentController extends AdminController
      */
     public function create()
     {
-        return view('admin.agent.create_edit');
+        $spheres = Sphere::active()->lists('name','id');
+        return view('admin.agent.create_edit')->with('spheres',$spheres);
     }
 
     /**
@@ -46,13 +49,14 @@ class AgentController extends AdminController
     public function store(AdminUsersEditFormRequest $request)
     {
 
-        $user = new Agent ($request->except('password','password_confirmation'));
+        $user = new Agent ($request->except('password','password_confirmation','sphere'));
         //$user->password = bcrypt($request->password);
         $user->password = \Hash::make($request->input('password'));
         //$user->confirmation_code = str_random(32);
         $user->save();
         $role = \Sentinel::findRoleBySlug('agent');
         $user->roles()->attach($role);
+        $user->spheres()->sync($request->only('sphere'));
 
         return redirect()->route('admin.agent.index');
     }
@@ -65,8 +69,9 @@ class AgentController extends AdminController
      */
     public function edit($id)
     {
-        $agent = Agent::findOrFail($id);
-        return view('admin.agent.create_edit', ['agent'=>$agent]);
+        $agent = Agent::with('sphereLink')->findOrFail($id);
+        $spheres = Sphere::active()->lists('name','id');
+        return view('admin.agent.create_edit', ['agent'=>$agent,'spheres'=>$spheres]);
     }
 
     /**
@@ -89,6 +94,8 @@ class AgentController extends AdminController
         }
         $agent->fill($request->except('password','password_confirmation'));
         $agent->save();
+
+        $agent->spheres()->sync($request->only('sphere'));
         return redirect()->route('admin.agent.index');
     }
 

@@ -26,8 +26,12 @@ class SphereController extends Controller {
     public function index()
     {
         $spheres = Sphere::active()->get();
-        // Show the page
-        return view('agent.sphere.index')->with('spheres',$spheres);
+        $mask=new SphereMask();
+        $mask->setUserID(\Sentinel::getUser()->id);
+
+        return view('agent.sphere.index')
+            ->with('spheres',$spheres)
+            ->with('mask',$mask);
     }
 
     /**
@@ -63,12 +67,14 @@ class SphereController extends Controller {
         }
         $sphere = Sphere::findOrFail($id);
         $mask = new SphereMask($sphere->id);
+        $mask->setUserID(\Sentinel::getUser()->id);
 
         $options=array();
         if ($request->has('options')) {
             $options=$request->only('options')['options'];
         }
-        $mask->setAttr(\Sentinel::getUser()->id,$options);
+        $mask->setAttr($options);
+        $mask->setStatus(0);
 
         if($request->ajax()){
             return response()->json();

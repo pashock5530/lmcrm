@@ -20,9 +20,9 @@
 </ul>
 <!-- ./ tabs -->
 @if (isset($agent))
-{!! Form::model($agent,array('route' => ['admin.agent.update',$agent->id], 'method' => 'put', 'class' => 'bf', 'files'=> true)) !!}
+{!! Form::model($agent,array('route' => ['admin.agent.update',$agent->id], 'method' => 'put', 'class' => 'validate', 'files'=> true)) !!}
 @else
-{!! Form::open(array('route' => ['admin.agent.store'], 'method' => 'post', 'class' => 'bf', 'files'=> true)) !!}
+{!! Form::open(array('route' => ['admin.agent.store'], 'method' => 'post', 'class' => 'validate', 'files'=> true)) !!}
 @endif
         <!-- Tabs Content -->
 <div class="tab-content">
@@ -68,6 +68,14 @@
             <div class="controls">
                 {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('password_confirmation', ':message') }}</span>
+            </div>
+        </div>
+
+        <div class="form-group  {{ $errors->has('sphere') ? 'has-error' : '' }}">
+            {!! Form::label('sphere', trans("admin/sphere.sphere"), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::select('sphere',$spheres,(isset($agent))?$agent->sphereLink->sphere_id:NULL, array('class' => 'form-control','required'=>'required')) !!}
+                <span class="help-block">{{ $errors->first('sphere', ':message') }}</span>
             </div>
         </div>
     </div>

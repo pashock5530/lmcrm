@@ -38,7 +38,31 @@
                 <div class="tab-pane" id="tab2">
                     <h3 class="page-header">{{trans('admin/sphere.lead_form')}}</h3>
                     <form method="post" class="jSplash-form form-horizontal noEnterKey _validate" action="#" >
-                        <div class="form jSplash-data" id="lead"> Loading... </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                               <div class="row">
+                                    <div class="col-xs-10">
+                                    <div class="col-xs-11 col-xs-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">@lang('lead/lead.name')</label>
+                                            {!! Form::text('name', null, array('class' => 'form-control','placeholder'=>trans('lead/form.name'),'required'=>'required','data-rule-minLength'=>'2')) !!}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label">@lang('lead/lead.phone')</label>
+                                            {!! Form::text('phone', null, array('class' => 'form-control','placeholder'=>trans('lead/form.phone'),'required'=>'required', 'data-rule-phone'=>true)) !!}
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label class="control-label">@lang('lead/lead.comments')</label>
+                                            {!! Form::textarea('comment', null, array('rows'=>'3','class' => 'form-control','placeholder'=>trans('lead/form.comments'))) !!}
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form jSplash-data" id="lead"> Loading... </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="tab-pane" id="tab3">
@@ -186,7 +210,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: '{{ route('admin.sphere.update',[$fid]) }}',
-                        method: 'PUT',
+                        method: 'POST',
                         data: postData,
                         success: function (data, textStatus) {
                             $this.prop('disabled',false);

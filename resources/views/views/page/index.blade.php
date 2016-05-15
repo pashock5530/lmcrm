@@ -46,58 +46,62 @@
                                 </label>
                             </div>
                             <div class="checkbox">
-                                <label>
-                                    <input value="" type="checkbox">Checkbox 2
+                                <input value="" type="checkbox" id="chk2">
+                                <label for="chk2">
+                                    Checkbox 2
                                 </label>
                             </div>
                             <div class="checkbox">
-                                <label>
-                                    <input value="" type="checkbox">Checkbox 3
+                                <input value="" type="checkbox" id="chk3">
+                                <label for="chk3">
+                                    Checkbox 3
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Inline Checkboxes</label>
                             <div class="checkbox checkbox-inline">
-                                <input type="checkbox" />
-                                <label class="checkbox-inline">1</label>
+                                <input type="checkbox" id="chki1"/>
+                                <label class="checkbox-inline" for="chki1">Checkbox 1</label>
                             </div>
-                            <label class="checkbox-inline">
-                                <input type="checkbox">2
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox">3
-                            </label>
+                            <div class="checkbox checkbox-inline">
+                                <input type="checkbox" id="chki2"/>
+                                <label class="checkbox-inline" for="chki2">Checkbox 2</label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <input type="checkbox" id="chki3"/>
+                                <label class="checkbox-inline" for="chki3">Checkbox 3</label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Radio Buttons</label>
                             <div class="radio">
-                                <label>
-                                    <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">Radio 1
-                                </label>
+                                <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+                                <label for="optionsRadios1">Radio 1</label>
                             </div>
                             <div class="radio">
-                                <label>
-                                    <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">Radio 2
-                                </label>
+                                <input name="optionsRadios" id="optionsRadios2" value="option1" checked="" type="radio">
+                                <label for="optionsRadios2">Radio 2</label>
                             </div>
                             <div class="radio">
-                                <label>
-                                    <input name="optionsRadios" id="optionsRadios3" value="option3" type="radio">Radio 3
-                                </label>
+                                <input name="optionsRadios" id="optionsRadios3" value="option1" checked="" type="radio">
+                                <label for="optionsRadios3">Radio 3</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Inline Radio Buttons</label>
-                            <label class="radio-inline">
-                                <input name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="" type="radio">1
-                            </label>
-                            <label class="radio-inline">
-                                <input name="optionsRadiosInline" id="optionsRadiosInline2" value="option2" type="radio">2
-                            </label>
-                            <label class="radio-inline">
-                                <input name="optionsRadiosInline" id="optionsRadiosInline3" value="option3" type="radio">3
-                            </label>
+                            <div class="radio radio-inline">
+                                <input name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="" type="radio">
+                                <label for="optionsRadiosInline1">Radio 1</label>
+                            </div>
+                            <div class="radio radio-inline">
+                                <input name="optionsRadiosInline" id="optionsRadiosInline2" value="option1" checked="" type="radio">
+                                <label for="optionsRadiosInline2">Radio 2</label>
+                            </div>
+                            <div class="radio radio-inline">
+                                <input name="optionsRadiosInline" id="optionsRadiosInline3" value="option1" checked="" type="radio">
+                                <label for="optionsRadiosInline3">Radio 3</label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Selects</label>

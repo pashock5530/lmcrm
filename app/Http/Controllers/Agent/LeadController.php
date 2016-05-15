@@ -49,10 +49,11 @@ class LeadController extends Controller {
     {
         $validator = Validator::make($request->all(), [
             'phone' => 'required|regex:/\(?([0-9]{3})\)?([\s.-])*([0-9]{3})([\s.-])*([0-9]{4})/',
-            'name' => 'required',
-            'sphere.*'=>'integer'
+            'name' => 'required'
         ]);
-        if ($validator->fails()) {
+        $agent = Agent::with('sphereLink')->findOrFail(\Sentinel::getUser()->id);
+
+        if ($validator->fails() || !$agent->sphereLink) {
             if($request->ajax()){
                 return response()->json($validator);
             } else {
@@ -60,15 +61,16 @@ class LeadController extends Controller {
             }
         }
 
-        $agent = Agent::findOrFail(\Sentinel::getUser()->id);
-        $phone = LeadPhone::firstOrCreate(preg_replace('/[^\d]/','',$request->only('phone')));
 
-        $lead = new Lead($request->except('sphere','phone'));
+        $phone = LeadPhone::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
+
+        $lead = new Lead($request->except('phone'));
         $lead->phone_id=$phone->id;
         $lead->date=date('Y-m-d');
 
         $agent->leads()->save($lead);
-        $lead->spheres()->attach($request->only('sphere'));
+
+        $lead->spheres()->sync([$agent->sphereLink->sphere_id]);
 
         if($request->ajax()){
             return response()->json();
