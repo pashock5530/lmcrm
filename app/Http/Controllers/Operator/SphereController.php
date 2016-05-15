@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
 use App\Models\Lead;
+use App\Models\LeadPhone;
 use App\Models\LeadInfoEAV;
 use App\Models\Sphere;
 use App\Models\SphereMask;
@@ -78,6 +79,15 @@ class SphereController extends Controller {
         $mask->setAttr($lead_id,$options);
 
         $lead = Lead::find($lead_id);
+
+        $lead->name=$request->input('name');
+        $lead->email=$request->input('email');
+        $lead->comment=$request->input('comment');
+        $phone = LeadPhone::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
+        $lead->phone_id=$phone->id;
+        $lead->save();
+
+
         $lead->info()->delete();
         if(count($request->only('info')['info'])) {
             $save_arr = array();

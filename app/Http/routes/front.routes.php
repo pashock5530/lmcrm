@@ -12,7 +12,7 @@ Route::get('video/{id}', 'VideoController@show');
 Route::get('photo/{id}', 'PhotoController@show');
 */
 # Authentication
-Route::get('/auth/login', ['as' => 'login', 'middleware' => 'guest', 'uses' => 'Auth\SessionsController@create']);
+Route::get('/auth/login', ['as' => 'login', 'middleware' => ['guest'], 'uses' => 'Auth\SessionsController@create']);
 Route::get('/auth/logout', ['as' => 'logout', 'uses' => 'Auth\SessionsController@destroy']);
 Route::any('/auth/store', ['as' => 'auth.store', 'uses' => 'Auth\SessionsController@store']);
 Route::any('/auth/create', ['as' => 'auth.create', 'uses' => 'Auth\SessionsController@create']);

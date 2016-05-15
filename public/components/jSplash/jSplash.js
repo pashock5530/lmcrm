@@ -1828,16 +1828,7 @@
                 '</div>'+
                 '{{~}}'+
                 '</div>',
-            'form.dynamic':'<div class="panel panel-default">'+
-                    '<!--<div class="panel-heading">'+
-                '<div class="panel-title" >{{=it.settings.label||""}}</div>'+
-                '<div class="panel-options">'+
-                    '<a data-rel="collapse" href="#">'+
-                    '<i class="entypo-down-open"></i>'+
-                    '</a>'+
-                    '</div>'+
-                    '</div>-->'+
-                    '<div class="panel-body">'+
+            'form.dynamic':
                     '<div class="list-group sortable">'+
                     '{{~it.tmpl.data :value:index }}'+
                 '<div class="list-group-item">'+
@@ -1855,8 +1846,6 @@
                 '<div class="col-xs-12">'+
                     '<div class="form-group">'+
                     '<button type="button" class="btn btn-success btn-icon in-modal splash-create"><i class="entypo-plus"></i>{{=trans(it.settings.button)}}</button>'+
-                '</div>'+
-                '</div>'+
                 '</div>'+
                 '</div>',
             'form.attributes':'<div class="panel panel-default">'+

@@ -94,23 +94,30 @@ class SentinelDatabaseSeeder extends Seeder
 
         ));
 
-        $subscriberRole = Sentinel::getRoleRepository()->create(array(
+        $agentRole = Sentinel::getRoleRepository()->create(array(
             'name' => 'Agent',
             'slug' => 'agent',
             'permissions' => array()
         ));
 
-        $subscriberRole = Sentinel::getRoleRepository()->create(array(
+        $salesmanRole = Sentinel::getRoleRepository()->create(array(
             'name' => 'Salesman',
             'slug' => 'salesman',
             'permissions' => array()
         ));
 
+        $operatorRole = Sentinel::getRoleRepository()->create(array(
+            'name' => 'Salesman',
+            'slug' => 'salesman',
+            'permissions' => array()
+        ));
+
+
         // Assign Roles to Users
 
         $administratorRole->users()->attach($admin);
 
-        $subscriberRole->users()->attach($user);
+        $agentRole->users()->attach($user);
 
     }
 

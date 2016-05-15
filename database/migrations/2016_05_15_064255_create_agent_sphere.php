@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSpheres extends Migration
+class CreateAgentSphere extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,12 @@ class CreateSpheres extends Migration
      */
     public function up()
     {
-        Schema::create('spheres', function (Blueprint $table) {
+        Schema::create('agent_sphere', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('status');
-            $table->string('name');
-            $table->integer('openLead')->default(3);
-            $table->integer('minLead');
-            $table->string('table_name');
+            $table->integer('agent_id');
+            $table->integer('sphere_id');
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 
@@ -30,6 +28,6 @@ class CreateSpheres extends Migration
      */
     public function down()
     {
-        Schema::drop('spheres');
+        //
     }
 }

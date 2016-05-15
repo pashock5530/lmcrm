@@ -51,10 +51,10 @@ class Kernel extends HttpKernel
 
         'auth' => \App\Http\Middleware\SentinelAuthenticate::class,
         'guest' => \App\Http\Middleware\SentinelRedirectIfAuthenticated::class,
-        'standardUser' => \App\Http\Middleware\SentinelStandardUser::class,
+        //'standardUser' => \App\Http\Middleware\SentinelStandardUser::class,
         'admin' => \App\Http\Middleware\SentinelAdminUser::class,
-        'notCurrentUser' => \App\Http\Middleware\SentinelNotCurrentUser::class,
-        'redirectAdmin' => \App\Http\Middleware\SentinelRedirectAdmin::class,
+        //'notCurrentUser' => \App\Http\Middleware\SentinelNotCurrentUser::class,
+        //'redirectAdmin' => \App\Http\Middleware\SentinelRedirectAdmin::class,
 
         'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
         'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,

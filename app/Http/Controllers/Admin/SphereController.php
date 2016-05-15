@@ -127,6 +127,21 @@ class SphereController extends AdminController {
                         'option'=>[['key'=>1,'value'=>'on'],['key'=>0,'value'=>'off']],
                     ]
                 ],
+                "openLead"=>[
+                    "renderType"=>"single",
+                    'name' => 'openLead',
+                    'values'=>'',
+                    "attributes" => [
+                        "type"=>'text',
+                        "class" => 'form-control',
+                        "data-integer"=>true,
+                    ],
+                    "settings"=>[
+                        "label" => 'Max lead to open',
+                        "type"=>'text',
+                    ],
+                    "values"=>3,
+                ],
             ],
         ];
         $threshold = [
@@ -152,6 +167,7 @@ class SphereController extends AdminController {
             $data['id']=$id;
             $settings['variables']['name']['values'] = $group->name;
             $settings['variables']['status']['values'] = $group->status;
+            $settings['variables']['openLead']['values'] = $group->openLead;
 
             foreach($group->attributes()->get() as $chrct) {
                 $arr=[];
@@ -242,11 +258,13 @@ class SphereController extends AdminController {
             $group->name = $opt['opt']['data']['variables']['name'];
             $group->minLead = $request->get('stat_minLead');
             $group->status = $opt['opt']['data']['variables']['status'];
+            $group->openLead = $opt['opt']['data']['variables']['openLead'];
         } else {
             $group = new Sphere([
                 'name' => $opt['opt']['data']['variables']['name'],
                 'status' => $opt['opt']['data']['variables']['status'],
                 'minLead' => $request->get('stat_minLead'),
+                'openLead' => $opt['opt']['data']['variables']['openLead'],
             ]);
             $group->save();
         }

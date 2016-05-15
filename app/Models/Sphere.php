@@ -8,7 +8,7 @@ class Sphere extends Model
 {
     protected $table = 'spheres';
 
-    protected $fillable = ['name', 'minLead','table_name' ,'status'];
+    protected $fillable = ['name','openLead','minLead','table_name' ,'status'];
 
     public function scopeActive($query,$status = true) {
         return $query->where('status','=',($status)?true:false);
@@ -28,6 +28,10 @@ class Sphere extends Model
 
     public function statuses() {
         return $this->hasMany('App\Models\SphereStatuses','sphere_id','id')->orderBy('position');
+    }
+
+    public function agents(){
+        return $this->hasManyThrough('\App\Models\Agent','\App\Models\AgentSphere','sphere_id','agent_id');
     }
 
     protected static function boot() {

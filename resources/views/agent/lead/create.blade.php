@@ -23,16 +23,6 @@
         </div>
     </div>
 
-    <div class="form-group  {{ $errors->has('sphere') ? 'has-error' : '' }}">
-        <div class="col-xs-10">
-            {!! Form::select('sphere',$spheres,[1], array('class' => 'form-control','multiple'=>true,'required'=>'required')) !!}
-            <span class="help-block">{{ $errors->first('sphere', ':message') }}</span>
-        </div>
-        <div class="col-xs-2">
-            <img src="/public/icons/list-edit.png" class="_icon pull-left flip">
-        </div>
-    </div>
-
     <div class="form-group  {{ $errors->has('comment') ? 'has-error' : '' }}">
         <div class="col-xs-10">
             {!! Form::textarea('comment', null, array('class' => 'form-control','placeholder'=>trans('lead/form.comments'))) !!}
