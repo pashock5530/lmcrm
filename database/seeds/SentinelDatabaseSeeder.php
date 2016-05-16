@@ -62,9 +62,9 @@ class SentinelDatabaseSeeder extends Seeder
 
         Activation::complete($admin, $code);
 
-        $code = Activation::create($user)->code;
+        $code = Activation::create($agent)->code;
 
-        Activation::complete($user, $code);
+        Activation::complete($agent, $code);
 
 
 
