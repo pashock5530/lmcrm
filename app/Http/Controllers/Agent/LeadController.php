@@ -16,6 +16,7 @@ class LeadController extends Controller {
 
     public function __construct()
     {
+        $this->uid = \Sentinel::getUser()->id;
         view()->share('type', 'article');
     }
      /*
@@ -27,6 +28,11 @@ class LeadController extends Controller {
     {
         // Show the page
         return view('agent.lead.index');
+    }
+
+    public function deposited(){
+        $leads = Agent::find($this->uid)->leads()->with('phone')->get();
+        return view('agent.lead.deposited')->with('leads',$leads);
     }
 
     /**

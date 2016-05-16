@@ -67,7 +67,7 @@
                     <a href="#"><i class="icon icon-buy"></i>@lang('site/sidebar.lead_obtain')</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-sell"></i>@lang('site/sidebar.lead_deposit')</a>
+                    <a href="{{ route('agent.lead.deposited')  }}"><i class="icon icon-sell"></i>@lang('site/sidebar.lead_deposit')</a>
                 </li>
                 <li>
                     <a href="#"><i class="icon icon-document"></i>@lang('site/sidebar.lead_opened')</a>

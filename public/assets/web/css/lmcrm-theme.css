@@ -88,7 +88,7 @@ a { /*1100*/
     border-bottom: 1px solid #c7ced0;
     border-right: 1px solid #c7ced0;
 }
-.table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+.table-bordered > thead > tr > td, .table-bordered > thead > tr > th, .table-bordered th{
 	color: #ffffff;
 	background-color: #63a4b8
 }
