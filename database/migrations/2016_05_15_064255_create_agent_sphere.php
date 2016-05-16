@@ -28,6 +28,6 @@ class CreateAgentSphere extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('agent_sphere');
     }
 }
