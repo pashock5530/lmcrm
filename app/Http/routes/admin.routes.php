@@ -3,7 +3,7 @@
 /***************    Admin routes  **********************************/
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function() {
 # Admin Dashboard
-    Route::get('dashboard', ['as' => 'admin.index', 'uses' => 'Admin\DashboardController@index']);
+    Route::get('/', ['as' => 'admin.index', 'uses' => 'Admin\DashboardController@index']);
     /*
 
         # Article category
@@ -24,7 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
 
     */
 # Users
-    Route::get('/', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
+    Route::get('/user', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
     //Route::resource('/','Admin\UserController');
     Route::get('user/data', 'Admin\UserController@data');
 

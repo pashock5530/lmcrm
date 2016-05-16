@@ -48,14 +48,11 @@ class AgentController extends AdminController
      */
     public function store(AdminUsersEditFormRequest $request)
     {
-
-        $user = new Agent ($request->except('password','password_confirmation','sphere'));
-        //$user->password = bcrypt($request->password);
-        $user->password = \Hash::make($request->input('password'));
-        //$user->confirmation_code = str_random(32);
-        $user->save();
+        $user=\Sentinel::registerAndActivate($request->except('password_confirmation','sphere'));
         $role = \Sentinel::findRoleBySlug('agent');
         $user->roles()->attach($role);
+
+        $user = Agent::find($user->id);
         $user->spheres()->sync($request->only('sphere'));
 
         return redirect()->route('admin.agent.index');

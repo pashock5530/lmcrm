@@ -288,7 +288,8 @@ class SphereController extends AdminController {
                 $leadAttr = SphereLeadAttr::find($attr['id']);
                 $leadAttr->update($attr);
             } else {
-                $leadAttr = new SphereLeadAttr((array)$attr);
+                if(!is_array($attr)) { continue; }
+                $leadAttr = new SphereLeadAttr($attr);
                 $group->leadAttr()->save($leadAttr);
             }
             $eoptions=array();
@@ -394,6 +395,7 @@ class SphereController extends AdminController {
                     $status->save();
                 }
             } else {
+                if(!is_array($attr)) { continue; }
                 $status = new SphereStatuses();
                 $status->stepname =$attr['val'];
                 $status->minmax =$attr['vale'][0];
@@ -419,6 +421,7 @@ class SphereController extends AdminController {
                 $characteristic = SphereAttr::find($attr['id']);
                 $characteristic->update($attr);
             } else {
+                if(!is_array($attr)) { continue; }
                 $characteristic = new SphereAttr((array)$attr);
                 $group->attributes()->save($characteristic);
             }

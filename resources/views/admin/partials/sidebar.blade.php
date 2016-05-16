@@ -2,9 +2,9 @@
     <div class="sidebar-nav navbar-collapse">
 
         <ul class="nav" id="side-menu">
-            <li>
+            <!--<li>
                 <a href="{{ route('home') }}"><i class="fa fa-backward"></i> Go to frontend</a>
-            </li>
+            </li>-->
             <li>
                 <a href="{{ route('admin.index') }}">
                     <i class="fa fa-dashboard fa-fw"></i> Dashboard

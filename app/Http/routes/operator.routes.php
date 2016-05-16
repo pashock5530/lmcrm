@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'callcenter','middleware' => ['auth'/*, 'agent'*/] ], function() {
+Route::group(['prefix' => 'callcenter','middleware' => ['auth', 'operator'] ], function() {
     Route::get('/', ['as' => 'dashboard.index', 'uses' => 'Operator\OperatorController@index']);
 
     Route::get('sphere', ['as' => 'operator.sphere.index', 'uses' => 'Operator\SphereController@index']);

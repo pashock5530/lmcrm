@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'agent','middleware' => ['auth'/*, 'agent'*/] ], function() {
+Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function() {
     Route::get('/', ['as' => 'agent.index', 'uses' => 'Agent\AgentController@index']);
 
     Route::get('lead', ['as' => 'agent.lead.index', 'uses' => 'Agent\LeadController@index']);

@@ -1,7 +1,7 @@
 <?php
 
 /***************    Site routes  **********************************/
-Route::get('/', ['as' => 'home', 'uses' => 'Frontend\HomeController@index']);
+Route::get('/', ['as' => 'home', 'middleware'=>'redirectAdmin', 'uses' => 'Frontend\HomeController@index']);
 Route::get('home', 'Frontend\HomeController@index');
 /*
 Route::get('about', 'PagesController@about');
