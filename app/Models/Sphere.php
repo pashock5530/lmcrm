@@ -23,7 +23,7 @@ class Sphere extends Model
     }
 
     public function leads(){
-        return $this->belongsToMany('App\Models\Lead', 'sphere_leads', 'sphere_id', 'lead_id');
+        return $this->hasMany('App\Models\Lead','sphere_id', 'id');
     }
 
     public function statuses() {

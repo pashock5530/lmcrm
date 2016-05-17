@@ -64,7 +64,7 @@
                     <a href="{{ route('agent.sphere.index') }}"><i class="fa fa-sitemap"></i> Filtration customer</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-buy"></i>@lang('site/sidebar.lead_obtain')</a>
+                    <a href="{{ route('agent.lead.obtain')  }}"><i class="icon icon-buy"></i>@lang('site/sidebar.lead_obtain')</a>
                 </li>
                 <li>
                     <a href="{{ route('agent.lead.deposited')  }}"><i class="icon icon-sell"></i>@lang('site/sidebar.lead_deposit')</a>

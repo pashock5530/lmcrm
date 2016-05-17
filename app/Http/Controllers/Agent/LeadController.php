@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Models\SphereMask;
 use Validator;
 use App\Models\Agent;
 use App\Models\Lead;
@@ -35,6 +36,14 @@ class LeadController extends Controller {
         return view('agent.lead.deposited')->with('leads',$leads);
     }
 
+    public function obtain(){
+        $agent = Agent::with('spheres.leads')->find($this->uid);
+        $leads=$agent->spheres()->first()->leads()->get();
+        $mask = new SphereMask($agent->spheres()->first()->id);
+        $mask->setUserID($this->uid);
+        return view('agent.lead.obtain')->with('leads',$leads);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -57,7 +66,7 @@ class LeadController extends Controller {
             'phone' => 'required|regex:/\(?([0-9]{3})\)?([\s.-])*([0-9]{3})([\s.-])*([0-9]{4})/',
             'name' => 'required'
         ]);
-        $agent = Agent::with('sphereLink')->findOrFail(\Sentinel::getUser()->id);
+        $agent = Agent::with('sphereLink')->findOrFail($this->uid);
 
         if ($validator->fails() || !$agent->sphereLink) {
             if($request->ajax()){
@@ -76,8 +85,6 @@ class LeadController extends Controller {
 
         $agent->leads()->save($lead);
 
-        $lead->spheres()->sync([$agent->sphereLink->sphere_id]);
-
         if($request->ajax()){
             return response()->json();
         } else {
@@ -93,9 +100,10 @@ class LeadController extends Controller {
      */
     public function destroy($id)
     {
-        Agent::findOrFail(\Sentinel::getUser()->id)->leads()->whereIn([$id])->delete();
+        Agent::findOrFail($this->uid)->leads()->whereIn([$id])->delete();
         return response()->route('agent.lead.index');
     }
+
 
 
 }

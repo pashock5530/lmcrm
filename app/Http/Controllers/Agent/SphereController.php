@@ -16,6 +16,7 @@ class SphereController extends Controller {
 
     public function __construct()
     {
+        $this->uid = \Sentinel::getUser()->id;
         view()->share('type', 'article');
     }
      /*
@@ -27,7 +28,7 @@ class SphereController extends Controller {
     {
         $spheres = Sphere::active()->get();
         $mask=new SphereMask();
-        $mask->setUserID(\Sentinel::getUser()->id);
+        $mask->setUserID($this->uid);
 
         return view('agent.sphere.index')
             ->with('spheres',$spheres)
@@ -44,7 +45,7 @@ class SphereController extends Controller {
         $data = Sphere::findOrFail($id);
         $data->load('attributes.options');
         $mask = new SphereMask($data->id);
-        $mask = $mask->findShortMask(\Sentinel::getUser()->id);
+        $mask = $mask->findShortMask($this->uid);
         return view('agent.sphere.edit')->with('sphere',$data)->with('mask',$mask);
     }
 
@@ -67,13 +68,14 @@ class SphereController extends Controller {
         }
         $sphere = Sphere::findOrFail($id);
         $mask = new SphereMask($sphere->id);
-        $mask->setUserID(\Sentinel::getUser()->id);
+        $mask->setUserID($this->uid);
 
         $options=array();
         if ($request->has('options')) {
             $options=$request->only('options')['options'];
         }
         $mask->setAttr($options);
+        $mask->setType('agent');
         $mask->setStatus(0);
 
         if($request->ajax()){
@@ -91,7 +93,7 @@ class SphereController extends Controller {
      */
     public function destroy($id)
     {
-        Agent::findOrFail(\Sentinel::getUser()->id)->leads()->whereIn([$id])->delete();
+        Agent::findOrFail($this->uid)->leads()->whereIn([$id])->delete();
         return response()->route('agent.lead.index');
     }
 

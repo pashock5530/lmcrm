@@ -76,7 +76,8 @@ class SphereController extends Controller {
         if ($request->has('options')) {
             $options=$request->only('options')['options'];
         }
-        $mask->setAttr($lead_id,$options);
+        $mask->setAttr($options,$lead_id);
+        $mask->setType('lead',$lead_id);
 
         $lead = Lead::find($lead_id);
 
