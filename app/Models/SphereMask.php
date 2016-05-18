@@ -75,14 +75,16 @@ class SphereMask extends Model
     }
 
     public function obtain($type='lead',$user_id=NULL){
-        $user_id = ($user_id)?$user_id:$this->userID;
-        $attr = $this->attributes();
-
-        $list = $this->tableDB
-            ->where('type','=',$type);
-        foreach($attr as $name) {
-            $list->where($name,'=',$name);
+        $user_id = ($user_id)?(int)$user_id:$this->userID;
+        $attributes = $this->attributes();
+        $SQL='SELECT `t2`.* FROM `'.$this->table.'` as t1,`'.$this->table.'` as t2 WHERE `t1`.`user_id`=\''.$user_id.'\' AND  `t1`.`status`=1 AND `t2`.`type`=\''.$type.'\'';
+        foreach($attributes as $attr){
+            if(stripos($attr,'fb_')!==false) {
+                $SQL .= ' AND `t1`.`' . $attr . '`>=`t2`.`' . $attr . '` ';
+            }
         }
+        $a=$SQL;
+        $list = DB::select($SQL);
         return $list;
     }
 

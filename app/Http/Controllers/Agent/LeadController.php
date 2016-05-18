@@ -41,6 +41,8 @@ class LeadController extends Controller {
         $leads=$agent->spheres()->first()->leads()->get();
         $mask = new SphereMask($agent->spheres()->first()->id);
         $mask->setUserID($this->uid);
+
+        $var = $mask->obtain();
         return view('agent.lead.obtain')->with('leads',$leads);
     }
 
