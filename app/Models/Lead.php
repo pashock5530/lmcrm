@@ -45,4 +45,8 @@ class Lead extends EloquentUser {
     public function phone(){
         return $this->hasOne('App\Models\LeadPhone','id','phone_id');
     }
+
+    public function obtainedBy(){
+        return $this->belongsToMany('App\Models\Agent','lead_agent','lead_id','agent_id');
+    }
 }

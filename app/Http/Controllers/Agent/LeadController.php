@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SphereMask;
 use Validator;
 use App\Models\Agent;
+use App\Models\Credits;
 use App\Models\Lead;
 use App\Models\LeadPhone;
 use App\Models\Sphere;
@@ -38,12 +39,40 @@ class LeadController extends Controller {
 
     public function obtain(){
         $agent = Agent::with('spheres.leads')->find($this->uid);
-        $leads=$agent->spheres()->first()->leads()->get();
         $mask = new SphereMask($agent->spheres()->first()->id);
         $mask->setUserID($this->uid);
 
-        $var = $mask->obtain();
-        return view('agent.lead.obtain')->with('leads',$leads);
+        $list = $mask->obtain()->skip(0)->take(10);
+        $leads = Lead::with('obtainedBy')->whereIn('id',$list->lists('user_id'))->get();
+        return view('agent.lead.obtain')
+            ->with('leads',$leads)
+            ->with('filter',$list->get());
+    }
+
+    public function openLead($id){
+        $agent = Agent::with('bill')->find($this->uid);
+        $credit = Credits::where('agent_id','=',$this->uid)->sharedLock()->first();
+        $balance = $credit->balance;
+
+        $mask = new SphereMask($agent->spheres()->first()->id);
+        $mask->setUserID($this->uid);
+        $price = $mask->findMask()->sharedLock()->first()->lead_price;
+
+        if($price > $balance) {
+            return redirect()->route('agent.lead.obtain',[0]);
+        }
+
+        $lead = Lead::lockForUpdate()->find($id);
+        if($lead->sphere->openLead > $lead->opened) {
+            $lead->obtainedBy()->attach($this->uid);
+            $lead->opened+=1;
+            $credit->payment=$price;
+            $credit->save();
+            //$credit->history()->save(new CreditHistory());
+        }
+        $lead->save();
+
+        return redirect()->route('agent.lead.obtain');
     }
 
     /**

@@ -6,6 +6,7 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function(
     Route::get('lead', ['as' => 'agent.lead.index', 'uses' => 'Agent\LeadController@index']);
     Route::get('lead/depostited', ['as' => 'agent.lead.deposited', 'uses' => 'Agent\LeadController@deposited']);
     Route::get('lead/obtain', ['as' => 'agent.lead.obtain', 'uses' => 'Agent\LeadController@obtain']);
+    Route::get('lead/open/{id}', ['as' => 'agent.lead.open', 'uses' => 'Agent\LeadController@openLead']);
     Route::get('lead/create', ['as' => 'agent.lead.create', 'uses' => 'Agent\LeadController@create']);
     Route::post('lead/store',['as'=>'agent.lead.store', 'uses' => 'Agent\LeadController@store']);
     #Route::get('lead/{id}/edit',['as'=>'agent.lead.edit', 'uses' => 'Agent\LeadController@edit']);

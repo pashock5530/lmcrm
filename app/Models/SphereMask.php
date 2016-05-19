@@ -77,14 +77,18 @@ class SphereMask extends Model
     public function obtain($type='lead',$user_id=NULL){
         $user_id = ($user_id)?(int)$user_id:$this->userID;
         $attributes = $this->attributes();
-        $SQL='SELECT `t2`.* FROM `'.$this->table.'` as t1,`'.$this->table.'` as t2 WHERE `t1`.`user_id`=\''.$user_id.'\' AND  `t1`.`status`=1 AND `t2`.`type`=\''.$type.'\'';
-        foreach($attributes as $attr){
-            if(stripos($attr,'fb_')!==false) {
-                $SQL .= ' AND `t1`.`' . $attr . '`>=`t2`.`' . $attr . '` ';
-            }
-        }
-        $a=$SQL;
-        $list = DB::select($SQL);
+        $list = DB::table(DB::raw('`'.$this->table.'` as `t1`'))->join(DB::raw('`'.$this->table.'` as `t2`'),function($join) use ($attributes){
+                foreach($attributes as $attr){
+                    if(stripos($attr,'fb_')!==false) {
+                        $join->on('t1.'.$attr,'>=','t2.'.$attr);
+                    }
+                }
+            })
+            ->where('t1.user_id','=',$user_id)
+            ->where('t1.status','=','1')
+            ->where('t2.type','=',$type)
+            ->where('t2.user_id','<>',$user_id)
+            ->select('t2.*');
         return $list;
     }
 
@@ -127,8 +131,17 @@ class SphereMask extends Model
         }
         return $this->tableDB;
     }
+    /* ---------------------------------- Table links ---------------------------------- */
 
-    /* Table structure */
+    public function lead() {
+        return $this->hasOne('\App\Models\Lead','id','user_id');
+    }
+
+    public function agent() {
+        return $this->hasOne('\App\Models\Agent','id','user_id');
+    }
+
+    /* ---------------------------------- Table structure ---------------------------------- */
 
     public function attributes() {
         return DB::getSchemaBuilder()->getColumnListing($this->table);
