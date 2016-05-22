@@ -13,13 +13,13 @@ use App\Models\Sphere;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 //use App\Http\Requests\Admin\ArticleRequest;
+use Datatables;
 
 class LeadController extends Controller {
 
     public function __construct()
     {
         $this->uid = \Sentinel::getUser()->id;
-        view()->share('type', 'article');
     }
      /*
     * Display a listing of the resource.
@@ -38,15 +38,51 @@ class LeadController extends Controller {
     }
 
     public function obtain(){
-        $agent = Agent::with('spheres.leads')->find($this->uid);
-        $mask = new SphereMask($agent->spheres()->first()->id);
+        $agent = Agent::with('spheres.leads','spheres.leadAttr')->find($this->uid);
+        $mask = new SphereMask($agent->sphere()->id);
         $mask->setUserID($this->uid);
 
         $list = $mask->obtain()->skip(0)->take(10);
         $leads = Lead::with('obtainedBy')->whereIn('id',$list->lists('user_id'))->get();
+        $lead_attr = $agent->sphere()->leadAttr()->get();
         return view('agent.lead.obtain')
             ->with('leads',$leads)
+            ->with('lead_attr',$lead_attr)
             ->with('filter',$list->get());
+    }
+
+    public function obtainData(){
+        $agent = Agent::with('spheres.leads','spheres.leadAttr')->find($this->uid);
+        $mask = new SphereMask($agent->sphere()->id);
+        $mask->setUserID($this->uid);
+
+        $list = $mask->obtain();
+        $leads = Lead::with('phone')->whereIn('id',$list->lists('user_id'))
+            ->select(['leads.opened','leads.id','leads.id as status','leads.updated_at','leads.name','leads.phone_id','leads.email']);
+
+        $datatable = Datatables::of($leads)
+            ->edit_column('opened',function($model){
+                return view('agent.lead.datatables.obtain_count',['opened'=>$model->opened]);
+            })
+            ->edit_column('id',function($model){
+                return view('agent.lead.datatables.obtain_open',['lead'=>$model]);
+            })
+            ->edit_column('status',function($model){
+                return '';
+            })
+            ->edit_column('phone_id',function($lead) use ($agent){
+                return ($lead->obtainedBy($agent->id)->count())?$lead->phone->phone:trans('lead.hidden');
+            })
+            ->edit_column('email',function($lead) use ($agent){
+                return ($lead->obtainedBy($agent->id)->count())?$lead->email:trans('lead.hidden');
+            });
+        $lead_attr = $agent->sphere()->leadAttr()->get();
+        foreach($lead_attr as $l_attr){
+            $datatable->add_column($l_attr->label,function($model) use ($l_attr){
+                return $l_attr;
+            });
+        }
+        return $datatable->make();
     }
 
     public function openLead($id){
@@ -54,7 +90,7 @@ class LeadController extends Controller {
         $credit = Credits::where('agent_id','=',$this->uid)->sharedLock()->first();
         $balance = $credit->balance;
 
-        $mask = new SphereMask($agent->spheres()->first()->id);
+        $mask = new SphereMask($agent->sphere()->id);
         $mask->setUserID($this->uid);
         $price = $mask->findMask()->sharedLock()->first()->lead_price;
 

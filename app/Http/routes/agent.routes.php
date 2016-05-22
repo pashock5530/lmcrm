@@ -6,6 +6,7 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function(
     Route::get('lead', ['as' => 'agent.lead.index', 'uses' => 'Agent\LeadController@index']);
     Route::get('lead/depostited', ['as' => 'agent.lead.deposited', 'uses' => 'Agent\LeadController@deposited']);
     Route::get('lead/obtain', ['as' => 'agent.lead.obtain', 'uses' => 'Agent\LeadController@obtain']);
+    Route::get('lead/obtain/data', ['as' => 'agent.lead.obtain.data', 'uses' => 'Agent\LeadController@obtainData']);
     Route::get('lead/open/{id}', ['as' => 'agent.lead.open', 'uses' => 'Agent\LeadController@openLead']);
     Route::get('lead/create', ['as' => 'agent.lead.create', 'uses' => 'Agent\LeadController@create']);
     Route::post('lead/store',['as'=>'agent.lead.store', 'uses' => 'Agent\LeadController@store']);
@@ -18,6 +19,6 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function(
     Route::post('sphere/store',['as'=>'agent.sphere.store', 'uses' => 'Agent\SphereController@store']);
     Route::get('sphere/{id}/edit',['as'=>'agent.sphere.edit', 'uses' => 'Agent\SphereController@edit']);
     Route::match(['put','post'],'sphere/{id}',['as'=>'agent.sphere.update', 'uses' => 'Agent\SphereController@update']);
-    //Route::resource('customer/filter','Agent\CustomerFilterController@create');
+    //Route::resource('customer/filter','Agent\CustomerFilterController');
 });
 ?>
