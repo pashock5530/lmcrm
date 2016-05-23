@@ -51,14 +51,36 @@ class LeadController extends Controller {
             ->with('filter',$list->get());
     }
 
-    public function obtainData(){
-        $agent = Agent::with('spheres.leads','spheres.leadAttr')->find($this->uid);
+    public function obtainData(Request $request)
+    {
+        $agent = Agent::with('spheres.leads', 'spheres.leadAttr')->find($this->uid);
         $mask = new SphereMask($agent->sphere()->id);
         $mask->setUserID($this->uid);
 
         $list = $mask->obtain();
-        $leads = Lead::with('phone')->whereIn('id',$list->lists('user_id'))
-            ->select(['leads.opened','leads.id','leads.id as status','leads.updated_at','leads.name','leads.phone_id','leads.email']);
+        $leads = Lead::with('phone')->whereIn('id', $list->lists('user_id'))
+            ->select(['leads.opened', 'leads.id', 'leads.id as status', 'leads.updated_at', 'leads.name', 'leads.phone_id', 'leads.email']);
+        if (count($request->only('filter'))) {
+            $eFilter = $request->only('filter')['filter'];
+            foreach ($eFilter as $eFKey => $eFVal) {
+                switch($eFKey) {
+                    case 'date':
+                        if($eFVal=='2d') {
+                            $date = new \DateTime();
+                            $date->sub(new \DateInterval('P2D'));
+                            $leads->where('leads.updated_at','>=',$date->format('Y-m-d'));
+                        } elseif($eFVal=='1m') {
+                            $date = new \DateTime();
+                            $date->sub(new \DateInterval('P1M'));
+                            $leads->where('leads.updated_at','>=',$date->format('Y-m-d'));
+                        } else {
+
+                        }
+                        break;
+                    default: ;
+                }
+            }
+        }
 
         $datatable = Datatables::of($leads)
             ->edit_column('opened',function($model){
