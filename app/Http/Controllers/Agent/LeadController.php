@@ -58,7 +58,7 @@ class LeadController extends Controller {
         $mask->setUserID($this->uid);
 
         $list = $mask->obtain();
-        $leads = Lead::with('phone')->whereIn('id', $list->lists('user_id'))
+        $leads = Lead::whereIn('id', $list->lists('user_id'))
             ->select(['leads.opened', 'leads.id', 'leads.id as status', 'leads.updated_at', 'leads.name', 'leads.phone_id', 'leads.email']);
         if (count($request->only('filter'))) {
             $eFilter = $request->only('filter')['filter'];
@@ -99,10 +99,11 @@ class LeadController extends Controller {
                 return ($lead->obtainedBy($agent->id)->count())?$lead->email:trans('lead.hidden');
             });
         $lead_attr = $agent->sphere()->leadAttr()->get();
-        foreach($lead_attr as $l_attr){
-            $datatable->add_column($l_attr->label,function($model) use ($l_attr){
-                return $l_attr;
-            });
+        foreach($lead_attr as $key=>$l_attr){
+           $datatable->add_column('a_'.$key,function($lead) use ($l_attr){
+                $val = $lead->info()->where('key','=',$l_attr->id)->first();
+                return view('agent.lead.datatables.obtain_data',['data'=>$val,'type'=>$l_attr->_type]);
+           });
         }
         return $datatable->make();
     }

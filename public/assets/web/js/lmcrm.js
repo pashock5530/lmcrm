@@ -50,4 +50,52 @@ $(function(){
 			responsive: true
 		});
 	}
+
+	$('.ajax-dataTable').each(function() {
+		$table=$(this);
+		$container=$table.closest('.dataTables_container');
+		var dTable = $table.DataTable({
+			"destroy": true,
+			"searching": false,
+			"lengthChange": false,
+			"processing": true,
+			"serverSide": true,
+			"ajax": {
+				"data": function (d) {
+					var filter = {};
+					$container.find(".dataTables_filter").each(function () {
+						if ($(this).data('name') && $(this).data('js') != 1) {
+							filter[$(this).data('name')] = $(this).val();
+						}
+					});
+					d['filter'] = filter;
+				},
+			}
+		});
+		$container.find(".dataTables_filter").change(function () {
+			if ($(this).data('js') == '1') {
+				switch ($(this).data('name')) {
+					case 'pageLength':
+						if ($(this).val()) dTable.page.len($(this).val()).draw();
+						break;
+					default:
+						;
+				}
+			} else {
+				dTable.ajax.reload();
+			}
+		});
+		$container.delegate('.ajax-link', 'click', function () {
+			var href = $(this).attr('href');
+			$.ajax({
+				url: href,
+				method: 'GET',
+				success: function () {
+					dTable.ajax.reload();
+				}
+			});
+			return false;
+		});
+		dTable.ajax.reload();
+	});
 });

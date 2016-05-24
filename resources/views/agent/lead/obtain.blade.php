@@ -6,6 +6,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
+            <div class="dataTables_container">
             <div class="col-md-12">
                 <select data-name="date" class="selectbox dataTables_filter">
                     <option></option>
@@ -22,7 +23,7 @@
             <div class="col-md-12">
             <table class="table table-bordered table-striped table-hover ajax-dataTable">
                 <thead>
-                <tr>
+                <tr>@php($i=0)
                     <th>{!! trans("site/lead.count") !!}</th>
                     <th>{!! trans("main.open") !!}</th>
                     <th>{!! trans("main.status") !!}</th>
@@ -31,78 +32,29 @@
                     <th>{!! trans("site/lead.phone") !!}</th>
                     <th>{!! trans("site/lead.email") !!}</th>
                     @forelse($lead_attr as $attr)
-                    <th>{{ $attr->label }}</th>
+                    <th>{{ $attr->label }}</th>@php($i++)
                     @empty
                     @endforelse
                 </tr>
                 </thead>
                 <tbody></tbody>
+                <tfoot></tfoot>
             </table>
+            </div>
             </div>
         </div>
     </div>
+@stop
 
-    <script type="text/javascript">
-    $(function () {
-        var dTable = $('.ajax-dataTable:first-child').DataTable({
-            "oLanguage": {
-                "sProcessing": "@lang('table.processing')",
-                "sLengthMenu": "@lang('table.showmenu')",
-                "sZeroRecords": "@lang('table.noresult')",
-                "sInfo": "@lang('table.show')",
-                "sEmptyTable": "@lang('table.emptytable')",
-                "sInfoEmpty": "@lang('table.view')",
-                "sInfoFiltered": "@lang('table.filter')",
-                "sInfoPostFix": "",
-                "sSearch": "@lang('table.search')",
-                "sUrl": "",
-                "oPaginate": {
-                    "sFirst": "@lang('table.start')",
-                    "sPrevious": "@lang('table.prev')",
-                    "sNext": "@lang('table.next')",
-                    "sLast": "@lang('table.last')"
-                }
-            },
-            "destroy": true,
-            "searching": false,
-            "lengthChange": false,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url":"{{ route('agent.lead.obtain.data') }}",
-                "data": function(d){
-                    var filter={};
-                    $(".dataTables_filter").each(function(){
-                        if($(this).data('name') && $(this).data('js')!=1) { filter[$(this).data('name')]=$(this).val(); }
-                    });
-                    d['filter']=filter;
-                },
-            }
-        });
-        $(".dataTables_filter").change(function(){
-            if($(this).data('js')=='1') {
-                switch ($(this).data('name')) {
-                    case 'pageLength':
-                        if($(this).val()) dTable.page.len($(this).val()).draw();
-                        break;
-                    default: ;
-                }
-            } else {
-                dTable.ajax.reload();
-            }
-        });
-        $(document).delegate('.ajax-link','click',function(){
-            var href=$(this).attr('href');
-            $.ajax({
-                url: href,
-                method:'GET',
-                success:function(){
-                    dTable.ajax.reload();
-               }
-            });
-            return false;
-        });
-        dTable.ajax.reload();
+@section('script')
+<script type="text/javascript">
+    $.extend( true, $.fn.dataTable.defaults, {
+        "language": {
+            "url": '{!! asset('components/datatables-plugins/i18n/'.LaravelLocalization::getCurrentLocaleName().'.lang') !!}'
+        },
+        "ajax": {
+            "url": "{{ route('agent.lead.obtain.data') }}",
+        },
     });
 </script>
 @stop

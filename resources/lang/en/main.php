@@ -28,4 +28,5 @@ return [
     'sort' => 'sorting',
     'emptytable' => 'Not available in the table data',
 
+    'date_format' => 'm/d/Y',
 ];
