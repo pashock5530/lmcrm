@@ -153,6 +153,9 @@ class SphereController extends AdminController {
                 "type"=>'text',
                 "class" => 'form-control',
             ],
+            "values"=>[
+                ["id"=>0,"val"=>'bad lead',"vale"=>[1,15],"position"=>1],
+            ],
             "settings"=>[
                 "label" => 'Form name',
                 "type"=>'statuses',
@@ -499,7 +502,7 @@ class SphereController extends AdminController {
         foreach($spheres as $sphere){
             $mask = new SphereMask($sphere->id);
             $collection[$sphere->id] = $mask->query_builder()
-                ->join('users','users.id','=','agent_id')
+                ->join('users','users.id','=','user_id')
                 ->where('status','=',0)
                 ->get();
         }

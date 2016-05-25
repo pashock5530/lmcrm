@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AdminController;
 use App\Models\Agent;
+use App\Models\AgentInfo;
 use App\Models\AgentSphere;
 use App\Models\Sphere;
 //use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\AdminUsersEditFormRequest;
+use Illuminate\Http\Request;
 //use App\Repositories\UserRepositoryInterface;
 use Datatables;
 
@@ -66,7 +68,7 @@ class AgentController extends AdminController
      */
     public function edit($id)
     {
-        $agent = Agent::with('sphereLink')->findOrFail($id);
+        $agent = Agent::with('sphereLink','info')->findOrFail($id);
         $spheres = Sphere::active()->lists('name','id');
         return view('admin.agent.create_edit', ['agent'=>$agent,'spheres'=>$spheres]);
     }
@@ -77,7 +79,7 @@ class AgentController extends AdminController
      * @param $user
      * @return Response
      */
-    public function update(AdminUsersEditFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $agent=Agent::findOrFail($id);
         $password = $request->password;
@@ -89,8 +91,8 @@ class AgentController extends AdminController
                 $agent->password = \Hash::make($request->input('password'));
             }
         }
-        $agent->fill($request->except('password','password_confirmation'));
-        $agent->save();
+        $agent->update($request->except('password','password_confirmation','sphere','info'));
+        $agent->info()->update($request->only('info')['info']);
 
         $agent->spheres()->sync($request->only('sphere'));
         return redirect()->route('admin.agent.index');
