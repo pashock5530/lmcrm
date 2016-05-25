@@ -14,7 +14,7 @@ class AgentInfo extends Model {
      * @var array
      */
     protected $fillable = [
-        'lead_revenue',/*'sphere_id'*/
+        'lead_revenue','payment_revenue',/*'sphere_id'*/
     ];
 
 

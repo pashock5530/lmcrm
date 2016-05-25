@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Agent;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AgentController;
 use App\Models\SphereMask;
 use Validator;
 use App\Models\Agent;
@@ -15,12 +15,7 @@ use Illuminate\Support\Facades\Input;
 //use App\Http\Requests\Admin\ArticleRequest;
 use Datatables;
 
-class LeadController extends Controller {
-
-    public function __construct()
-    {
-        $this->uid = \Sentinel::getUser()->id;
-    }
+class LeadController extends AgentController {
      /*
     * Display a listing of the resource.
     *

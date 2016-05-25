@@ -13,7 +13,12 @@
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
+            @if(isset($balance))
+            <ul class="nav navbar-top-links navbar-left flip">
+                <li><a class="text-danger"><i class="fa fa-times-circle"></i> {{$balance[0]}} NIS</a></li>
+                <li><a><i class="fa fa-copyright"></i> {{$balance[1]}} NIS</a></li>
+            </ul>
+            @endif
             <ul class="nav navbar-top-links navbar-right language_bar_chooser flip">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language"></i> {{ trans('site/site.languages') }} <i class="fa fa-caret-down"></i></a>

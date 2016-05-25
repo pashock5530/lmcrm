@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Agent;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AgentController;
 use Validator;
-use App\Models\Agent;
 use App\Models\Sphere;
 use App\Models\SphereMask;
 
@@ -12,13 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 //use App\Http\Requests\Admin\ArticleRequest;
 
-class SphereController extends Controller {
-
-    public function __construct()
-    {
-        $this->uid = \Sentinel::getUser()->id;
-        view()->share('type', 'article');
-    }
+class SphereController extends AgentController {
      /*
     * Display a listing of the resource.
     *
