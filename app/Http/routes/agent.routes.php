@@ -20,5 +20,7 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function(
     Route::get('sphere/{id}/edit',['as'=>'agent.sphere.edit', 'uses' => 'Agent\SphereController@edit']);
     Route::match(['put','post'],'sphere/{id}',['as'=>'agent.sphere.update', 'uses' => 'Agent\SphereController@update']);
     //Route::resource('customer/filter','Agent\CustomerFilterController');
+
+    Route::get('salesman', ['as' => 'agent.salesman.index', 'uses' => 'Agent\SalesmanController@index']);
 });
 ?>

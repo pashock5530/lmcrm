@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 
-class Agent extends EloquentUser implements AuthenticatableContract, CanResetPasswordContract {
+class Salesman extends EloquentUser implements AuthenticatableContract, CanResetPasswordContract {
     use Authenticatable, CanResetPassword;
     /**
      * The attributes that are mass assignable.
@@ -31,34 +31,22 @@ class Agent extends EloquentUser implements AuthenticatableContract, CanResetPas
     ];
 
     public function info(){
-        return $this->hasOne('App\Models\AgentInfo','agent_id','id');
+        return $this->hasOne('App\Models\SalesmantInfo','salesman_id','id');
     }
 
-    public function scopelistAll($query){
-        return $query->whereIn('id',\Sentinel::findRoleBySlug('agent')->users()->lists('id'))->select(array('users.id','users.first_name','users.last_name', 'users.name', 'users.email', 'users.created_at'));
+    public function agent(){
+        return $this->info()->agent();
     }
 
     public function leads(){
         return $this->hasMany('\App\Models\Lead','agent_id','id');
     }
 
-    public function salesmen(){
-        return $this->hasManyThrough('\App\Models\Salesman','App\Models\SalesmanInfo','agent_id','id');
-    }
-
-    public function spheres(){
-        return $this->belongsToMany('\App\Models\Sphere','agent_sphere','agent_id','sphere_id');
-    }
-
     public function sphere(){
-        return $this->spheres()->first();
-    }
-
-    public function sphereLink(){
-        return $this->hasOne('\App\Models\AgentSphere','agent_id','id');
+        return $this->belongsToMany('\App\Models\Sphere','salesman_info','agent_id','sphere_id')->first();
     }
 
     public function bill(){
-        return $this->hasOne('\App\Models\Credits','agent_id','id');
+        return $this->agent()->bill();
     }
 }
