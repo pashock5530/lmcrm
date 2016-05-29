@@ -12,7 +12,7 @@ class SphereMask extends Model
     public $tableDB = NULL;
     public $timestamps = false;
 
-    public function __construct($id = NULL, array $attributes = array())
+    public function __construct($id = NULL, $userID = NULL, array $attributes = array())
     {
         $this->table = 'sphere_bitmask_'.(int)$id;
         if ($id && !DB::getSchemaBuilder()->hasTable($this->table)) {
@@ -20,6 +20,7 @@ class SphereMask extends Model
             DB::statement('ALTER TABLE `'.$this->table.'` ADD UNIQUE (`user_id`)');
         }
         $this->tableDB = DB::table($this->table);
+        if($userID) { $this->userID=$userID; }
 
         parent::__construct($attributes);
 

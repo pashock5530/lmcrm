@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\SentinelAdminUser::class,
         'agent' => \App\Http\Middleware\SentinelAgentUser::class,
         'salesman' => \App\Http\Middleware\SentinelSalesmanUser::class,
+        'agent|salesman' => \App\Http\Middleware\SentinelAgentOrSalesmanUser::class,
         'operator' => \App\Http\Middleware\SentinelOperatorUser::class,
         //'notCurrentUser' => \App\Http\Middleware\SentinelNotCurrentUser::class,
         'redirectAdmin' => \App\Http\Middleware\SentinelRedirectAdmin::class,

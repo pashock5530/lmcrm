@@ -51,6 +51,7 @@ class AgentController extends AdminController
     public function store(AdminUsersEditFormRequest $request)
     {
         $user=\Sentinel::registerAndActivate($request->except('password_confirmation','sphere'));
+        $user->update(['password'=>\Hash::make($request->input('password'))]);
         $role = \Sentinel::findRoleBySlug('agent');
         $user->roles()->attach($role);
 

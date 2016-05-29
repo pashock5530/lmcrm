@@ -43,7 +43,7 @@ class Agent extends EloquentUser implements AuthenticatableContract, CanResetPas
     }
 
     public function salesmen(){
-        return $this->hasManyThrough('\App\Models\Salesman','App\Models\SalesmanInfo','agent_id','id');
+        return $this->belongsToMany('\App\Models\Salesman','salesman_info','agent_id','salesman_id');
     }
 
     public function spheres(){

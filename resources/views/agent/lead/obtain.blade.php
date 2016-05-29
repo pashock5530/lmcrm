@@ -26,7 +26,6 @@
                 <tr>@php($i=0)
                     <th>{!! trans("site/lead.count") !!}</th>
                     <th>{!! trans("main.open") !!}</th>
-                    <th>{!! trans("main.status") !!}</th>
                     <th>{!! trans("site/lead.updated") !!}</th>
                     <th>{!! trans("site/lead.name") !!}</th>
                     <th>{!! trans("site/lead.phone") !!}</th>

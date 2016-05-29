@@ -16,7 +16,7 @@ class CreateLeads extends Migration
             $table->increments('id');
             $table->integer('agent_id');
             $table->integer('sphere_id');
-            $table->integer('opened',5)->default(0);
+            $table->integer('opened')->default(0);
             $table->string('email')->nullable();
             $table->integer('phone_id');
             $table->string('password')->nullable();

@@ -37,8 +37,8 @@ class SphereController extends AgentController {
     {
         $data = Sphere::findOrFail($id);
         $data->load('attributes.options');
-        $mask = new SphereMask($data->id);
-        $mask = $mask->findShortMask($this->uid);
+        $mask = new SphereMask($data->id,$this->uid);
+        $mask = $mask->findShortMask();
         return view('agent.sphere.edit')->with('sphere',$data)->with('mask',$mask);
     }
 
@@ -60,8 +60,7 @@ class SphereController extends AgentController {
             }
         }
         $sphere = Sphere::findOrFail($id);
-        $mask = new SphereMask($sphere->id);
-        $mask->setUserID($this->uid);
+        $mask = new SphereMask($sphere->id,$this->uid);
 
         $options=array();
         if ($request->has('options')) {

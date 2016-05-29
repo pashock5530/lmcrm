@@ -7,13 +7,10 @@ use App\Models\SphereMask;
 use Validator;
 use App\Models\Agent;
 use App\Models\Salesman;
-use App\Models\SalesmantInfo;
-use App\Models\Credits;
-use App\Models\Lead;
-use App\Models\Sphere;
+use App\Models\SalesmanInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-//use App\Http\Requests\Admin\ArticleRequest;
+use App\Http\Requests\AdminUsersEditFormRequest;
 use Datatables;
 
 class SalesmanController extends AgentController {
@@ -36,8 +33,7 @@ class SalesmanController extends AgentController {
      */
     public function create()
     {
-        $spheres = Sphere::active()->lists('name','id');
-        return view('agent.salesman.create')->with('lead',[])->with('spheres',$spheres);
+        return view('agent.salesman.create')->with('salesman',NULL);
     }
 
     /**
@@ -45,36 +41,30 @@ class SalesmanController extends AgentController {
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(AdminUsersEditFormRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'phone' => 'required|regex:/\(?([0-9]{3})\)?([\s.-])*([0-9]{3})([\s.-])*([0-9]{4})/',
-            'name' => 'required'
-        ]);
-        $agent = Agent::with('sphereLink')->findOrFail($this->uid);
+        $agent = Agent::with('sphereLink','bill')->findOrFail($this->uid);
 
-        if ($validator->fails() || !$agent->sphereLink) {
-            if($request->ajax()){
-                return response()->json($validator);
-            } else {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
-        }
+        $salesman=\Sentinel::registerAndActivate($request->except('password_confirmation','sphere'));
+        $salesman->update(['password'=>\Hash::make($request->input('password'))]);
+        $role = \Sentinel::findRoleBySlug('salesman');
+        $salesman->roles()->attach($role);
 
+        $salesman = Salesman::find($salesman->id);
 
-        $phone = LeadPhone::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
+        $salesman->info()->save(new SalesmanInfo([
+            'agent_id'=>$agent->id,
+            'sphere_id'=>$agent->sphereLink->sphere_id,
+            'bill_id'=>$agent->bill->id,
+        ]));
 
-        $lead = new Lead($request->except('phone'));
-        $lead->phone_id=$phone->id;
-        $lead->date=date('Y-m-d');
+        return redirect()->route('agent.salesman.edit',[$salesman->id]);
+    }
 
-        $agent->leads()->save($lead);
-
-        if($request->ajax()){
-            return response()->json();
-        } else {
-            return redirect()->route('agent.salesman.index');
-        }
+    public function edit($id)
+    {
+        $salesman = Salesman::findOrFail($id);
+        return view('agent.salesman.create')->with('salesman',$salesman);
     }
 
     /**

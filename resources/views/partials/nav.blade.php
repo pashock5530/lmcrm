@@ -77,6 +77,9 @@
                 <li>
                     <a href="#"><i class="icon icon-document"></i>@lang('site/sidebar.lead_opened')</a>
                 </li>
+                <li>
+                    <a href="{{ route('agent.salesman.index') }}"><i class="fa fa-users"></i> Salesmen</a>
+                </li>
                 <hr/>
                 <li>
                     <a href="{{ route('operator.sphere.index') }}" ><i class="fa fa-list"></i> Leads filter</a>

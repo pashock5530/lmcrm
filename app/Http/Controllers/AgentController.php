@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Salesman;
+use App\Models\SphereMask;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -17,7 +19,21 @@ class AgentController extends BaseController
     public function __construct()
     {
         $this->uid = \Sentinel::getUser()->id;
-        $bill=Agent::findOrFail($this->uid)->bill()->first();
-        view()->share('balance', [$bill->real,$bill->virtual]);
+        if(\Sentinel::inRole('agent')) {
+            $agent = Agent::findOrFail($this->uid);
+            $bill=$agent->bill()->first();
+            $sphere_id=$agent->sphere()->id;
+        } elseif(\Sentinel::inRole('salesman')) {
+            $salesman = Salesman::findOrFail($this->uid);
+            $bill=$salesman->bill()->first();
+            $sphere_id=$salesman->sphere()->id;
+        } else {
+            return redirect()->route('login');
+        }
+
+        $mask = new SphereMask($sphere_id,$this->uid);
+        $price = $mask->getPrice()->lead_price;
+        $price = ($price)?floor($bill->balance/$price):0;
+        view()->share('balance', [$bill->real,$price]);
     }
 }

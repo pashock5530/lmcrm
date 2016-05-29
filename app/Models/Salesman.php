@@ -31,11 +31,11 @@ class Salesman extends EloquentUser implements AuthenticatableContract, CanReset
     ];
 
     public function info(){
-        return $this->hasOne('App\Models\SalesmantInfo','salesman_id','id');
+        return $this->hasOne('App\Models\SalesmanInfo','salesman_id','id');
     }
 
     public function agent(){
-        return $this->info()->agent();
+        return $this->belongsToMany('\App\Models\Agent','salesman_info','id','agent_id')->first();
     }
 
     public function leads(){
@@ -47,6 +47,10 @@ class Salesman extends EloquentUser implements AuthenticatableContract, CanReset
     }
 
     public function bill(){
-        return $this->agent()->bill();
+        return $this->belongsToMany('\App\Models\Credits','salesman_info','agent_id','agent_id');
+    }
+
+    public function getNameAttribute(){
+        return $this->attributes['first_name'].' '.$this->attributes['last_name'];
     }
 }

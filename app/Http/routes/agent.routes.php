@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function() {
+Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent|salesman'] ], function() {
     Route::get('/', ['as' => 'agent.index', 'uses' => 'Agent\AgentController@index']);
 
     Route::get('lead', ['as' => 'agent.lead.index', 'uses' => 'Agent\LeadController@index']);
@@ -21,6 +21,13 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent'] ], function(
     Route::match(['put','post'],'sphere/{id}',['as'=>'agent.sphere.update', 'uses' => 'Agent\SphereController@update']);
     //Route::resource('customer/filter','Agent\CustomerFilterController');
 
-    Route::get('salesman', ['as' => 'agent.salesman.index', 'uses' => 'Agent\SalesmanController@index']);
+    Route::group(['middleware'=>['agent']],function() {
+        Route::get('salesman', ['as' => 'agent.salesman.index', 'uses' => 'Agent\SalesmanController@index']);
+        Route::get('salesman/create', ['as' => 'agent.salesman.create', 'uses' => 'Agent\SalesmanController@create']);
+        Route::post('salesman/store', ['as' => 'agent.salesman.store', 'uses' => 'Agent\SalesmanController@store']);
+        Route::get('salesman/{id}/edit', ['as' => 'agent.salesman.edit', 'uses' => 'Agent\SalesmanController@edit']);
+        Route::match(['put', 'post'], 'salesman/{id}', ['as' => 'agent.salesman.update', 'uses' => 'Agent\SalesmanController@update']);
+        //Route::resource('salesman','Agent\SalesmanController');
+    });
 });
 ?>

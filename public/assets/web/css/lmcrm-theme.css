@@ -160,3 +160,33 @@ footer,.footer,#footer{
 .navbar-top-links { /*TEMP!!!*/
 	margin-top: 25px;
 }
+
+.selectboxit-btn {
+	background: #ffffff none;
+	border: 1px solid #3ebbdf;
+}
+
+.selectboxit-text{
+	margin: 0 5px;
+}
+
+.selectboxit-arrow-container {
+	background: #3ebbdf none;
+	color: #ffffff;
+}
+
+.selectboxit .selectboxit-arrow-container .selectboxit-arrow {
+	border: 0;
+	position: static;
+}
+.selectboxit .selectboxit-arrow-container .selectboxit-arrow:before {
+	font-family: FontAwesome;
+	content: "\f078";
+	position: absolute;
+	top: 25%;
+	left: 25%;
+}
+.selectboxit.selectboxit-open .selectboxit-arrow-container .selectboxit-arrow:before {
+	font-family: FontAwesome;
+	content: "\f077";
+}

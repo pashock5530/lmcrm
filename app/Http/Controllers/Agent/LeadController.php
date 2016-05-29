@@ -55,7 +55,7 @@ class LeadController extends AgentController {
         $list = $mask->obtain();
         $leads = Lead::whereIn('id', $list->lists('user_id'))
             ->where('leads.agent_id','<>',$this->uid)
-            ->select(['leads.opened', 'leads.id', 'leads.id as status', 'leads.updated_at', 'leads.name', 'leads.phone_id', 'leads.email']);
+            ->select(['leads.opened', 'leads.id', 'leads.updated_at', 'leads.name', 'leads.phone_id', 'leads.email']);
         if (count($request->only('filter'))) {
             $eFilter = $request->only('filter')['filter'];
             foreach ($eFilter as $eFKey => $eFVal) {

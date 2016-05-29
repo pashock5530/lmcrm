@@ -1,5 +1,7 @@
 $(function(){
-	$('select').selectpicker();
+	if ($.isFunction($.fn.selectBoxIt)) {
+	    $("select").selectBoxIt();
+	}
 
 	if ($.isFunction($.fn.datepicker)) {
 		$(".datepicker").each(function (i, el) {
