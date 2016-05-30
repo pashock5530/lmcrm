@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Agent;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AgentController;
 use Validator;
-use App\Models\Agent;
 use App\Models\Sphere;
 use App\Models\SphereMask;
 
@@ -12,12 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 //use App\Http\Requests\Admin\ArticleRequest;
 
-class SphereController extends Controller {
-
-    public function __construct()
-    {
-        view()->share('type', 'article');
-    }
+class SphereController extends AgentController {
      /*
     * Display a listing of the resource.
     *
@@ -27,7 +21,7 @@ class SphereController extends Controller {
     {
         $spheres = Sphere::active()->get();
         $mask=new SphereMask();
-        $mask->setUserID(\Sentinel::getUser()->id);
+        $mask->setUserID($this->uid);
 
         return view('agent.sphere.index')
             ->with('spheres',$spheres)
@@ -43,8 +37,8 @@ class SphereController extends Controller {
     {
         $data = Sphere::findOrFail($id);
         $data->load('attributes.options');
-        $mask = new SphereMask($data->id);
-        $mask = $mask->findShortMask(\Sentinel::getUser()->id);
+        $mask = new SphereMask($data->id,$this->uid);
+        $mask = $mask->findShortMask();
         return view('agent.sphere.edit')->with('sphere',$data)->with('mask',$mask);
     }
 
@@ -66,14 +60,14 @@ class SphereController extends Controller {
             }
         }
         $sphere = Sphere::findOrFail($id);
-        $mask = new SphereMask($sphere->id);
-        $mask->setUserID(\Sentinel::getUser()->id);
+        $mask = new SphereMask($sphere->id,$this->uid);
 
         $options=array();
         if ($request->has('options')) {
             $options=$request->only('options')['options'];
         }
         $mask->setAttr($options);
+        $mask->setType('agent');
         $mask->setStatus(0);
 
         if($request->ajax()){
@@ -91,7 +85,7 @@ class SphereController extends Controller {
      */
     public function destroy($id)
     {
-        Agent::findOrFail(\Sentinel::getUser()->id)->leads()->whereIn([$id])->delete();
+        Agent::findOrFail($this->uid)->leads()->whereIn([$id])->delete();
         return response()->route('agent.lead.index');
     }
 

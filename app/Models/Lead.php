@@ -22,7 +22,7 @@ class Lead extends EloquentUser {
      * @var array
      */
     protected $fillable = [
-        'agent_id','name', 'phone_id', 'comment', 'date', 'bad'
+        'agent_id','sphere_id','name', 'phone_id', 'comment', 'date', 'bad'
     ];
 
     /**
@@ -34,8 +34,8 @@ class Lead extends EloquentUser {
     #    'password', 'remember_token',
     #];
 
-    public function spheres(){
-        return $this->belongsToMany('App\Models\Sphere', 'sphere_leads', 'lead_id', 'sphere_id');
+    public function sphere(){
+        return $this->hasOne('App\Models\Sphere', 'id', 'sphere_id');
     }
 
     public function info(){
@@ -44,5 +44,10 @@ class Lead extends EloquentUser {
 
     public function phone(){
         return $this->hasOne('App\Models\LeadPhone','id','phone_id');
+    }
+
+    public function obtainedBy($agent_id=NULL){
+        $relation=$this->belongsToMany('App\Models\Agent','lead_agent','lead_id','agent_id');
+        return ($agent_id)? $relation->where('agent_id','=',$agent_id) : $relation;
     }
 }

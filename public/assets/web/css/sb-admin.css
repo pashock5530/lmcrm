@@ -261,19 +261,19 @@ table.dataTable thead .sorting_desc_disabled {
 }
 
 table.dataTable thead .sorting_asc:after {
-    content: "\f106";
+    content: "\f0de";
     float: right;
     font-family: fontawesome;
 }
 
 table.dataTable thead .sorting_desc:after {
-    content: "\f107";
+    content: "\f0dd";
     float: right;
     font-family: fontawesome;
 }
 
 table.dataTable thead .sorting:after {
-    content: "\f106 \f107";
+    content: "\f0dc";
     float: right;
     font-family: fontawesome;
     color: rgba(50,50,50,.5);

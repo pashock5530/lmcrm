@@ -13,7 +13,12 @@
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
+            @if(isset($balance))
+            <ul class="nav navbar-top-links navbar-left flip">
+                <li><a class="text-danger"><i class="fa fa-times-circle"></i> {{$balance[0]}} </a></li>
+                <li><a><i class="fa bg-blue">c</i> {{$balance[1]}} credits</a></li>
+            </ul>
+            @endif
             <ul class="nav navbar-top-links navbar-right language_bar_chooser flip">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language"></i> {{ trans('site/site.languages') }} <i class="fa fa-caret-down"></i></a>
@@ -64,13 +69,16 @@
                     <a href="{{ route('agent.sphere.index') }}"><i class="fa fa-sitemap"></i> Filtration customer</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-buy"></i>@lang('site/sidebar.lead_obtain')</a>
+                    <a href="{{ route('agent.lead.obtain')  }}"><i class="icon icon-buy"></i>@lang('site/sidebar.lead_obtain')</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon icon-sell"></i>@lang('site/sidebar.lead_deposit')</a>
+                    <a href="{{ route('agent.lead.deposited')  }}"><i class="icon icon-sell"></i>@lang('site/sidebar.lead_deposit')</a>
                 </li>
                 <li>
                     <a href="#"><i class="icon icon-document"></i>@lang('site/sidebar.lead_opened')</a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.salesman.index') }}"><i class="fa fa-users"></i> Salesmen</a>
                 </li>
                 <hr/>
                 <li>

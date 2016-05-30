@@ -30,6 +30,10 @@ class Agent extends EloquentUser implements AuthenticatableContract, CanResetPas
         'password', 'remember_token',
     ];
 
+    public function info(){
+        return $this->hasOne('App\Models\AgentInfo','agent_id','id');
+    }
+
     public function scopelistAll($query){
         return $query->whereIn('id',\Sentinel::findRoleBySlug('agent')->users()->lists('id'))->select(array('users.id','users.first_name','users.last_name', 'users.name', 'users.email', 'users.created_at'));
     }
@@ -38,12 +42,23 @@ class Agent extends EloquentUser implements AuthenticatableContract, CanResetPas
         return $this->hasMany('\App\Models\Lead','agent_id','id');
     }
 
+    public function salesmen(){
+        return $this->belongsToMany('\App\Models\Salesman','salesman_info','agent_id','salesman_id');
+    }
+
     public function spheres(){
         return $this->belongsToMany('\App\Models\Sphere','agent_sphere','agent_id','sphere_id');
-        return $this->hasManyThrough('\App\Models\Sphere','\App\Models\AgentSphere','agent_id','sphere_id');
+    }
+
+    public function sphere(){
+        return $this->spheres()->first();
     }
 
     public function sphereLink(){
         return $this->hasOne('\App\Models\AgentSphere','agent_id','id');
+    }
+
+    public function bill(){
+        return $this->hasOne('\App\Models\Credits','agent_id','id');
     }
 }

@@ -3,28 +3,10 @@
 /***************    Admin routes  **********************************/
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function() {
 # Admin Dashboard
-    Route::get('dashboard', ['as' => 'admin.index', 'uses' => 'Admin\DashboardController@index']);
-    /*
+    Route::get('/', ['as' => 'admin.index', 'uses' => 'Admin\DashboardController@index']);
 
-        # Article category
-        Route::get('articlecategory/data', 'Admin\ArticleCategoriesController@data');
-        Route::get('articlecategory/{articlecategory}/show', 'Admin\ArticleCategoriesController@show');
-        Route::get('articlecategory/{articlecategory}/edit', 'Admin\ArticleCategoriesController@edit');
-        Route::get('articlecategory/{articlecategory}/delete', 'Admin\ArticleCategoriesController@delete');
-        Route::get('articlecategory/reorder', 'ArticleCategoriesController@getReorder');
-        Route::resource('articlecategory', 'Admin\ArticleCategoriesController');
-
-        # Articles
-        Route::get('article/data', 'Admin\ArticleController@data');
-        Route::get('article/{article}/show', 'Admin\ArticleController@show');
-        Route::get('article/{article}/edit', 'Admin\ArticleController@edit');
-        Route::get('article/{article}/delete', 'Admin\ArticleController@delete');
-        Route::get('article/reorder', 'Admin\ArticleController@getReorder');
-        Route::resource('article', 'Admin\ArticleController');
-
-    */
 # Users
-    Route::get('/', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
+    Route::get('/user', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
     //Route::resource('/','Admin\UserController');
     Route::get('user/data', 'Admin\UserController@data');
 
@@ -38,7 +20,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'] ], function
     Route::get('agent/create',['as'=>'admin.agent.create', 'uses' => 'Admin\AgentController@create']);
     Route::post('agent/store',['as'=>'admin.agent.store', 'uses' => 'Admin\AgentController@store']);
     Route::get('agent/{id}/edit',['as'=>'admin.agent.edit', 'uses' => 'Admin\AgentController@edit']);
-    Route::match(['put','post'],'agent/{id}',['as'=>'admin.agent.update', 'uses' => 'Admin\AgentController@update']);
+    Route::match(['put','post'],'agent/{id}/update',['as'=>'admin.agent.update', 'uses' => 'Admin\AgentController@update']);
     Route::get('agent/{id}/destroy', ['as'=>'admin.agent.delete', 'uses' => 'Admin\AgentController@destroy']);
     //Route::resource('agent', 'Admin\AgentController');
 

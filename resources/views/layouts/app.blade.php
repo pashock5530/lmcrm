@@ -23,7 +23,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('components/bootstrap/css/bootstrap.min.css') }}" >
   @if(LaravelLocalization::getCurrentLocaleDirection()=='rtl') <link rel="stylesheet" href="{{ asset('components/bootstrap-rtl/dist/css/bootstrap-rtl.min.css') }}"> @endif
 
-        <link href="{{ asset('components/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
+        <link href="{{ asset('components/jquery-selectboxit/src/stylesheets/jquery.selectBoxIt.css')}}" rel="stylesheet">
         <link href="{{ asset('components/bootstrap-checkbox/awesome-bootstrap-checkbox.css')}}" rel="stylesheet">
         <link href="{{ asset('components/bootstrap-datepicker/css/datepicker.css')}}" rel="stylesheet">
         <!-- Custom CSS -->
@@ -50,10 +50,12 @@
 
     <!-- Plugin JavaScript -->
     <script src="{{ asset('components/metisMenu/dist/metisMenu.min.js')}}"></script>
-    <script src="{{ asset('components/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
     <script src="{{ asset('components/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
     <script src="{{ asset('components/bootbox/bootbox.min.js')}}"></script>
+
+    <script type="text/javascript" src="{{ asset('components/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('components/ajax-form/jquery.form.min.js')}}"></script>
+    <script src="{{ asset('components/jquery-selectboxit/src/javascripts/jquery.selectBoxIt.js')}}"></script>
     <script src="{{ asset('components/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('components/jquery-validation/dist/additional-methods.js')}}"></script>
     @if(LaravelLocalization::getCurrentLocale()!='en')<script src="{{ asset('components/jquery-validation/dist/localization/messages_'.LaravelLocalization::getCurrentLocale().'.min.js')}}"></script>@endif
@@ -64,6 +66,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('assets/web/js/sb-admin.js')}}"></script>
+    @section('script') @show
     <script type="text/javascript" src="{{ asset('assets/web/js/lmcrm.js') }}"></script>
 
   <link rel="shortcut icon" href="{!! asset('site/ico/favicon.ico')  !!} ">

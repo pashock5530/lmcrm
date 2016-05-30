@@ -12,18 +12,20 @@
         </h3>
     </div>
     <div class="container" id="content">
-
+        @if (isset($agent))
+        {!! Form::model($agent,array('route' => ['admin.agent.update',$agent->id], 'method' => 'PUT', 'class' => 'validate', 'files'=> true)) !!}
+        @else
+        {!! Form::open(array('route' => ['admin.agent.store'], 'method' => 'post', 'class' => 'validate', 'files'=> true)) !!}
+        @endif
         <!-- Tabs -->
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tab-general" data-toggle="tab"> {{
 			trans("admin/modal.general") }}</a></li>
+    <li><a href="#tab-info" data-toggle="tab"> {{
+			trans("admin/modal.info") }}</a></li>
 </ul>
 <!-- ./ tabs -->
-@if (isset($agent))
-{!! Form::model($agent,array('route' => ['admin.agent.update',$agent->id], 'method' => 'put', 'class' => 'validate', 'files'=> true)) !!}
-@else
-{!! Form::open(array('route' => ['admin.agent.store'], 'method' => 'post', 'class' => 'validate', 'files'=> true)) !!}
-@endif
+
         <!-- Tabs Content -->
 <div class="tab-content">
     <!-- General tab -->
@@ -71,11 +73,29 @@
             </div>
         </div>
 
+    </div>
+    <div class="tab-pane" id="tab-info">
         <div class="form-group  {{ $errors->has('sphere') ? 'has-error' : '' }}">
             {!! Form::label('sphere', trans("admin/sphere.sphere"), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::select('sphere',$spheres,(isset($agent))?$agent->sphereLink->sphere_id:NULL, array('class' => 'form-control','required'=>'required')) !!}
                 <span class="help-block">{{ $errors->first('sphere', ':message') }}</span>
+            </div>
+        </div>
+
+        <div class="form-group  {{ $errors->has('lead_revenue') ? 'has-error' : '' }}">
+            {!! Form::label('info[lead_revenue]', trans("admin/agent.lead_revenue"), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::text('info[lead_revenue]', null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('lead_revenue', ':message') }}</span>
+            </div>
+        </div>
+
+        <div class="form-group  {{ $errors->has('payment_revenue') ? 'has-error' : '' }}">
+            {!! Form::label('info[payment_revenue]', trans("admin/agent.payment_revenue"), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::text('info[payment_revenue]', null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('payment_revenue', ':message') }}</span>
             </div>
         </div>
     </div>
@@ -84,7 +104,7 @@
             <a class="btn btn-sm btn-warning close_popup" href="{{ URL::previous() }}">
                 <span class="glyphicon glyphicon-ban-circle"></span> {{	trans("admin/modal.cancel") }}
             </a>
-            <button type="reset" class="btn btn-sm btn-default">.
+            <button type="reset" class="btn btn-sm btn-default">
                 <span class="glyphicon glyphicon-remove-circle"></span> {{
 				trans("admin/modal.reset") }}
             </button>
@@ -98,6 +118,7 @@
             </button>
         </div>
     </div>
-    {!! Form::close() !!}
 </div>
-    @stop
+    {!! Form::close() !!}
+    </div>
+@stop

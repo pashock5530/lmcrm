@@ -7,19 +7,20 @@ use DB;
 class SphereMask extends Model
 {
     protected $table = NULL;
-    private $agentID = NULL;
+    private $userID = NULL;
 
     public $tableDB = NULL;
     public $timestamps = false;
 
-    public function __construct($id = NULL, array $attributes = array())
+    public function __construct($id = NULL, $userID = NULL, array $attributes = array())
     {
         $this->table = 'sphere_bitmask_'.(int)$id;
         if ($id && !DB::getSchemaBuilder()->hasTable($this->table)) {
-            DB::statement('CREATE TABLE IF NOT EXISTS `' . $this->table . '`(`id` INT NOT NULL AUTO_INCREMENT, `agent_id` BIGINT NOT NULL, `status` TINYINT(1) DEFAULT 0, `lead_price` FLOAT NULL,`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`))', []);
-            DB::statement('ALTER TABLE `'.$this->table.'` ADD UNIQUE (`agent_id`)');
+            DB::statement('CREATE TABLE IF NOT EXISTS `' . $this->table . '`(`id` INT NOT NULL AUTO_INCREMENT, `user_id` BIGINT NOT NULL, `type` ENUM( \'agent\', \'lead\' ) NOT NULL DEFAULT \'agent\' , `status` TINYINT(1) DEFAULT 0, `lead_price` FLOAT NULL,`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`))', []);
+            DB::statement('ALTER TABLE `'.$this->table.'` ADD UNIQUE (`user_id`)');
         }
         $this->tableDB = DB::table($this->table);
+        if($userID) { $this->userID=$userID; }
 
         parent::__construct($attributes);
 
@@ -40,39 +41,62 @@ class SphereMask extends Model
         return $this->table;
     }
 
-    public function setUserID($agent_id){
-        $this->agentID = (int)$agent_id;
+    public function setUserID($user_id){
+        $this->userID = (int)$user_id;
         return true;
     }
 
-    public function getStatus($agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
-        return $this->tableDB->where('agent_id','=',$agent_id)->first();
+    public function getStatus($user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
+        return $this->tableDB->where('user_id','=',$user_id)->first();
     }
 
-    public function setStatus($status=0,$agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
-        return $this->tableDB->where('agent_id','=',$agent_id)->update(['status'=>$status]);
+    public function setStatus($status=0,$user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
+        return $this->tableDB->where('user_id','=',$user_id)->update(['status'=>$status]);
     }
 
-    public function getPrice($agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
-        return $this->tableDB->where('agent_id','=',$agent_id)->first();
+    public function getPrice($user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
+        return $this->tableDB->where('user_id','=',$user_id)->first();
     }
-    public function setPrice($val=0,$agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
-        return $this->tableDB->where('agent_id','=',$agent_id)->update(['lead_price'=>$val]);
-    }
-
-    public function findMask($agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
-        return $this->tableDB->where('agent_id','=',$agent_id);
+    public function setPrice($val=0,$user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
+        return $this->tableDB->where('user_id','=',$user_id)->update(['lead_price'=>$val]);
     }
 
-    public function findShortMask($agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
+    public function findMask($user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
+        return $this->tableDB->where('user_id','=',$user_id);
+    }
+    
+    public function setType($val='agent',$user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
+        return $this->tableDB->where('user_id','=',$user_id)->update(['type'=>$val]);
+    }
+
+    public function obtain($type='lead',$user_id=NULL){
+        $user_id = ($user_id)?(int)$user_id:$this->userID;
+        $attributes = $this->attributes();
+        $list = DB::table(DB::raw('`'.$this->table.'` as `t1`'))->join(DB::raw('`'.$this->table.'` as `t2`'),function($join) use ($attributes){
+                foreach($attributes as $attr){
+                    if(stripos($attr,'fb_')!==false) {
+                        $join->on('t1.'.$attr,'>=','t2.'.$attr);
+                    }
+                }
+            })
+            ->where('t1.user_id','=',$user_id)
+            ->where('t1.status','=','1')
+            ->where('t2.type','=',$type)
+            ->where('t2.user_id','<>',$user_id)
+            ->select('t2.*');
+        return $list;
+    }
+
+    public function findShortMask($user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
         $short_mask=array();
-        $mask = $this->tableDB->where('agent_id','=',$agent_id)->first();
+        $mask = $this->tableDB->where('user_id','=',$user_id)->first();
         if(!$mask) { return $short_mask; }
         $mask=get_object_vars($mask);
         foreach($mask as $field=>$val){
@@ -83,21 +107,21 @@ class SphereMask extends Model
         return $short_mask;
     }
 
-    public function findSphereMask($sphere_id,$agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
+    public function findSphereMask($sphere_id,$user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
         $this->changeTable($sphere_id);
-        return $this->findMask($agent_id);
+        return $this->findMask($user_id);
     }
 
-    public function setAttr($opt_index,$agent_id=NULL){
-        $agent_id = ($agent_id)?$agent_id:$this->agentID;
+    public function setAttr($opt_index,$user_id=NULL){
+        $user_id = ($user_id)?$user_id:$this->userID;
         if (is_array($opt_index)) {
             $values = array();
-            $mask = $this->tableDB->where('agent_id','=',$agent_id)->first();
+            $mask = $this->tableDB->where('user_id','=',$user_id)->first();
             if($mask) {
                 $values['id']=$mask->id;
             } else {
-                $values['id'] = $this->tableDB->insertGetId(['agent_id'=>$agent_id]);
+                $values['id'] = $this->tableDB->insertGetId(['user_id'=>$user_id]);
             }
             $attributes = $this->attributesAssoc();
             foreach($attributes as $field=>$index) {
@@ -108,8 +132,17 @@ class SphereMask extends Model
         }
         return $this->tableDB;
     }
+    /* ---------------------------------- Table links ---------------------------------- */
 
-    /* Table structure */
+    public function lead() {
+        return $this->hasOne('\App\Models\Lead','id','user_id');
+    }
+
+    public function agent() {
+        return $this->hasOne('\App\Models\Agent','id','user_id');
+    }
+
+    /* ---------------------------------- Table structure ---------------------------------- */
 
     public function attributes() {
         return DB::getSchemaBuilder()->getColumnListing($this->table);

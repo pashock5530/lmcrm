@@ -153,6 +153,9 @@ class SphereController extends AdminController {
                 "type"=>'text',
                 "class" => 'form-control',
             ],
+            "values"=>[
+                ["id"=>0,"val"=>'bad lead',"vale"=>[1,15],"position"=>1],
+            ],
             "settings"=>[
                 "label" => 'Form name',
                 "type"=>'statuses',
@@ -288,7 +291,8 @@ class SphereController extends AdminController {
                 $leadAttr = SphereLeadAttr::find($attr['id']);
                 $leadAttr->update($attr);
             } else {
-                $leadAttr = new SphereLeadAttr((array)$attr);
+                if(!is_array($attr)) { continue; }
+                $leadAttr = new SphereLeadAttr($attr);
                 $group->leadAttr()->save($leadAttr);
             }
             $eoptions=array();
@@ -394,6 +398,7 @@ class SphereController extends AdminController {
                     $status->save();
                 }
             } else {
+                if(!is_array($attr)) { continue; }
                 $status = new SphereStatuses();
                 $status->stepname =$attr['val'];
                 $status->minmax =$attr['vale'][0];
@@ -419,6 +424,7 @@ class SphereController extends AdminController {
                 $characteristic = SphereAttr::find($attr['id']);
                 $characteristic->update($attr);
             } else {
+                if(!is_array($attr)) { continue; }
                 $characteristic = new SphereAttr((array)$attr);
                 $group->attributes()->save($characteristic);
             }
@@ -496,7 +502,7 @@ class SphereController extends AdminController {
         foreach($spheres as $sphere){
             $mask = new SphereMask($sphere->id);
             $collection[$sphere->id] = $mask->query_builder()
-                ->join('users','users.id','=','agent_id')
+                ->join('users','users.id','=','user_id')
                 ->where('status','=',0)
                 ->get();
         }

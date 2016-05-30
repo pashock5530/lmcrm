@@ -1,5 +1,7 @@
 $(function(){
-	$('.ajax-content select').selectpicker();
+	if ($.isFunction($.fn.selectBoxIt)) {
+		$("select").selectBoxIt();
+	}
 
 	if ($.isFunction($.fn.datepicker)) {
 		$(".ajax-content .datepicker").each(function (i, el) {

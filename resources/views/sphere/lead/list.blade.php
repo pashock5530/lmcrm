@@ -43,6 +43,4 @@
         @endforelse
     </div>
 
-
-
 @stop

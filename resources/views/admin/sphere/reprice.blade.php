@@ -12,7 +12,7 @@
         </h3>
     </div>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover datatable">
         <thead>
         <tr>
             <th></th>
@@ -43,4 +43,11 @@
 
 {{-- Scripts --}}
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.datatable').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 @stop
