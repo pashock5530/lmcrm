@@ -14,6 +14,7 @@ class CreateSalesman extends Migration
     {
         Schema::create('salesman_info', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('salesman_id');
             $table->integer('agent_id');
             $table->integer('sphere_id');
             $table->integer('bill_id');
