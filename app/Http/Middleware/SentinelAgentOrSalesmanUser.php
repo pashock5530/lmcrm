@@ -16,11 +16,7 @@ class SentinelAgentOrSalesmanUser
      */
     public function handle($request, Closure $next)
     {
-        $user = Sentinel::getUser();
-        $agent = Sentinel::findRoleBySlug('agent');
-        $salesman = Sentinel::findRoleBySlug('salesman');
-
-        if (!$user->inRole($agent) && !$user->inRole($salesman)) {
+        if (Sentinel::inRole('salesman') || Sentinel::inRole('Agent')) {
             return redirect()->route('login');
         }
         return $next($request);

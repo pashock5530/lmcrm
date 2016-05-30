@@ -6,6 +6,7 @@ use App\Http\Controllers\AgentController;
 use App\Models\SphereMask;
 use Validator;
 use App\Models\Agent;
+use App\Models\Salesman;
 use App\Models\Credits;
 use App\Models\Lead;
 use App\Models\LeadPhone;
@@ -28,14 +29,13 @@ class LeadController extends AgentController {
     }
 
     public function deposited(){
-        $leads = Agent::find($this->uid)->leads()->with('phone')->get();
+        $leads = $this->user->leads()->with('phone')->get();
         return view('agent.lead.deposited')->with('leads',$leads);
     }
 
     public function obtain(){
-        $agent = Agent::with('spheres.leads','spheres.leadAttr')->find($this->uid);
-        $mask = new SphereMask($agent->sphere()->id);
-        $mask->setUserID($this->uid);
+        $agent = $this->user;
+        $mask=$this->mask;
 
         $list = $mask->obtain()->skip(0)->take(10);
         $leads = Lead::with('obtainedBy')->whereIn('id',$list->lists('user_id'))->get();
@@ -48,9 +48,8 @@ class LeadController extends AgentController {
 
     public function obtainData(Request $request)
     {
-        $agent = Agent::with('spheres.leads', 'spheres.leadAttr')->find($this->uid);
-        $mask = new SphereMask($agent->sphere()->id);
-        $mask->setUserID($this->uid);
+        $agent = $this->user;
+        $mask=$this->mask;
 
         $list = $mask->obtain();
         $leads = Lead::whereIn('id', $list->lists('user_id'))
@@ -105,12 +104,12 @@ class LeadController extends AgentController {
     }
 
     public function openLead($id){
-        $agent = Agent::with('bill')->find($this->uid);
+        $agent = $this->user;
+        $agent->load('bill');
         $credit = Credits::where('agent_id','=',$this->uid)->sharedLock()->first();
         $balance = $credit->balance;
 
-        $mask = new SphereMask($agent->sphere()->id);
-        $mask->setUserID($this->uid);
+        $mask=$this->mask;
         $price = $mask->findMask()->sharedLock()->first()->lead_price;
 
         if($price > $balance) {
@@ -152,9 +151,9 @@ class LeadController extends AgentController {
             'phone' => 'required|regex:/\(?([0-9]{3})\)?([\s.-])*([0-9]{3})([\s.-])*([0-9]{4})/',
             'name' => 'required'
         ]);
-        $agent = Agent::with('sphereLink')->findOrFail($this->uid);
+        $agent =  $this->user;
 
-        if ($validator->fails() || !$agent->sphereLink) {
+        if ($validator->fails() || !$agent->sphere()) {
             if($request->ajax()){
                 return response()->json($validator);
             } else {
@@ -186,7 +185,7 @@ class LeadController extends AgentController {
      */
     public function destroy($id)
     {
-        Agent::findOrFail($this->uid)->leads()->whereIn([$id])->delete();
+        $this->user->leads()->whereIn([$id])->delete();
         return response()->route('agent.lead.index');
     }
 

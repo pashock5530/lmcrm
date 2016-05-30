@@ -35,19 +35,23 @@ class Salesman extends EloquentUser implements AuthenticatableContract, CanReset
     }
 
     public function agent(){
-        return $this->belongsToMany('\App\Models\Agent','salesman_info','id','agent_id')->first();
+        return $this->belongsToMany('\App\Models\Agent','salesman_info','id','agent_id');
     }
 
     public function leads(){
         return $this->hasMany('\App\Models\Lead','agent_id','id');
     }
 
+    public function spheres(){
+        return $this->belongsToMany('\App\Models\Sphere','salesman_info','salesman_id','sphere_id');
+    }
+
     public function sphere(){
-        return $this->belongsToMany('\App\Models\Sphere','salesman_info','agent_id','sphere_id')->first();
+        return $this->spheres()->first();
     }
 
     public function bill(){
-        return $this->belongsToMany('\App\Models\Credits','salesman_info','agent_id','agent_id');
+        return $this->belongsToMany('\App\Models\Credits','salesman_info','salesman_id','bill_id');
     }
 
     public function getNameAttribute(){

@@ -27,6 +27,6 @@ class SalesmanInfo extends Model {
     }
 
     public function sphere(){
-        return $this->hasOne('App\Models\Spahere','id','sphere_id');
+        return $this->hasOne('App\Models\Sphere','id','sphere_id');
     }
 }
