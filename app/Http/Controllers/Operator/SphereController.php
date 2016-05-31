@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
 use App\Models\Lead;
-use App\Models\LeadPhone;
+use App\Models\Customer;
 use App\Models\LeadInfoEAV;
 use App\Models\Sphere;
 use App\Models\SphereMask;
@@ -84,8 +84,8 @@ class SphereController extends Controller {
         $lead->name=$request->input('name');
         $lead->email=$request->input('email');
         $lead->comment=$request->input('comment');
-        $phone = LeadPhone::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
-        $lead->phone_id=$phone->id;
+        $customer = Customer::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
+        $lead->customer_id=$customer->id;
         $lead->save();
 
 

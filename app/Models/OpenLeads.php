@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LeadAgent extends Model {
+class OpenLeads extends Model {
 
-    protected $table="lead_agent";
+    protected $table="open_leads";
 
 
     public function lead(){

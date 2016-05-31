@@ -15,8 +15,8 @@ class CreateCredits extends Migration
         Schema::create('credits', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('agent_id');
-            $table->float('real');
-            $table->float('virtual');
+            $table->float('buyed');
+            $table->float('earned');
             $table->timestamps();
             $table->engine = 'InnoDB';
         });

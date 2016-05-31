@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LeadPhone extends Model {
+class Customer extends Model {
 
-    protected $table="lead_phone";
+    protected $table="customers";
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +19,6 @@ class LeadPhone extends Model {
 
 
     public function lead(){
-        return $this->hasMany('App\Models\Lead','phone_id', 'id');
+        return $this->hasMany('App\Models\Lead','customer_id', 'id');
     }
 }

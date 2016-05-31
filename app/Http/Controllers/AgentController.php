@@ -40,6 +40,6 @@ class AgentController extends BaseController
         $this->mask = new SphereMask($sphere_id,$this->uid);
         $price = $this->mask->getPrice();
         $price = ($price && $price->lead_price)?floor($bill->balance/$price->lead_price):0;
-        view()->share('balance', [$bill->real,$price]);
+        view()->share('balance', [0,$price]);
     }
 }

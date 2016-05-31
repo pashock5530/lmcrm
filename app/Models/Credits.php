@@ -14,7 +14,7 @@ class Credits extends Model {
      * @var array
      */
     protected $fillable = [
-        'agent_id','real','virtual'
+        'agent_id','buyed','earned'
     ];
 
     public function agent(){
@@ -22,15 +22,15 @@ class Credits extends Model {
     }
 
     public function getBalanceAttribute(){
-        return $this->attributes['real']+$this->attributes['virtual'];
+        return $this->attributes['buyed']+$this->attributes['earned'];
     }
 
     public function setPaymentAttribute($value){
-        if($this->attributes['real'] < $value) {
-            $this->attributes['virtual'] -= ($value - $this->attributes['real']);
-            $this->attributes['real'] = 0;
+        if($this->attributes['buyed'] < $value) {
+            $this->attributes['earned'] -= ($value - $this->attributes['buyed']);
+            $this->attributes['buyed'] = 0;
         } else {
-            $this->attributes['real'] -= $value;
+            $this->attributes['buyed'] -= $value;
         }
     }
 }

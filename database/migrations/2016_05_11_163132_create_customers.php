@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeadPhones extends Migration
+class CreateCustomers extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CreateLeadPhones extends Migration
      */
     public function up()
     {
-        Schema::create('lead_phone', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('phone',15);
+            $table->string('phone',15); //unique
             $table->timestamps();
             $table->engine = 'InnoDB';
         });
@@ -27,6 +27,6 @@ class CreateLeadPhones extends Migration
      */
     public function down()
     {
-        Schema::drop('lead_phone');
+        Schema::drop('customers');
     }
 }
