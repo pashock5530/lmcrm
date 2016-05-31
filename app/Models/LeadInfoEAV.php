@@ -15,7 +15,7 @@ class LeadInfoEAV extends Model {
      * @var array
      */
     protected $fillable = [
-        'lead_id','key', 'value',
+        'lead_id','lead_attr_id', 'value',
     ];
 
 }

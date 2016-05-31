@@ -88,7 +88,7 @@ class SphereMask extends Model
             ->where('t1.user_id','=',$user_id)
             ->where('t1.status','=','1')
             ->where('t2.type','=',$type)
-            ->where('t2.user_id','<>',$user_id)
+            ->where('t2.user_id','<>',$user_id) ///??? need refactoring
             ->select('t2.*');
         return $list;
     }
