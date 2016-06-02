@@ -9,7 +9,7 @@ use App\Models\Agent;
 use App\Models\Salesman;
 use App\Models\Credits;
 use App\Models\Lead;
-use App\Models\LeadPhone;
+use App\Models\Customer;
 use App\Models\Sphere;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -54,7 +54,7 @@ class LeadController extends AgentController {
         $list = $mask->obtain();
         $leads = Lead::whereIn('id', $list->lists('user_id'))
             ->where('leads.agent_id','<>',$this->uid)
-            ->select(['leads.opened', 'leads.id', 'leads.updated_at', 'leads.name', 'leads.phone_id', 'leads.email']);
+            ->select(['leads.opened', 'leads.id', 'leads.updated_at', 'leads.name', 'leads.customer_id', 'leads.email']);
         if (count($request->only('filter'))) {
             $eFilter = $request->only('filter')['filter'];
             foreach ($eFilter as $eFKey => $eFVal) {
@@ -87,7 +87,7 @@ class LeadController extends AgentController {
             ->edit_column('status',function($model){
                 return '';
             })
-            ->edit_column('phone_id',function($lead) use ($agent){
+            ->edit_column('customer_id',function($lead) use ($agent){
                 return ($lead->obtainedBy($agent->id)->count())?$lead->phone->phone:trans('lead.hidden');
             })
             ->edit_column('email',function($lead) use ($agent){
@@ -162,10 +162,10 @@ class LeadController extends AgentController {
         }
 
 
-        $phone = LeadPhone::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
+        $customer = Customer::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
 
         $lead = new Lead($request->except('phone'));
-        $lead->phone_id=$phone->id;
+        $lead->customer_id=$customer->id;
         $lead->date=date('Y-m-d');
 
         $agent->leads()->save($lead);

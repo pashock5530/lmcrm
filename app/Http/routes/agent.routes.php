@@ -14,14 +14,14 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent|salesman'] ], 
     #Route::match(['put','post'],'lead/{id}',['as'=>'agent.lead.update', 'uses' => 'Agent\LeadController@update']);
     //Route::resource('lead','Agent\LeadController@create');
 
-    Route::get('sphere', ['as' => 'agent.sphere.index', 'uses' => 'Agent\SphereController@index']);
-    Route::get('sphere/create', ['as' => 'agent.sphere.create', 'uses' => 'Agent\SphereController@create']);
-    Route::post('sphere/store',['as'=>'agent.sphere.store', 'uses' => 'Agent\SphereController@store']);
-    Route::get('sphere/{id}/edit',['as'=>'agent.sphere.edit', 'uses' => 'Agent\SphereController@edit']);
-    Route::match(['put','post'],'sphere/{id}',['as'=>'agent.sphere.update', 'uses' => 'Agent\SphereController@update']);
-    //Route::resource('customer/filter','Agent\CustomerFilterController');
-
     Route::group(['middleware'=>['agent']],function() {
+        Route::get('sphere', ['as' => 'agent.sphere.index', 'uses' => 'Agent\SphereController@index']);
+        Route::get('sphere/create', ['as' => 'agent.sphere.create', 'uses' => 'Agent\SphereController@create']);
+        Route::post('sphere/store',['as'=>'agent.sphere.store', 'uses' => 'Agent\SphereController@store']);
+        Route::get('sphere/{id}/edit',['as'=>'agent.sphere.edit', 'uses' => 'Agent\SphereController@edit']);
+        Route::match(['put','post'],'sphere/{id}',['as'=>'agent.sphere.update', 'uses' => 'Agent\SphereController@update']);
+        //Route::resource('customer/filter','Agent\CustomerFilterController');
+
         Route::get('salesman', ['as' => 'agent.salesman.index', 'uses' => 'Agent\SalesmanController@index']);
         Route::get('salesman/create', ['as' => 'agent.salesman.create', 'uses' => 'Agent\SalesmanController@create']);
         Route::post('salesman/store', ['as' => 'agent.salesman.store', 'uses' => 'Agent\SalesmanController@store']);

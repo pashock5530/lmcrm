@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Agent;
 use App\Models\Lead;
-use App\Models\LeadPhone;
+use App\Models\Customer;
 use App\Models\LeadInfoEAV;
 use App\Models\Sphere;
 use App\Models\SphereMask;
@@ -45,7 +45,7 @@ class SphereController extends Controller {
         $mask = $mask->findShortMask($id);
 
         $lead = Lead::with('phone')->find($id);
-        $lead_info=$lead->info()->lists('value','key');
+        $lead_info=$lead->info()->lists('value','lead_attr_id');
         return view('sphere.lead.edit')
             ->with('sphere',$data)
             ->with('mask',$mask)
@@ -84,8 +84,8 @@ class SphereController extends Controller {
         $lead->name=$request->input('name');
         $lead->email=$request->input('email');
         $lead->comment=$request->input('comment');
-        $phone = LeadPhone::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
-        $lead->phone_id=$phone->id;
+        $customer = Customer::firstOrCreate(['phone'=>preg_replace('/[^\d]/','',$request->input('phone'))]);
+        $lead->customer_id=$customer->id;
         $lead->save();
 
 
@@ -93,7 +93,7 @@ class SphereController extends Controller {
         if(count($request->only('info')['info'])) {
             $save_arr = array();
             foreach ($request->only('info')['info'] as $key => $val) {
-                $save_arr[] = new LeadInfoEAV(['key' => $key, 'value' => $val]);
+                $save_arr[] = new LeadInfoEAV(['lead_attr_id' => $key, 'value' => $val]);
             }
             $lead->info()->saveMany($save_arr);
             unset($save_arr);
