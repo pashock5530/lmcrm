@@ -66,6 +66,9 @@ class SentinelDatabaseSeeder extends Seeder
 
         Activation::complete($agent, $code);
 
+        $code = Activation::create($operator)->code;
+
+        Activation::complete($operator, $code);
 
 
         // Create Roles
