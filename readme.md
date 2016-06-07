@@ -20,6 +20,7 @@ $ php artisan key:generate
 ```sh
 $ php artisan migrate
 ```
+or restore from file /database/lmcrm.sql
 * Add users:
 ```sh
 $ php artisan db:seed --class=SentinelDatabaseSeeder
