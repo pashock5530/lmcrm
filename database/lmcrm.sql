@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Час створення: Чрв 07 2016 р., 11:24
+-- Час створення: Чрв 08 2016 р., 17:37
 -- Версія сервера: 5.5.49-0ubuntu0.14.04.1
 -- Версія PHP: 5.5.9-1ubuntu4.17
 
@@ -197,8 +197,9 @@ CREATE TABLE IF NOT EXISTS `leads` (
 --
 
 INSERT INTO `leads` (`id`, `agent_id`, `sphere_id`, `opened`, `email`, `customer_id`, `name`, `comment`, `bad`, `date`, `created_at`, `updated_at`) VALUES
-(7, 14, 4, 10, 'lead@mail.com', 1, 'lead', '', 0, '2016-05-16', '2016-05-16 10:21:44', '2016-05-24 10:46:48'),
-(123, 10, 4, 4, '2_lead@mail.com', 1, '2_lead', '', 0, '2016-05-16', '2016-05-16 10:21:56', '2016-05-30 06:18:35');
+(7, 14, 4, 2, '1_lead@mail.com', 1, 'lead', '', 0, '2016-05-16', '2016-05-16 10:21:44', '2016-05-24 10:46:48'),
+(8, 10, 4, 1, '2_lead@mail.com', 1, '2_lead', '', 0, '2016-05-16', '2016-05-16 10:21:56', '2016-05-30 06:18:35'),
+(9, 9, 4, 0, '3lead@mail.com', 1, 'lead 3', NULL, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -274,7 +275,15 @@ CREATE TABLE IF NOT EXISTS `open_leads` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Дамп даних таблиці `open_leads`
+--
+
+INSERT INTO `open_leads` (`id`, `lead_id`, `agent_id`, `created_at`, `updated_at`) VALUES
+(1, 7, 14, NULL, NULL),
+(2, 8, 14, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -306,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `persistences` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `persistences_code_unique` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=63 ;
 
 --
 -- Дамп даних таблиці `persistences`
@@ -427,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `salesman_info` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Дамп даних таблиці `salesman_info`
@@ -517,14 +526,12 @@ CREATE TABLE IF NOT EXISTS `sphere_attribute_options` (
 --
 
 INSERT INTO `sphere_attribute_options` (`id`, `sphere_attr_id`, `ctype`, `_type`, `name`, `value`, `position`, `created_at`, `updated_at`) VALUES
-(1, '25', 'agent', 'option', '1', '', '', '2016-05-15 06:46:14', '2016-05-15 06:46:14'),
-(2, '25', 'agent', 'option', '2', '', '', '2016-05-15 06:46:14', '2016-05-15 06:46:14'),
-(3, '34', 'agent', 'option', 'r1', '', '', '2016-05-15 10:29:45', '2016-06-07 05:18:24'),
-(4, '34', 'agent', 'option', 'r2', '', '', '2016-05-15 10:29:46', '2016-06-07 05:18:24'),
-(5, '34', 'agent', 'option', 'r3', '', '', '2016-05-15 10:29:46', '2016-06-07 05:18:24'),
-(6, '35', 'agent', 'option', 'c1', '', '', '2016-06-07 05:18:24', '2016-06-07 05:18:24'),
-(7, '35', 'agent', 'option', 'c2', '', '', '2016-06-07 05:18:25', '2016-06-07 05:18:25'),
-(8, '35', 'agent', 'option', 'c3', '', '', '2016-06-07 05:18:25', '2016-06-07 05:18:25');
+(3, '34', 'agent', 'option', 'r1', 'r1', '', '2016-05-15 10:29:45', '2016-06-07 05:18:24'),
+(4, '34', 'agent', 'option', 'r2', 'r2', '', '2016-05-15 10:29:46', '2016-06-07 05:18:24'),
+(5, '34', 'agent', 'option', 'r3', 'r3', '', '2016-05-15 10:29:46', '2016-06-07 05:18:24'),
+(6, '35', 'agent', 'option', 'c1', 'c1', '', '2016-06-07 05:18:24', '2016-06-07 05:18:24'),
+(7, '35', 'agent', 'option', 'c2', 'c2', '', '2016-06-07 05:18:25', '2016-06-07 05:18:25'),
+(8, '35', 'agent', 'option', 'c3', 'c3', '', '2016-06-07 05:18:25', '2016-06-07 05:18:25');
 
 -- --------------------------------------------------------
 
@@ -547,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `sphere_bitmask_4` (
   `fb_35_7` tinyint(1) DEFAULT NULL,
   `fb_35_8` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7063 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Дамп даних таблиці `sphere_bitmask_4`
@@ -557,7 +564,7 @@ INSERT INTO `sphere_bitmask_4` (`id`, `user_id`, `type`, `status`, `lead_price`,
 (1, 1, 'agent', 1, 37, '2016-05-15 13:30:24', 1, 0, 1, NULL, NULL, NULL),
 (2, 14, 'agent', 1, 35, '2016-05-16 12:08:12', 1, 1, 0, NULL, NULL, NULL),
 (3, 7, 'lead', 0, NULL, '2016-05-17 11:49:09', 1, 0, 0, NULL, NULL, NULL),
-(14, 123, 'lead', 0, NULL, '2016-05-18 13:10:44', 1, 0, 0, NULL, NULL, NULL);
+(14, 8, 'lead', 0, NULL, '2016-05-18 13:10:44', 1, 0, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -688,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=23 ;
 
 --
 -- Дамп даних таблиці `users`
@@ -698,7 +705,7 @@ INSERT INTO `users` (`id`, `email`, `password`, `confirmation_code`, `permission
 (1, 'admin@admin.com', '$2y$10$evY2.QXOEHi0oeTjqpqpfOjbOfFsugh58T942MM3zZa32eVGTCZaG', NULL, NULL, '2016-06-07 05:17:01', NULL, NULL, 'Admin', '2016-05-12 05:36:26', '2016-06-07 05:17:01'),
 (2, 'user@user.com', '$2y$10$GLeqGv8FxK4mhY5UKdvRAuEjXBgT19l4hBgdcOb.k2j6ibMyNvtZK', NULL, NULL, '2016-05-16 06:23:29', NULL, NULL, NULL, '2016-05-12 05:36:26', '2016-05-16 06:23:29'),
 (11, 'operator@operator.com', '$2y$10$p7ksmK.AfC0jYlde0s6z/OnHldVSt6JSAcJ.kLj6Ke//yFh4Y5kMC', NULL, NULL, '2016-05-31 08:51:10', '1', '2', '3', '2016-05-15 06:22:45', '2016-05-31 08:51:10'),
-(14, 'agent@agent.com', '$2y$10$1eyKxuSepUZrApaLm8G/7OXrKUrV3GIrQ9PK7Xc84emaGdDDBrvuK', NULL, NULL, '2016-06-07 05:19:35', 'Aname', 'Asurname', 'Agent name', '2016-05-16 07:09:33', '2016-06-07 05:19:35'),
+(14, 'agent@agent.com', '$2y$10$1eyKxuSepUZrApaLm8G/7OXrKUrV3GIrQ9PK7Xc84emaGdDDBrvuK', NULL, NULL, '2016-06-08 11:33:10', 'Aname', 'Asurname', 'Agent name', '2016-05-16 07:09:33', '2016-06-08 11:33:10'),
 (22, 'salesman@salesman.com', '$2y$10$sa0ER9eFLvFqCChwk78t9eMhTwszkAP0Wtjp1TLhZGqoB0E.8bO8S', NULL, NULL, '2016-05-30 05:44:07', 'Fsalesman', 'Lsalesman', '1', '2016-05-29 10:31:15', '2016-05-30 05:44:07');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
