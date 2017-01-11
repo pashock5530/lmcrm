@@ -46,6 +46,14 @@ class Lead extends EloquentUser {
         return $this->hasOne('App\Models\Customer','id','customer_id');
     }
 
+    public function customer(){
+        return $this->hasOne('App\Models\Customer','id','customer_id');
+    }
+
+    public function sphere_attributes() {
+        return $this->hasMany('App\Models\SphereAttr','sphere_id','sphere_id');
+    }
+
     public function obtainedBy($agent_id=NULL){
         $relation=$this->belongsToMany('App\Models\Agent','open_leads','lead_id','agent_id');
         return ($agent_id)? $relation->where('agent_id','=',$agent_id) : $relation;

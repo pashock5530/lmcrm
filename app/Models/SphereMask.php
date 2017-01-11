@@ -93,10 +93,13 @@ class SphereMask extends Model
         return $list;
     }
 
-    public function findShortMask($user_id=NULL){
+    public function findShortMask($user_id=NULL, $type='lead'){
         $user_id = ($user_id)?$user_id:$this->userID;
         $short_mask=array();
-        $mask = $this->tableDB->where('user_id','=',$user_id)->first();
+        $mask = $this->tableDB
+            ->where('user_id','=',$user_id)
+            ->where('type', '=', $type)
+            ->first();
         if(!$mask) { return $short_mask; }
         $mask=get_object_vars($mask);
         foreach($mask as $field=>$val){

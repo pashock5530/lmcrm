@@ -11,6 +11,6 @@ class SphereAttrOptions extends Model
     protected $fillable = ['sphere_attr_id','ctype','_type', 'name','value', 'icon','position' ];
 
     public function attribute() {
-        return $this->belongsTo('App\Models\SphereAttr','id','sphere_attr_id');
+        return $this->hasOne('App\Models\SphereAttr','id','sphere_attr_id');
     }
 }

@@ -13,6 +13,12 @@
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            @if (!Sentinel::guest())
+            <ul class="nav navbar-top-links navbar-left flip">
+                <li class="{{ (Request::is('agent.profile.index') ? 'active' : '') }}"><a href="{{ route('agent.profile.index') }}"><i
+                                class="fa fa-user"></i> Profile</a></li>
+            </ul>
+            @endif
             @if(isset($balance))
             <ul class="nav navbar-top-links navbar-left flip">
                 <li><a class="text-danger"><i class="fa fa-times-circle"></i> {{$balance[0]}} </a></li>

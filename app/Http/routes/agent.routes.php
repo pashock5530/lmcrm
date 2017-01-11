@@ -29,5 +29,10 @@ Route::group(['prefix' => 'agent','middleware' => ['auth', 'agent|salesman'] ], 
         Route::match(['put', 'post'], 'salesman/{id}', ['as' => 'agent.salesman.update', 'uses' => 'Agent\SalesmanController@update']);
         //Route::resource('salesman','Agent\SalesmanController');
     });
+
+    Route::group(['middleware'=>['agent']],function() {
+        Route::get('profile', ['as' => 'agent.profile.index', 'uses' => 'Agent\ProfileController@index']);
+        Route::post('profile/data', ['as' => 'agent.profile.data', 'uses' => 'Agent\ProfileController@ajaxData']);
+    });
 });
 ?>
